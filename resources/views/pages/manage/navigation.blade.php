@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="css/bootstrap5.css">
     <link rel="stylesheet" href="css/custom-nav.css">
     <link rel="stylesheet" href="css/customAlert.css">
+    <link rel="stylesheet" href="css/custom-style.css">
+
+    <link rel="stylesheet" href="https:////cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+
     <title>Renta - @yield('title')</title>
 
 </head>
@@ -29,7 +34,8 @@
                 <p>Manage</p>
                 <hr>
                 <li>
-                    <a href="dashboard" class="nav-link text-white {{'dashboard' == request()->path() ? 'active' : ''}}">
+                    <a href="dashboard"
+                        class="nav-link text-white {{ 'dashboard' == request()->path() ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-clock" viewBox="0 0 16 16">
@@ -43,7 +49,8 @@
                 </li>
 
                 <li>
-                    <a href="location" class="nav-link text-white {{'location' == request()->path() ? 'active' : ''}}">
+                    <a href="location"
+                        class="nav-link text-white {{ 'location' == request()->path() ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-geo-alt" viewBox="0 0 16 16">
@@ -56,7 +63,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="unit" class="nav-link text-white {{'unit' == request()->path() ? 'active' : ''}}">
+                    <a href="unit" class="nav-link text-white {{ 'unit' == request()->path() ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                                 class="bi bi-house" viewBox="0 0 16 16">
@@ -69,7 +76,7 @@
                         House Unit
                     </a>
                 <li>
-                    <a href="tenant" class="nav-link text-white {{'tenant' == request()->path() ? 'active' : ''}}">
+                    <a href="tenant" class="nav-link text-white {{ 'tenant' == request()->path() ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-people" viewBox="0 0 16 16">
@@ -86,7 +93,8 @@
                 <p class="mt-3">bills</p>
                 <hr>
                 <li>
-                    <a href="rentbills" class="nav-link text-white {{'rentbills' == request()->path() ? 'active' : ''}}">
+                    <a href="rentbills"
+                        class="nav-link text-white {{ 'rentbills' == request()->path() ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-archive" viewBox="0 0 16 16">
@@ -98,7 +106,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="electricbills" class="nav-link text-white {{'electricbills' == request()->path() ? 'active' : ''}}">
+                    <a href="electricbills"
+                        class="nav-link text-white {{ 'electricbills' == request()->path() ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-lightning" viewBox="0 0 16 16">
@@ -110,7 +119,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="waterbills" class="nav-link text-white {{'waterbills' == request()->path() ? 'active' : ''}}">
+                    <a href="waterbills"
+                        class="nav-link text-white {{ 'waterbills' == request()->path() ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-droplet" viewBox="0 0 16 16">
@@ -128,7 +138,7 @@
                 <p class="mt-3">settings</p>
                 <hr>
                 <li>
-                    <a href="role" class="nav-link text-white {{'role' == request()->path() ? 'active' : ''}}">
+                    <a href="role" class="nav-link text-white {{ 'role' == request()->path() ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-key" viewBox="0 0 16 16">
@@ -141,7 +151,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="user" class="nav-link text-white {{'user' == request()->path() ? 'active' : ''}}">
+                    <a href="user" class="nav-link text-white {{ 'user' == request()->path() ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-person-plus" viewBox="0 0 16 16">
@@ -176,20 +186,33 @@
             </div>
         </div>
 
-        <div class="container mt-5">
+
+        <div class="container-fluid my-5 mx-5 p-5 cus-container">
             @yield('content')
         </div>
-        
+
     </main>
     <footer></footer>
     <script type="text/javascript" src="js/bootstrap5.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
     <script>
-        $('.close-btn').click(function(){
-          $('.alert').removeClass("show");
-          $('.alert').addClass("hide");
+        $('.close-btn').click(function() {
+            $('.alert').removeClass("show");
+            $('.alert').addClass("hide");
         });
-     </script>
+
+        //Table properties
+        $(document).ready(function() {
+            $('#table-content').DataTable({
+                "scrollY": "530px",
+                "scrollCollapse": true,
+                "paging": false,
+            });
+        });
+    </script>
 </body>
 
 </html>

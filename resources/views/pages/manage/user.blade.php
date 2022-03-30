@@ -5,7 +5,7 @@
 
 <h1 class="text-center">Users</h1>
 <hr>
-<table class="table align-items-center">
+<table class="table align-items-center" id="table-content">
     <thead>
         <tr>
             <th>ID</th>

@@ -2,7 +2,6 @@
 
 @section('title', 'Locations')
 @section('content')
-
     @if (Session::has('success'))
         <div class="alert showAlert show">
             <span class="fas fa-exclamation-circle">!</span>
@@ -36,10 +35,9 @@
     <h1 class="text-center">Location</h1>
     <hr>
     <!-- Add Location button modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Add Location
-    </button>
-    <table class="table align-items-center">
+    
+    <table class="table align-items-center" id="table-content">
+        
         <thead>
             <tr>
                 <th>ID</th>
@@ -55,9 +53,6 @@
             @endforeach
         </tbody>
     </table>
-
-
-
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -82,4 +77,7 @@
             </div>
         </div>
     </div>
-@stop
+    <button type="button" class="btn btn-primary mb-3 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Add Location
+    </button>
+@endsection

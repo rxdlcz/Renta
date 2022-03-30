@@ -5,16 +5,13 @@
 
 <h1 class="text-center">Tenants</h1>
 <hr>
-<table class="table align-items-center">
+<table class="table align-items-center" id="table-content">
     <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Location</th>
             <th>Unit</th>
-            <th>Rent</th>
-            <th>Electric</th>
-            <th>Water</th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +21,6 @@
                 <td>{{ $tenant->firstname }} {{ $tenant->lastname }}</td>
                 <td>{{ $tenant->location->location }}</td>
                 <td>{{ $tenant->unit->name }}</td>
-                <td>{{ $tenant->bills_id }}</td>
             </tr>
         @endforeach
     </tbody>

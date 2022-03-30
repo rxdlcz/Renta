@@ -1,0 +1,35 @@
+.cus-container {
+    background-color: white;
+    border-radius: 2rem;
+    box-shadow: 1px 1px 10px lightgrey;
+}
+
+.table thead {
+    background-color: #979797;
+}
+.tbody, td, tfoot, th, thead, tr{
+    border-style: groove;
+}
+.dataTables_filter{
+    margin-bottom: 1rem;
+}
+.dataTables_scrollBody{
+    border-bottom-style: none !important;
+}
+
+.dataTables_scrollHead{
+    background-color: #979797;
+}
+
+/* Table custom Scrollbar */
+.dataTables_scrollBody::-webkit-scrollbar {
+    width: 8px;
+    background-color: white;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #FFFFFF;
+}
