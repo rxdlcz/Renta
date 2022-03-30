@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tenants', function (Blueprint $table) {
+        Schema::create('bills', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('email');
-            $table->string('contact_number');
-            $table->string('occupation_status');
-            $table->integer('location_id');
+            $table->string('bill_type');
             $table->integer('unit_id');
-            $table->integer('bills_id');
+            $table->integer('tenant_id');
+            $table->integer('amount_balance');
+            $table->date('due_date');
+            $table->integer('payment_id');
             $table->string('status');
             $table->timestamps();
         });
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tenants');
+        Schema::dropIfExists('bills');
     }
 };

@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('rentbills', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('unit_id');
-            $table->integer('current_balance');
-            $table->date('last_payment');
-            $table->string('status');
+            $table->string('bill_id');
+            $table->integer('amount');
+            $table->integer('receiver_id');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rentbills');
+        Schema::dropIfExists('payments');
     }
 };

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 class ManageController extends Controller
 {
+    //Manage Location
     public function getLocation(){
         
         $locations = location::all();
@@ -21,10 +22,25 @@ class ManageController extends Controller
         }
         
         return view('pages.manage.location', compact('data', 'locations'));
-
+    }
+    public function addLocation(Request $request){
         
+        $request->validate([
+            'location' => 'required|unique:locations',
+        ]);
+
+        $location = new location();
+        $location->location = $request->location;
+        $res = $location->save();
+
+        if ($res) {
+            return back()->with('success', 'Added');
+        } else {
+            return back()->with('fail', 'Error');
+        }
     }
 
+    //Manage Users
     public function getUsers(){
         
         $users = user::all();
@@ -64,4 +80,6 @@ class ManageController extends Controller
 
         
     }
+
+    
 }

@@ -35,5 +35,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::get('/user', [ManageController::class, 'getUsers']);
         Route::get('/unit', [ManageController::class, 'getUnits']);
         Route::get('/tenant', [ManageController::class, 'getTenants']);
+        Route::post('/addLocation', [ManageController::class, 'addLocation']);
     });
 });     //end of route prevent back button
