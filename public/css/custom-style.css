@@ -36,3 +36,47 @@
 div.dataTables_scrollBody table {
     width: 98% !important;
 }
+
+.content-header{
+    display: flex;
+    justify-content: space-between;
+    padding-left:1rem;
+}
+
+/* Button design */
+.button {
+    display: flex;
+    height: 50px;
+    padding: 0;
+    background: #8982f7;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    overflow: hidden;
+    font-family: "Quicksand", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background: #7a71ff;
+  }
+  
+  .button:active {
+    background: #625bcb;
+  }
+  
+  .button__text,
+  .button__icon {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 24px;
+    color: #fff;
+    height: 100%;
+  }
+  
+  .button__icon {
+    font-size: 1.5em;
+    background: rgba(0, 0, 0, 0.08);
+  }
