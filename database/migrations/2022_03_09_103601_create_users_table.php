@@ -22,6 +22,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamps();
         });
+        
+        DB::table('users')->insert(
+            array(
+                'firstname' => 'Super',
+                'lastname' => 'Admin',
+                'username' => 'admin',
+                'password' => Hash::make('password'),
+                'email' => 'name@domain.com'
+            )
+        );
     }
 
     /**
