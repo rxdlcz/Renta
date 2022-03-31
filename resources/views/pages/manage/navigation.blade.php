@@ -210,6 +210,8 @@
                 "scrollY": "530px",
                 "scrollCollapse": true,
                 "paging": false,
+                "scrollX": true,
+                "scroller": true
             });
         });
     </script>
