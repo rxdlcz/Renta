@@ -143,8 +143,8 @@
                     <div class="modal-body mt-3">
                         <h4 id="delLocName"></h4>
                     </div>
-                    <div class="modal-footer mt-4">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="modal-footer mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
                         <button type="submit" class="btn btn-primary">Confirm</button>
                     </div>
                 </form>
