@@ -199,6 +199,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
     <script>
+        //Alert close button function
         $('.close-btn').click(function() {
             $('.alert').removeClass("show");
             $('.alert').addClass("hide");
@@ -211,10 +212,16 @@
                 "scrollCollapse": true,
                 "paging": false,
                 "scrollX": true,
-                "scroller": true
+                "scroller": true,
+                "columnDefs": [{
+                    "targets": 'no-sort',
+                    "orderable": false,
+                }]
             });
         });
     </script>
+
+    @yield('javascript')
 </body>
 
 </html>

@@ -39,6 +39,24 @@ class ManageController extends Controller
             return back()->with('fail', 'Error');
         }
     }
+    public function editLocation(Request $request, $id){
+        
+        $request->validate([
+            'location' => 'required|unique:locations',
+        ]);
+
+        $location = location::find($id);
+        $location->location = $request->location;
+
+        $res = $location->save();
+
+        if ($res) {
+            return back()->with('success', 'Added');
+        } else {
+            return back()->with('fail', 'Error');
+        }
+    }
+    //End of Manage Location
 
     //Manage Users
     public function getUsers(){
