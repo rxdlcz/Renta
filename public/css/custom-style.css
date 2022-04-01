@@ -7,17 +7,25 @@
 .table thead {
     background-color: #979797;
 }
-.tbody, td, tfoot, th, thead, tr{
+
+.tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
     border-style: groove;
 }
-.dataTables_filter{
+
+.dataTables_filter {
     margin-bottom: 1rem;
 }
-.dataTables_scrollBody{
+
+.dataTables_scrollBody {
     border-bottom-style: none !important;
 }
 
-.dataTables_scrollHead{
+.dataTables_scrollHead {
     background-color: #979797;
 }
 
@@ -33,14 +41,15 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #FFFFFF;
 }
+
 div.dataTables_scrollBody table {
     width: 98% !important;
 }
 
-.content-header{
+.content-header {
     display: flex;
     justify-content: space-between;
-    padding-left:1rem;
+    padding-left: 1rem;
 }
 
 /* Button design */
@@ -57,26 +66,31 @@ div.dataTables_scrollBody table {
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-  }
-  
-  .button:hover {
+}
+
+.button:hover {
     background: #7a71ff;
-  }
-  
-  .button:active {
+}
+
+.button:active {
     background: #625bcb;
-  }
-  
-  .button__text,
-  .button__icon {
+}
+
+.button__text,
+.button__icon {
     display: inline-flex;
     align-items: center;
     padding: 0 24px;
     color: #fff;
     height: 100%;
-  }
-  
-  .button__icon {
+}
+
+.button__icon {
     font-size: 1.5em;
     background: rgba(0, 0, 0, 0.08);
-  }
+}
+
+table.dataTable thead th,
+table.dataTable thead td {
+    border-bottom: none !important;
+}
