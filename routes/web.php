@@ -41,6 +41,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::get('/location', [ManageController::class, 'getLocation']);
         Route::post('/addLocation', [ManageController::class, 'addLocation']);
         Route::post('/editLocation/{id}', [ManageController::class, 'editLocation']);
+        Route::post('/deleteLocation/{id}', [ManageController::class, 'deleteLocation']);
         //End Route for Manage Location
     });
 });     //end of route prevent back button

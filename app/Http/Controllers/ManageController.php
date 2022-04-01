@@ -34,9 +34,9 @@ class ManageController extends Controller
         $res = $location->save();
 
         if ($res) {
-            return back()->with('success', 'Added');
+            return back()->with('success', 'Successfully Added');
         } else {
-            return back()->with('fail', 'Error');
+            return back()->with('fail', 'Something went Wrong, Try Again');
         }
     }
     public function editLocation(Request $request, $id){
@@ -51,9 +51,19 @@ class ManageController extends Controller
         $res = $location->save();
 
         if ($res) {
-            return back()->with('success', 'Added');
+            return back()->with('success', 'Successfully Updated');
         } else {
-            return back()->with('fail', 'Error');
+            return back()->with('fail', 'Something went Wrong, Try Again');
+        }
+    }
+    public function deleteLocation(Request $request, $id){
+        
+        $location = location::destroy($id);
+
+        if ($location) {
+            return back()->with('success', 'Successfully Deleted');
+        } else {
+            return back()->with('fail', 'Something went Wrong, Try Again');
         }
     }
     //End of Manage Location

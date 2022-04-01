@@ -8,7 +8,7 @@
     @if (Session::has('success'))
         <div class="alert showAlert show">
             <span class="fas fa-exclamation-circle">!</span>
-            <span class="msg">Successfully Added</span>
+            <span class="msg">{{Session::get('success')}}</span>
             <div class="close-btn">
                 <span class="fas fa-times">X</span>
             </div>
@@ -18,7 +18,7 @@
     @if (Session::has('fail'))
         <div class="alert showAlert show">
             <span class="fas fa-exclamation-circle">!</span>
-            <span class="msg">Unknown Error: Failed to add</span>
+            <span class="msg">{{Session::get('fail')}}</span>
             <div class="close-btn">
                 <span class="">X</span>
             </div>
@@ -72,7 +72,7 @@
                     <td>{{ $location->location }}</td>
                     <td class="text-center">
                         <button class="btn bg-info edit" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                        <button class="btn bg-info">Delete</button>
+                        <button class="btn bg-info del" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                     </td>
 
                 </tr>
@@ -93,7 +93,6 @@
                 <form action="/addLocation" method="post">
                     @csrf
                     <div class="modal-body mt-3">
-
                         <label>Location Name</label>
                         <input type="text" class="form-control" name="location" required>
 
@@ -118,7 +117,6 @@
                 <form action="editLocation" method="post" id="editForm">
                     @csrf
                     <div class="modal-body mt-3">
-
                         <label>Location Name</label>
                         <input type="text" id="editLocName" class="form-control" name="location" required>
                     </div>
@@ -130,10 +128,31 @@
             </div>
         </div>
     </div>
-
     {{-- End Edit Modal --}}
 
+    {{-- Delete modal confirmation --}}
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="delModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ">Delete Location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="deleteLocation" method="post" id="delForm">
+                    @csrf
+                    <div class="modal-body mt-3">
+                        <h4 id="delLocName"></h4>
+                    </div>
+                    <div class="modal-footer mt-4">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                    </div>
+                </form>
 
+            </div>
+        </div>
+    </div>
+    {{-- End Delete Modal confirmation --}}
 
 @endsection
 
@@ -147,12 +166,21 @@
                 if ($($tr).hasClass('child')) {
                     $tr = $tr.prev('.parent');
                 }
-
                 var data = table.row($tr).data();
-                console.log(data[1]);
 
                 $('#editLocName').val(data[1]);
                 $('#editForm').attr('action', '/editLocation/' + data[0]);
+            })
+            table.on('click', '.del', function() {
+                $tr = $(this).closest('tr');
+                if ($($tr).hasClass('child')) {
+                    $tr = $tr.prev('.parent');
+                }
+
+                var data = table.row($tr).data();
+
+                $('#delLocName').html('Confirm Deletion of : ' + data[1]);
+                $('#delForm').attr('action', '/deleteLocation/' + data[0]);
             })
         });
     </script>
