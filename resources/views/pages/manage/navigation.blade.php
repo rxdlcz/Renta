@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS -->
-    <link rel="stylesheet" href="css/bootstrap5.css">
+    <link rel="stylesheet" href="css/bootstrap5.min.css">
     <link rel="stylesheet" href="css/custom-nav.css">
     <link rel="stylesheet" href="css/customAlert.css">
     <link rel="stylesheet" href="css/custom-style.css">

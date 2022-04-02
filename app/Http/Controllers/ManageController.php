@@ -23,6 +23,14 @@ class ManageController extends Controller
         
         return view('pages.manage.location', compact('data', 'locations'));
     }
+    public function locationData(){
+        
+        $locations = location::all();
+
+        return response()->json([
+            'locations'=>$locations,
+        ]);
+    }
     public function addLocation(Request $request){
         
         $request->validate([

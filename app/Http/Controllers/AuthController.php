@@ -51,12 +51,13 @@ class AuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $request->session()->put('loginId', $user->id);
-                return redirect('dashboard');
+                //return redirect('dashboard');
+                return response()->json(['status'=>true, ]);
             } else {
-                return back()->with('fail', 'Invalid credentials.');
+                return response()->json(['status'=>false, ]);
             }
         } else {
-            return back()->with('fail', 'Invalid credentials.');
+            return response()->json(['status'=>false, ]);
         }
     }
     public function dashboard()

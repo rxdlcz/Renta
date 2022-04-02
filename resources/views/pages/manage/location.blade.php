@@ -8,7 +8,7 @@
     @if (Session::has('success'))
         <div class="alert showAlert show">
             <span class="fas fa-exclamation-circle">!</span>
-            <span class="msg">{{Session::get('success')}}</span>
+            <span class="msg">{{ Session::get('success') }}</span>
             <div class="close-btn">
                 <span class="fas fa-times">X</span>
             </div>
@@ -18,7 +18,7 @@
     @if (Session::has('fail'))
         <div class="alert showAlert show">
             <span class="fas fa-exclamation-circle">!</span>
-            <span class="msg">{{Session::get('fail')}}</span>
+            <span class="msg">{{ Session::get('fail') }}</span>
             <div class="close-btn">
                 <span class="">X</span>
             </div>
@@ -66,7 +66,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($locations as $location)
+            {{-- @foreach ($locations as $location)
                 <tr>
                     <td>{{ $location->id }}</td>
                     <td>{{ $location->location }}</td>
@@ -76,7 +76,7 @@
                     </td>
 
                 </tr>
-            @endforeach
+            @endforeach --}}
         </tbody>
     </table>
     {{-- End of Table --}}
@@ -90,7 +90,7 @@
                     <h5 class="modal-title " id="exampleModalLabel">Add Location</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/addLocation" method="post">
+                <form action="/addLocation" method="post" id="addForm">
                     @csrf
                     <div class="modal-body mt-3">
                         <label>Location Name</label>
@@ -144,7 +144,8 @@
                         <h4 id="delLocName"></h4>
                     </div>
                     <div class="modal-footer mt-3">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            aria-label="Close">Close</button>
                         <button type="submit" class="btn btn-primary">Confirm</button>
                     </div>
                 </form>
@@ -159,6 +160,7 @@
 @section('javascript')
     <script>
         $(document).ready(function() {
+            //console.log({!! $data !!});
             var table = $('#table-content').DataTable();
 
             table.on('click', '.edit', function() {
@@ -182,6 +184,58 @@
                 $('#delLocName').html('Confirm Deletion of : ' + data[1]);
                 $('#delForm').attr('action', '/deleteLocation/' + data[0]);
             })
+
+            getTenants();
+
+            function getTenants() {
+                var myTable = $( "#table-content" ).DataTable();
+
+                $.ajax({
+                    type: "GET",
+                    url: "/locationData",
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response.locations);
+                        $.each(response.locations, function(key, item) {
+                            $('tbody').append('\
+                                <tr>\
+                                    <td>' + item.id + '</td>\
+                                    <td>' + item.location + '</td>\
+                                    <td class="text-center">\
+                                    <button class="btn bg-info edit" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>\
+                                    <button class="btn bg-info del" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>\
+                                    </td>\
+                                </tr>\
+                            ');
+                        });
+                        
+                    }
+
+                });
+            }
+
+        });
+        $(function() {
+
+            $('#addForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/addLocation",
+                    processData: false,
+                    data: $('#addForm').serialize(),
+                    beforeSend: function() {},
+                    success: function(data) {
+                        /* if (data.status) {
+                            window.location.href = "/location";
+                        } else {
+                            $('.alert-danger').css("display", "block");
+                        } */
+                        alert('Success');
+                    }
+                });
+            });
         });
     </script>
 @endsection
