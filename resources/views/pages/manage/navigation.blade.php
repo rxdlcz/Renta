@@ -206,19 +206,22 @@
         });
 
         //Table properties
-        $(document).ready(function() {
-            $('#table-content').DataTable({
+        var table = $('#table-content').DataTable({
                 "scrollY": "530px",
                 "scrollCollapse": true,
                 "paging": false,
                 "scrollX": true,
                 "scroller": true,
                 "columnDefs": [{
-                    "targets": 'no-sort',
-                    "orderable": false,
-                }]
+                        "targets": 'no-sort',
+                        "orderable": false,
+                    },
+                    {
+                        "targets": 2,
+                        "className": "text-center",
+                    }
+                ]
             });
-        });
     </script>
 
     @yield('javascript')

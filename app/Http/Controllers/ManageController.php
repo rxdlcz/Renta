@@ -12,27 +12,26 @@ use Illuminate\Http\Request;
 class ManageController extends Controller
 {
     //Manage Location
-    public function getLocation(){
-        
+    public function getLocation(Request $request)
+    {
         $locations = location::all();
 
         $data = array();
-        if(Session::has('loginId')){
+        if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
         }
-        
+
+        if ($request->ajax()) {
+            //return response()->json(array('locations' => $locations));
+            return response()->json([
+                'locations' => $locations,
+            ]);
+        }
         return view('pages.manage.location', compact('data', 'locations'));
     }
-    public function locationData(){
-        
-        $locations = location::all();
+    public function addLocation(Request $request)
+    {
 
-        return response()->json([
-            'locations'=>$locations,
-        ]);
-    }
-    public function addLocation(Request $request){
-        
         $request->validate([
             'location' => 'required|unique:locations',
         ]);
@@ -47,8 +46,9 @@ class ManageController extends Controller
             return back()->with('fail', 'Something went Wrong, Try Again');
         }
     }
-    public function editLocation(Request $request, $id){
-        
+    public function editLocation(Request $request, $id)
+    {
+
         $request->validate([
             'location' => 'required|unique:locations',
         ]);
@@ -64,8 +64,9 @@ class ManageController extends Controller
             return back()->with('fail', 'Something went Wrong, Try Again');
         }
     }
-    public function deleteLocation(Request $request, $id){
-        
+    public function deleteLocation(Request $request, $id)
+    {
+
         $location = location::destroy($id);
 
         if ($location) {
@@ -77,45 +78,43 @@ class ManageController extends Controller
     //End of Manage Location
 
     //Manage Users
-    public function getUsers(){
-        
+    public function getUsers()
+    {
+
         $users = user::all();
 
         $data = array();
-        if(Session::has('loginId')){
+        if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
         }
-        
-        return view('pages.manage.user', compact('data', 'users'));
 
+        return view('pages.manage.user', compact('data', 'users'));
     }
 
-    public function getUnits(){
+    public function getUnits()
+    {
 
         $units = Unit::with('location')->get();
         $locations = location::with('unit')->get();
 
         $data = array();
-        if(Session::has('loginId')){
+        if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
         }
 
         return view('pages.manage.unit', compact('data', 'locations', 'units'));
     }
 
-    public function getTenants(){
-        
+    public function getTenants()
+    {
+
         $tenants = tenant::with('location', 'unit')->get();
 
         $data = array();
-        if(Session::has('loginId')){
+        if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
         }
-        
+
         return view('pages.manage.tenant', compact('data', 'tenants'));
-
-        
     }
-
-    
 }

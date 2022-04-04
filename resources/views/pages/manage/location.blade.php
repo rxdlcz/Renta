@@ -77,6 +77,7 @@
 
                 </tr>
             @endforeach --}}
+
         </tbody>
     </table>
     {{-- End of Table --}}
@@ -161,8 +162,6 @@
     <script>
         $(document).ready(function() {
             //console.log({!! $data !!});
-            var table = $('#table-content').DataTable();
-
             table.on('click', '.edit', function() {
                 $tr = $(this).closest('tr');
                 if ($($tr).hasClass('child')) {
@@ -185,35 +184,8 @@
                 $('#delForm').attr('action', '/deleteLocation/' + data[0]);
             })
 
+
             getTenants();
-
-            function getTenants() {
-                var myTable = $( "#table-content" ).DataTable();
-
-                $.ajax({
-                    type: "GET",
-                    url: "/locationData",
-                    dataType: "json",
-                    success: function(response) {
-                        console.log(response.locations);
-                        $.each(response.locations, function(key, item) {
-                            $('tbody').append('\
-                                <tr>\
-                                    <td>' + item.id + '</td>\
-                                    <td>' + item.location + '</td>\
-                                    <td class="text-center">\
-                                    <button class="btn bg-info edit" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>\
-                                    <button class="btn bg-info del" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>\
-                                    </td>\
-                                </tr>\
-                            ');
-                        });
-                        
-                    }
-
-                });
-            }
-
         });
         $(function() {
 
@@ -233,9 +205,67 @@
                             $('.alert-danger').css("display", "block");
                         } */
                         alert('Success');
+                        getTenants();
+                    }
+                });
+            });
+
+            $('#editForm').on('submit', function(e) {
+                e.preventDefault();
+
+                var form = $(this);
+                var actionUrl = form.attr('action');
+                $.ajax({
+                    type: "POST",
+                    url: actionUrl,
+                    processData: false,
+                    data: $('#editForm').serializeArray(),
+                    beforeSend: function() {
+                        console.log($('#editForm').serializeArray());
+                    },
+                    success: function(data) {
+                        /* if (data.status) {
+                            window.location.href = "/location";
+                        } else {
+                            $('.alert-danger').css("display", "block");
+                        } */
+                        alert('Success');
+                        getTenants();
                     }
                 });
             });
         });
+
+        function getTenants() {
+            $.ajax({
+                type: "GET",
+                url: "/location",
+                dataType: "json",
+                success: function(response) {
+                    $("#table-content").DataTable().clear();
+                    console.log(response.locations);
+                    $.each(response.locations, function(key, item) {
+                        /* $('tbody').append('\
+                            <tr>\
+                                <td>' + item.id + '</td>\
+                                <td>' + item.location + '</td>\
+                                <td class="text-center">\
+                                <button class="btn bg-info edit" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>\
+                                <button class="btn bg-info del" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>\
+                                </td>\
+                            </tr>\
+                        '); */
+                        $('#table-content').dataTable().fnAddData([
+                            item.id,
+                            item.location,
+                            "<button class='btn bg-info edit' data-bs-toggle='modal' data-bs-target='#editModal' id='" +
+                            item.id +
+                            "'>Edit</button>\
+                                    <button class='btn bg-info del' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>"
+                        ]);
+                    });
+                }
+            });
+        }
     </script>
 @endsection
