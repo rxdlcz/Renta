@@ -219,10 +219,36 @@
                     type: "POST",
                     url: actionUrl,
                     processData: false,
-                    data: $('#editForm').serializeArray(),
-                    beforeSend: function() {
-                        console.log($('#editForm').serializeArray());
+                    data: $('#editForm').serialize(),
+                    beforeSend: function() {},
+                    success: function(data) {
+                        /* if (data.status) {
+                            window.location.href = "/location";
+                        } else {
+                            $('.alert-danger').css("display", "block");
+                        } */
+                        alert('Success');
+                        getTenants();
                     },
+
+                    error: function(data) {
+                        var errors = data.responseJSON;
+                        console.log(errors);
+                    }
+                });
+            });
+
+            $('#delForm').on('submit', function(e) {
+                e.preventDefault();
+
+                var form = $(this);
+                var actionUrl = form.attr('action');
+                $.ajax({
+                    type: "POST",
+                    url: actionUrl,
+                    processData: false,
+                    data: $('#delForm').serialize(),
+                    beforeSend: function() {},
                     success: function(data) {
                         /* if (data.status) {
                             window.location.href = "/location";
@@ -243,7 +269,6 @@
                 dataType: "json",
                 success: function(response) {
                     $("#table-content").DataTable().clear();
-                    console.log(response.locations);
                     $.each(response.locations, function(key, item) {
                         /* $('tbody').append('\
                             <tr>\
@@ -261,7 +286,7 @@
                             "<button class='btn bg-info edit' data-bs-toggle='modal' data-bs-target='#editModal' id='" +
                             item.id +
                             "'>Edit</button>\
-                                    <button class='btn bg-info del' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>"
+                                            <button class='btn bg-info del' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>"
                         ]);
                     });
                 }
