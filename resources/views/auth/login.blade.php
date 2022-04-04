@@ -65,7 +65,7 @@
                     },
                     success: function(data) {
                         if (data.status) {
-                            window.location.href = "/location";
+                            window.location.href = "/dashboard";
                         } else {
                             $('.alert-danger').css("display", "block");
                         }
