@@ -184,7 +184,6 @@
                 $('#delForm').attr('action', '/deleteLocation/' + data[0]);
             })
 
-
             getTenants();
         });
         $(function() {
@@ -199,11 +198,6 @@
                     data: $('#addForm').serialize(),
                     beforeSend: function() {},
                     success: function(data) {
-                        /* if (data.status) {
-                            window.location.href = "/location";
-                        } else {
-                            $('.alert-danger').css("display", "block");
-                        } */
                         alert('Success');
                         getTenants();
                     }
@@ -222,18 +216,12 @@
                     data: $('#editForm').serialize(),
                     beforeSend: function() {},
                     success: function(data) {
-                        /* if (data.status) {
-                            window.location.href = "/location";
+                        if (data.status == 1) {
+                            alert('Success');
+                            getTenants();
                         } else {
-                            $('.alert-danger').css("display", "block");
-                        } */
-                        alert('Success');
-                        getTenants();
-                    },
-
-                    error: function(data) {
-                        var errors = data.responseJSON;
-                        console.log(errors);
+                            console.log(data.error);
+                        }
                     }
                 });
             });
@@ -250,11 +238,6 @@
                     data: $('#delForm').serialize(),
                     beforeSend: function() {},
                     success: function(data) {
-                        /* if (data.status) {
-                            window.location.href = "/location";
-                        } else {
-                            $('.alert-danger').css("display", "block");
-                        } */
                         alert('Success');
                         getTenants();
                     }
@@ -270,23 +253,11 @@
                 success: function(response) {
                     $("#table-content").DataTable().clear();
                     $.each(response.locations, function(key, item) {
-                        /* $('tbody').append('\
-                            <tr>\
-                                <td>' + item.id + '</td>\
-                                <td>' + item.location + '</td>\
-                                <td class="text-center">\
-                                <button class="btn bg-info edit" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>\
-                                <button class="btn bg-info del" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>\
-                                </td>\
-                            </tr>\
-                        '); */
                         $('#table-content').dataTable().fnAddData([
                             item.id,
                             item.location,
-                            "<button class='btn bg-info edit' data-bs-toggle='modal' data-bs-target='#editModal' id='" +
-                            item.id +
-                            "'>Edit</button>\
-                                            <button class='btn bg-info del' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>"
+                            "<button class='btn bg-info edit' data-bs-toggle='modal' data-bs-target='#editModal' id='" +item.id +"'>Edit</button>\
+                            <button class='btn bg-info del' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>"
                         ]);
                     });
                 }

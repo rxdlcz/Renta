@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Unit;
 use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ManageController extends Controller
 {
@@ -48,20 +49,22 @@ class ManageController extends Controller
     }
     public function editLocation(Request $request, $id)
     {
-
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'location' => 'required|unique:locations',
         ]);
 
-        $location = location::find($id);
-        $location->location = $request->location;
-
-        $res = $location->save();
-
-        if ($res) {
-            return back()->with('success', 'Successfully Updated');
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
-            return back()->with('fail', 'Something went Wrong, Try Again');
+            $location = location::find($id);
+            $location->location = $request->location;
+
+            $res = $location->save();
+            if($res){
+                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
+            }else{
+                return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+            }          
         }
     }
     public function deleteLocation(Request $request, $id)
