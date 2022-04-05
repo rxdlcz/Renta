@@ -23,7 +23,6 @@ class ManageController extends Controller
         }
 
         if ($request->ajax()) {
-            //return response()->json(array('locations' => $locations));
             return response()->json([
                 'locations' => $locations,
             ]);
@@ -32,19 +31,22 @@ class ManageController extends Controller
     }
     public function addLocation(Request $request)
     {
-
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'location' => 'required|unique:locations',
         ]);
 
-        $location = new location();
-        $location->location = $request->location;
-        $res = $location->save();
-
-        if ($res) {
-            return back()->with('success', 'Successfully Added');
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
-            return back()->with('fail', 'Something went Wrong, Try Again');
+            $location = new location();
+            $location->location = $request->location;
+
+            $res = $location->save();
+            if ($res) {
+                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
+            } else {
+                return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+            }
         }
     }
     public function editLocation(Request $request, $id)
@@ -60,11 +62,11 @@ class ManageController extends Controller
             $location->location = $request->location;
 
             $res = $location->save();
-            if($res){
+            if ($res) {
                 return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
-            }else{
+            } else {
                 return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-            }          
+            }
         }
     }
     public function deleteLocation(Request $request, $id)
@@ -73,9 +75,9 @@ class ManageController extends Controller
         $location = location::destroy($id);
 
         if ($location) {
-            return back()->with('success', 'Successfully Deleted');
+            return response()->json(['status' => 1, ]);
         } else {
-            return back()->with('fail', 'Something went Wrong, Try Again');
+            return response()->json(['status' => 0, ]);
         }
     }
     //End of Manage Location

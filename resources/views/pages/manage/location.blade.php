@@ -34,6 +34,14 @@
             </div>
         </div>
     @enderror
+
+    <div class="alert">
+        <span class="fas fa-exclamation-circle">!</span>
+        <span class="msg">{{ Session::get('success') }}</span>
+        <div class="close-btn">
+            <span class="fas fa-times">X</span>
+        </div>
+    </div>
     {{-- End of Error Handling --}}
 
     <div class="content-header">
@@ -56,7 +64,7 @@
     <hr>
 
     {{-- Table --}}
-    <table class="table align-items-center" id="table-content" width="400">
+    <table class="table align-items-center" id="table-content">
 
         <thead>
             <tr>
@@ -66,17 +74,6 @@
             </tr>
         </thead>
         <tbody>
-            {{-- @foreach ($locations as $location)
-                <tr>
-                    <td>{{ $location->id }}</td>
-                    <td>{{ $location->location }}</td>
-                    <td class="text-center">
-                        <button class="btn bg-info edit" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                        <button class="btn bg-info del" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
-                    </td>
-
-                </tr>
-            @endforeach --}}
 
         </tbody>
     </table>
@@ -91,7 +88,7 @@
                     <h5 class="modal-title " id="exampleModalLabel">Add Location</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/addLocation" method="post" id="addForm">
+                <form action="/addLocation" method="post" id="addForm" class="addFormModal">
                     @csrf
                     <div class="modal-body mt-3">
                         <label>Location Name</label>
@@ -115,7 +112,7 @@
                     <h5 class="modal-title " id="exampleModalLabel">Edit Location</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="editLocation" method="post" id="editForm">
+                <form action="editLocation" method="post" id="editForm" class="editFormModal">
                     @csrf
                     <div class="modal-body mt-3">
                         <label>Location Name</label>
@@ -139,7 +136,7 @@
                     <h5 class="modal-title ">Delete Location</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="deleteLocation" method="post" id="delForm">
+                <form action="deleteLocation" method="post" id="delForm" class="delFormModal">
                     @csrf
                     <div class="modal-body mt-3">
                         <h4 id="delLocName"></h4>
@@ -159,90 +156,14 @@
 @endsection
 
 @section('javascript')
+    <script src="js/main.js"></script>
     <script>
         $(document).ready(function() {
-            //console.log({!! $data !!});
-            table.on('click', '.edit', function() {
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('child')) {
-                    $tr = $tr.prev('.parent');
-                }
-                var data = table.row($tr).data();
-
-                $('#editLocName').val(data[1]);
-                $('#editForm').attr('action', '/editLocation/' + data[0]);
-            })
-            table.on('click', '.del', function() {
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('child')) {
-                    $tr = $tr.prev('.parent');
-                }
-
-                var data = table.row($tr).data();
-
-                $('#delLocName').html('Confirm Deletion of : ' + data[1]);
-                $('#delForm').attr('action', '/deleteLocation/' + data[0]);
-            })
 
             getTenants();
-        });
-        $(function() {
+            actionButton();
+            buttonFunction();
 
-            $('#addForm').on('submit', function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    type: "POST",
-                    url: "/addLocation",
-                    processData: false,
-                    data: $('#addForm').serialize(),
-                    beforeSend: function() {},
-                    success: function(data) {
-                        alert('Success');
-                        getTenants();
-                    }
-                });
-            });
-
-            $('#editForm').on('submit', function(e) {
-                e.preventDefault();
-
-                var form = $(this);
-                var actionUrl = form.attr('action');
-                $.ajax({
-                    type: "POST",
-                    url: actionUrl,
-                    processData: false,
-                    data: $('#editForm').serialize(),
-                    beforeSend: function() {},
-                    success: function(data) {
-                        if (data.status == 1) {
-                            alert('Success');
-                            getTenants();
-                        } else {
-                            console.log(data.error);
-                        }
-                    }
-                });
-            });
-
-            $('#delForm').on('submit', function(e) {
-                e.preventDefault();
-
-                var form = $(this);
-                var actionUrl = form.attr('action');
-                $.ajax({
-                    type: "POST",
-                    url: actionUrl,
-                    processData: false,
-                    data: $('#delForm').serialize(),
-                    beforeSend: function() {},
-                    success: function(data) {
-                        alert('Success');
-                        getTenants();
-                    }
-                });
-            });
         });
 
         function getTenants() {
@@ -253,15 +174,46 @@
                 success: function(response) {
                     $("#table-content").DataTable().clear();
                     $.each(response.locations, function(key, item) {
+                        let objectKeys = Object.keys(item)[0];
+                        console.log(key);
                         $('#table-content').dataTable().fnAddData([
-                            item.id,
-                            item.location,
-                            "<button class='btn bg-info edit' data-bs-toggle='modal' data-bs-target='#editModal' id='" +item.id +"'>Edit</button>\
-                            <button class='btn bg-info del' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>"
+                            //item.Object.keys(item)[0],
+                            item[objectKeys], 
+                            item[objectKeys],
+                            "<button class='btn bg-info edit' data-bs-toggle='modal' data-bs-target='#editModal'>Edit</button>\
+                            <button class='btn bg-info del' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>"                   
                         ]);
                     });
                 }
             });
         }
+     
     </script>
 @endsection
+
+{{-- 
+//Add Function
+    $('.addFormModal').on('submit', function(e) {
+        e.preventDefault();
+
+        var formData = $(this);
+        var actionUrl = $(this).attr('action');
+        var type = $(this).attr('method');
+
+        /* $.ajax({
+            type: "POST",
+            url: actionUrl,
+            processData: false,
+            data: $(formData).serialize(),
+            beforeSend: function() {},
+            success: function(data) {
+                if (data.status == 1) {
+                    alert('Success');
+                    getTenants();
+                } else {
+                    console.log(data.error);
+                }
+            }
+        }); */
+        ajaxFunction(formData, actionUrl, type);
+    }); --}}

@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="css/customAlert.css">
     <link rel="stylesheet" href="css/custom-style.css">
 
-    <link rel="stylesheet" href="https:////cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="css/dataTable.min.css">
 
     <title>Renta - @yield('title')</title>
 
@@ -194,17 +193,12 @@
     </main>
     <footer></footer>
     <script type="text/javascript" src="js/bootstrap5.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jquery-3.5.0.min.js"></script>
 
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/dataTables.min.js"></script>
 
     <script>
-        //Alert close button function
-        $('.close-btn').click(function() {
-            $('.alert').removeClass("show");
-            $('.alert').addClass("hide");
-        });
-
         //Table properties
         var table = $('#table-content').DataTable({
                 "scrollY": "530px",
