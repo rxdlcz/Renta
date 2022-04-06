@@ -6,6 +6,7 @@ use App\Models\location;
 use App\Models\tenant;
 use App\Models\User;
 use App\Models\Unit;
+use Hash;
 use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +16,7 @@ class ManageController extends Controller
     //Manage Location
     public function getLocation(Request $request)
     {
-        $locations = location::all();
+        $locations = location::select('id', 'location')->get();
 
         $data = array();
         if (Session::has('loginId')) {
@@ -75,25 +76,68 @@ class ManageController extends Controller
         $location = location::destroy($id);
 
         if ($location) {
-            return response()->json(['status' => 1, ]);
+            return response()->json(['status' => 1,]);
         } else {
-            return response()->json(['status' => 0, ]);
+            return response()->json(['status' => 0,]);
         }
     }
     //End of Manage Location
 
     //Manage Users
-    public function getUsers()
+    public function getUsers(Request $request)
     {
 
-        $users = user::all();
+        $users = user::select('id', 'firstname', 'lastname', 'email', 'username')->get();
 
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
         }
 
+        if ($request->ajax()) {
+            return response()->json([
+                'users' => $users,
+            ]);
+        }
         return view('pages.manage.user', compact('data', 'users'));
+    }
+    public function addUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required|email|unique:users',
+            'username' => 'required|unique:users',
+            'password' => 'required|min:8'
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            $user = new User();
+            $user->firstname = $request->firstname;
+            $user->lastname = $request->lastname;
+            $user->email = $request->email;
+            $user->username = $request->username;
+            $user->password = Hash::make($request->password);
+            $res = $user->save();
+
+            if ($res) {
+                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
+            } else {
+                return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+            }
+        }
+    }
+    public function deleteUser(Request $request, $id)
+    {
+        $users = user::destroy($id);
+
+        if ($users) {
+            return response()->json(['status' => 1,]);
+        } else {
+            return response()->json(['status' => 0,]);
+        }
     }
 
     public function getUnits()
