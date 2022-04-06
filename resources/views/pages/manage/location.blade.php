@@ -4,51 +4,21 @@
 
 @section('content')
 
-    {{-- Error Handling --}}
-    @if (Session::has('success'))
-        <div class="alert showAlert show">
-            <span class="fas fa-exclamation-circle">!</span>
-            <span class="msg">{{ Session::get('success') }}</span>
-            <div class="close-btn">
-                <span class="fas fa-times">X</span>
-            </div>
-        </div>
-    @endif
-
-    @if (Session::has('fail'))
-        <div class="alert showAlert show">
-            <span class="fas fa-exclamation-circle">!</span>
-            <span class="msg">{{ Session::get('fail') }}</span>
-            <div class="close-btn">
-                <span class="">X</span>
-            </div>
-        </div>
-    @endif
-
-    @error('location')
-        <div class="alert showAlert show">
-            <span class="fas fa-exclamation-circle">!</span>
-            <span class="msg">Existing Location name</span>
-            <div class="close-btn">
-                <span class="">X</span>
-            </div>
-        </div>
-    @enderror
-
+    {{-- Validation Handling --}}
     <div class="alert">
         <span class="fas fa-exclamation-circle">!</span>
-        <span class="msg">{{ Session::get('success') }}</span>
+        <span class="msg"></span>
         <div class="close-btn">
             <span class="fas fa-times">X</span>
         </div>
     </div>
-    {{-- End of Error Handling --}}
+    {{-- Validation Handling --}}
 
     <div class="content-header">
         <h1 class="">Location</h1>
 
         {{-- Add Location button modal --}}
-        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#addModal">
+        <button type="button" class="button add" data-bs-toggle="modal" data-bs-target="#addModal">
             <span class="button__text">Add Location</span>
             <span class="button__icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
@@ -91,11 +61,11 @@
                 <form action="/addLocation" method="post" id="addForm" class="addFormModal">
                     @csrf
                     <div class="modal-body mt-3">
-                        <label>Location Name</label>
+                        <label class="mx-1">Location Name</label>
                         <input type="text" class="form-control" name="location" required>
-
+                        <span class="msg text-danger mx-1"></span>
                     </div>
-                    <div class="modal-footer mt-4">
+                    <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
@@ -115,10 +85,11 @@
                 <form action="editLocation" method="post" id="editForm" class="editFormModal">
                     @csrf
                     <div class="modal-body mt-3">
-                        <label>Location Name</label>
+                        <label class="mx-1">Location Name</label>
                         <input type="text" id="editLocName" class="form-control" name="location" required>
+                        <span class="msg text-danger mx-1"></span>
                     </div>
-                    <div class="modal-footer mt-4">
+                    <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
@@ -155,44 +126,7 @@
 
 @endsection
 
-@section('javascript')
-    <script src="js/main.js"></script>
-    <script>
-        $(document).ready(function() {
-
-            getTenants();
-            actionButton();
-            buttonFunction();
-
-        });
-
-        function getTenants() {
-            $.ajax({
-                type: "GET",
-                url: "/location",
-                dataType: "json",
-                success: function(response) {
-                    $("#table-content").DataTable().clear();
-                    $.each(response.locations, function(key, item) {
-                        let objectKeys = Object.keys(item)[0];
-                        console.log(key);
-                        $('#table-content').dataTable().fnAddData([
-                            //item.Object.keys(item)[0],
-                            item[objectKeys], 
-                            item[objectKeys],
-                            "<button class='btn bg-info edit' data-bs-toggle='modal' data-bs-target='#editModal'>Edit</button>\
-                            <button class='btn bg-info del' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>"                   
-                        ]);
-                    });
-                }
-            });
-        }
-     
-    </script>
-@endsection
-
-{{-- 
-//Add Function
+{{-- //Add Function
     $('.addFormModal').on('submit', function(e) {
         e.preventDefault();
 
@@ -217,3 +151,44 @@
         }); */
         ajaxFunction(formData, actionUrl, type);
     }); --}}
+
+
+{{-- function getTenants() {
+        let itemKey = [];
+        let button =
+            "<button class='btn bg-info edit ml-2' data-bs-toggle='modal' data-bs-target='#editModal'>Edit</button>\
+                <button class='btn bg-info del ml-2' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>";
+
+        $.ajax({
+            type: "GET",
+            url: "/location",
+            dataType: "json",
+            success: function(response) {
+                $("#table-content").DataTable().clear();
+                
+                $.each(response.locations, function(key, item) {
+                    //let itemArray = [];
+                    
+                    
+                    itemKey = item;
+
+                    let itemArray = [item['id'], item['location'], button];
+                    //console.log(itemArray);
+                    
+
+                    //$('#table-content').dataTable().fnAddData(itemArray);
+
+                    /* let objectKeys = Object.keys(item);
+                    console.log(objectKeys[0]);
+
+                    itemArray.push(item['id']);
+                    $('#table-content').dataTable().fnAddData(itemArray); */
+
+                    
+                });
+                let objectKeys = Object.keys(itemKey);
+                console.log(objectKeys);
+                //console.log(itemKey);
+            }
+        });
+    } --}}
