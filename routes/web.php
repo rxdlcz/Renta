@@ -23,13 +23,13 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
     //Route for login authentication
     Route::get('/login', [AuthController::class, 'login'])->middleware('alreadyLoggedIn');
-    Route::get('/registration', [AuthController::class, 'registration']);
-    Route::post('/register-user', [AuthController::class, 'registerUser'])->name('register-user');
-    Route::post('login-user', [AuthController::class, 'loginUser'])->name('login-user');   
+    Route::post('login-user', [AuthController::class, 'loginUser'])->name('login-user');
     Route::get('/logout', [AuthController::class, 'logout']);
 
     //Route for checking Session
     Route::group(['middleware' => 'isLoggedIn'], function () {
+
+
         //Route for navigation section
 
         Route::get('/dashboard', [AuthController::class, 'dashboard']);
@@ -38,10 +38,19 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::get('/tenant', [ManageController::class, 'getTenants']);
 
         //Route for Manage Location
+
+        //Route for Location Nav
         Route::get('/location', [ManageController::class, 'getLocation']);
         Route::post('/addLocation', [ManageController::class, 'addLocation']);
         Route::post('/editLocation/{id}', [ManageController::class, 'editLocation']);
         Route::post('/deleteLocation/{id}', [ManageController::class, 'deleteLocation']);
+        //End Route for location nav
+
+        //Route for User Nav
+        Route::post('/addUser', [ManageController::class, 'addUser']);
+        Route::post('/deleteUser/{id}', [ManageController::class, 'deleteUser']);
+
+
         //End Route for Manage Location
     });
 });     //end of route prevent back button
