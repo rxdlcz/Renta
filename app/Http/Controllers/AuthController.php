@@ -13,11 +13,7 @@ class AuthController extends Controller
     {
         return view("auth.login");
     }
-    public function registration()
-    {
-        return view("auth.registration");
-    }
-    public function registerUser(Request $request)
+    /* public function registerUser(Request $request)
     {
         $request->validate([
             'firstname' => 'required',
@@ -40,7 +36,7 @@ class AuthController extends Controller
         } else {
             return back()->with('fail', 'Error');
         }
-    }
+    } */
     public function loginUser(Request $request)
     {
         $request->validate([
