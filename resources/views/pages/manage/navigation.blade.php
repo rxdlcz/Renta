@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/customAlert.css">
     <link rel="stylesheet" href="css/custom-style.css">
 
-    <link rel="stylesheet" href="css/dataTable.min.css">
+    <link rel="stylesheet" href="datatables/datatables.css">
 
     <title>Renta - @yield('title')</title>
 
@@ -196,9 +196,17 @@
     <script src="js/main.js"></script>
     <script src="js/jquery-3.5.0.min.js"></script>
 
-    <script type="text/javascript" src="js/dataTables.min.js"></script>
+    <script type="text/javascript" src="datatables/datatables.js"></script>
 
     <script>
+        var fetchURL = window.location.pathname;
+
+        $(document).ready(function() {
+            getData(fetchURL);
+            actionButton();
+            buttonFunction();
+        });   
+
         //Table properties
         var table = $('#table-content').DataTable({
                 "scrollY": "530px",
