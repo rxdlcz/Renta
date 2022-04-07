@@ -33,8 +33,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         //Route for navigation section
 
         Route::get('/dashboard', [AuthController::class, 'dashboard']);
-        Route::get('/user', [ManageController::class, 'getUsers']);
-        Route::get('/unit', [ManageController::class, 'getUnits']);
+
+
         Route::get('/tenant', [ManageController::class, 'getTenants']);
 
         //Route for Manage Location
@@ -47,9 +47,17 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         //End Route for location nav
 
         //Route for User Nav
+        Route::get('/user', [ManageController::class, 'getUsers']);
         Route::post('/addUser', [ManageController::class, 'addUser']);
+        Route::post('/editUser/{id}', [ManageController::class, 'editUser']);
         Route::post('/deleteUser/{id}', [ManageController::class, 'deleteUser']);
+        //End Route for User Nav
 
+        //Route for Unit Nav
+        Route::get('/unit', [ManageController::class, 'getUnits']);
+        Route::post('/addUnit', [ManageController::class, 'addUnit']);
+        Route::post('/editUnit/{id}', [ManageController::class, 'editUnit']);
+        Route::post('/deleteUnit/{id}', [ManageController::class, 'deleteUnit']);
 
         //End Route for Manage Location
     });

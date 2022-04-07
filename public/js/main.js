@@ -1,104 +1,6 @@
 //URL Variable
 var fetchURL = window.location.pathname;
 
-//Validation alert
-function showValidation(error, status) {
-    if (error == 0) {
-        $('.modal').modal('hide');
-        $('.alert').addClass("show");
-        $('.alert').removeClass("hide");
-        $('.alert').addClass("showAlert");
-        getData(fetchURL);
-    }
-    $('.msg').text(status);
-    setTimeout(function () {
-        $('.alert').removeClass("show");
-        $('.alert').addClass("hide");
-    }, 3000);
-
-    $('.close-btn').click(function () {
-        $('.alert').removeClass("show");
-        $('.alert').addClass("hide");
-    });
-}
-
-//function for All submit Button
-function buttonFunction() {
-    //Add submit Function
-    $('.addFormModal').on('submit', function (e) {
-
-        var formData = $(this);
-        var actionUrl = $(this).attr('action');
-        var type = $(this).attr('method');
-
-        try {
-            ajaxFunction(formData, actionUrl, type, e).then((data) => {
-                //console.log(data.status)
-
-                if (data.status == 1) {
-                    showValidation(0, "Successfully Added");
-                } else {
-                    //
-                    console.log(data.error);
-                    /* var firstItem = data.error;
-
-                    for(key in firstItem) {
-                        console.log('error' + ':' + firstItem[key]);
-                      } */
-                }
-            });
-        } catch (error) {
-            console.log('Error:', error);
-        }
-    });
-    //Edit submit Function
-    $('.editFormModal').on('submit', function (e) {
-
-        var formData = $(this);
-        var actionUrl = $(this).attr('action');
-        var type = $(this).attr('method');
-
-        try {
-            ajaxFunction(formData, actionUrl, type, e)
-
-                .then((data) => {
-                    //console.log(data.status)
-
-                    if (data.status == 1) {
-                        showValidation(0, "Successfully Updated");
-                    } else {
-//
-                    }
-                });
-        } catch (error) {
-            console.log('Error:', error);
-        }
-    });
-
-    //Delete submit function
-    $('.delFormModal').on('submit', function (e) {
-
-        var formData = $(this);
-        var actionUrl = $(this).attr('action');
-        var type = $(this).attr('method');
-
-        try {
-            ajaxFunction(formData, actionUrl, type, e).then((data) => {
-                //console.log(data.status)
-
-                if (data.status == 1) {
-                    showValidation(0, "Successfully Deleted");
-                } else {
-                    //
-                }
-            });
-        } catch (error) {
-            console.log('Error:', error);
-        }
-
-    });
-}
-
 //Populate
 function getData(fetchURL) {
     let itemData = [];
@@ -112,6 +14,7 @@ function getData(fetchURL) {
         url: fetchURL,
         dataType: "json",
         success: function (response) {
+            //console.log(response);
             let dataName = Object.keys(response)[0];
             $("#table-content").DataTable().clear();
 
@@ -136,6 +39,85 @@ function getData(fetchURL) {
     });
 }
 
+//function for All submit Button
+function buttonFunction() {
+    //Add submit Function
+    $('.addFormModal').on('submit', function (e) {
+
+        var formData = $(this);
+        var actionUrl = $(this).attr('action');
+        var type = $(this).attr('method');
+
+        try {
+            ajaxFunction(formData, actionUrl, type, e).then((data) => {
+                //console.log(data.status)
+
+                if (data.status == 1) {
+                    showValidation(0, "Successfully Added");
+                } else {
+                    $.each(data.error, function (key, val) {
+                        $('span.' + key + '_error').text(val[0]);
+                        console.log(key + ':' + val);
+                    })
+                }
+            });
+        } catch (error) {
+            console.log('Error:', error);
+        }
+    });
+    //Edit submit Function
+    $('.editFormModal').on('submit', function (e) {
+
+        var formData = $(this);
+        var actionUrl = $(this).attr('action');
+        var type = $(this).attr('method');
+
+        try {
+            ajaxFunction(formData, actionUrl, type, e)
+
+                .then((data) => {
+                    //console.log(data.status)
+                    $('.txt_error').text('')
+                    if (data.status == 1) {
+                        showValidation(0, "Successfully Updated");
+                    } else {
+                        $.each(data.error, function (key, val) {
+                            $('span.' + key + '_error').text(val[0]);
+                            console.log(key + ':' + val);
+                        })
+                    }
+                });
+        } catch (error) {
+            console.log('Error:', error);
+        }
+    });
+
+    //Delete submit function
+    $('.delFormModal').on('submit', function (e) {
+
+        var formData = $(this);
+        var actionUrl = $(this).attr('action');
+        var type = $(this).attr('method');
+
+        try {
+            ajaxFunction(formData, actionUrl, type, e).then((data) => {
+                //console.log(data.status)
+
+                if (data.status == 1) {
+                    showValidation(0, "Successfully Deleted");
+                } else {
+                    console.log(data);
+                }
+            });
+        } catch (error) {
+            console.log('Error:', error);
+        }
+
+    });
+}
+
+
+
 //Ajax function
 function ajaxFunction(formData, actionUrl, type, event) {
     event.preventDefault();
@@ -152,10 +134,38 @@ function ajaxFunction(formData, actionUrl, type, event) {
     }));
 }
 
+//Validation alert
+function showValidation(error, status) {
+    if (error == 0) {
+        $('.modal').modal('hide');
+        $('.alert').addClass("show");
+        $('.alert').removeClass("hide");
+        $('.alert').addClass("showAlert");
+        getData(fetchURL);
+    }
+    $('.msg').text(status);
+    $('.txt_error').text('')
+    setTimeout(function () {
+        $('.alert').removeClass("show");
+        $('.alert').addClass("hide");
+    }, 3000);
+
+    $('.close-btn').click(function () {
+        $('.alert').removeClass("show");
+        $('.alert').addClass("hide");
+    });
+}
+
 //Button for Edit and Delete
 function actionButton() {
-    var editURL = $('#editForm').attr('action');
-    var delURL = $('#delForm').attr('action');
+    var editURL = $('#editForm').attr('action'); //Get action attribute of edit form
+    var delURL = $('#delForm').attr('action'); //Get action attribute of delete form
+
+    $('.modal').on('hidden.bs.modal', function () {
+        $('form').trigger("reset");
+        console.log('Close');
+    })
+
     table.on('click', '.edit', function () {
         $('.msg').text('');
         $tr = $(this).closest('tr');
@@ -163,9 +173,26 @@ function actionButton() {
             $tr = $tr.prev('.parent');
         }
         var data = table.row($tr).data();
-        
-        $('#editLocName').val(data[1]);
-        $('#editForm').attr('action',editURL + '/' + data[0]);
+
+        $('#editForm').attr('action', editURL + '/' + data[0]); //add id to form action attribute
+
+        $('.txt_error').text('') //clear span error text
+
+        $("#modalInput option:selected").each(function () {
+            $(this).removeAttr('selected'); 
+            });
+            
+        $('#modalInput input, #modalInput select').each(
+            
+            function (index) {
+                var input = $(this);
+                input.val(data[index + 1]);
+                $(this).removeAttr('selected'); 
+                if ($(input).is("select")) {
+                    $('select option:contains(' + data[index + 1] + ')').attr('selected', true);
+                }
+            }
+        );
     })
     table.on('click', '.del', function () {
         $tr = $(this).closest('tr');
@@ -175,8 +202,8 @@ function actionButton() {
         var data = table.row($tr).data();
         var postURL = $('#delForm').attr('action');
 
-        $('#delLocName').html('Confirm Deletion of : ' + data[1]);
-        $('#delForm').attr('action',delURL + '/' + data[0]);
+        $('#delLocName').html('Confirm Deletion of : ' + data[1]); //add id to form action attribute
+        $('#delForm').attr('action', delURL + '/' + data[0]);
     })
     $('.add').click(function () {
         $('.msg').text('');

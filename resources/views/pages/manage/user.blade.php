@@ -3,9 +3,15 @@
 @section('title', 'Users')
 @section('content')
 
-    {{-- Error Handling --}}
-
-    {{-- End of Error Handling --}}
+    {{-- Validation Handling --}}
+    <div class="alert">
+        <span class="fas fa-exclamation-circle">!</span>
+        <span class="msg"></span>
+        <div class="close-btn">
+            <span class="fas fa-times">X</span>
+        </div>
+    </div>
+    {{-- Validation Handling --}}
 
     <div class="content-header">
         <h1 class="">Users</h1>
@@ -35,6 +41,17 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($users as $user)
+                <tr>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->firstname }}</td>
+                    <td>{{ $user->lastname }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->username }}</td>
+                    <td><button class='btn bg-info edit ml-2' data-bs-toggle='modal' data-bs-target='#editModal'>Edit</button>
+                        <button class='btn bg-info del ml-2' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button></td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 
@@ -43,42 +60,33 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title " id="exampleModalLabel">Register User</h5>
+                    <h5 class="modal-title " >Register User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/addUser" method="post" id="addForm" class="addFormModal">
                     @csrf
                     <div class="modal-body mt-3">
-                        {{-- <label class="mx-1">Firstname</label>
-                        <input type="text" class="form-control" name="firstname" required>
-                        <span class="msg text-danger mx-1"></span>
+
+                        <label class="mx-1">Firstname</label>
+                        <input type="text" name="firstname" class="form-control" required>
+                        <span class="txt_error text-danger mx-1 firstname_error"></span>
 
                         <label class="mx-1">Lastname</label>
-                        <input type="text" class="form-control" name="lastname" required>
-                        <span class="msg text-danger mx-1"></span>
+                        <input type="text" name="lastname" class="form-control" required>
+                        <span class="txt_error text-danger mx-1 lastname_error"></span>
 
                         <label class="mx-1">Email</label>
-                        <input type="text" class="form-control" name="email" required>
-                        <span class="msg text-danger mx-1"></span>
+                        <input type="email" name="email" class="form-control" required>
+                        <span class="txt_error text-danger mx-1 email_error"></span>
 
                         <label class="mx-1">Username</label>
-                        <input type="text" class="form-control" name="username" required>
-                        <span class="msg text-danger mx-1"></span>
-
-                        <label class="mx-1">password</label>
-                        <input type="password" class="form-control" name="password" minlength="8" required>
-                        <span class="msg text-danger mx-1"></span> --}}
-
-                        <label for="">First Name</label>
-                        <input type="text" name="firstname" class="form-control" required>
-                        <label for="">Last Name</label>
-                        <input type="text" name="lastname" class="form-control" required>
-                        <label for="">Email</label>
-                        <input type="email" name="email" class="form-control" required>
-                        <label for="">Username</label>
                         <input type="text" name="username" class="form-control" required>
-                        <label for="">Password</label>
+                        <span class="txt_error text-danger mx-1 username_error"></span>
+
+                        <label class="mx-1">Password</label>
                         <input type="password" name="password" class="form-control" minlength="8" required>
+                        <span class="txt_error text-danger mx-1 password_error"></span>
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save</button>
@@ -94,15 +102,27 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title " id="exampleModalLabel">Edit Location</h5>
+                    <h5 class="modal-title " >Edit User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/editUser" method="post" id="editForm" class="editFormModal">
                     @csrf
-                    <div class="modal-body mt-3">
-                        <label class="mx-1">Location Name</label>
-                        <input type="text" id="editLocName" class="form-control" name="location" required>
-                        <span class="msg text-danger mx-1"></span>
+                    <div class="modal-body mt-3" id="modalInput">
+                        <label class="mx-1">Firstname</label>
+                        <input type="text" name="firstname" class="form-control" required>
+                        <span class="txt_error text-danger mx-1 firstname_error"></span>
+
+                        <label class="mx-1">Lastname</label>
+                        <input type="text" name="lastname" class="form-control" required>
+                        <span class="txt_error text-danger mx-1 lastname_error"></span>
+
+                        <label class="mx-1">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                        <span class="txt_error text-danger mx-1 email_error"></span>
+
+                        <label class="mx-1">Username</label>
+                        <input type="text" name="username" class="form-control" >
+                        <span class="txt_error text-danger mx-1 username_error"></span>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -119,7 +139,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title ">Delete Location</h5>
+                    <h5 class="modal-title ">Delete User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/deleteUser" method="post" id="delForm" class="delFormModal">
@@ -130,7 +150,7 @@
                     <div class="modal-footer mt-3">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                             aria-label="Close">Close</button>
-                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <button type="submit" class="btn btn-danger">Confirm</button>
                     </div>
                 </form>
 

@@ -44,7 +44,14 @@
             </tr>
         </thead>
         <tbody>
-
+            @foreach ($locations as $location)
+            <tr>
+                <td>{{ $location->id }}</td>
+                <td>{{ $location->location }}</td>
+                <td><button class='btn bg-info edit ml-2' data-bs-toggle='modal' data-bs-target='#editModal'>Edit</button>
+                    <button class='btn bg-info del ml-2' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button></td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
     {{-- End of Table --}}
@@ -55,7 +62,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title " id="exampleModalLabel">Add Location</h5>
+                    <h5 class="modal-title " >Add Location</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/addLocation" method="post" id="addForm" class="addFormModal">
@@ -79,15 +86,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title " id="exampleModalLabel">Edit Location</h5>
+                    <h5 class="modal-title " >Edit Location</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="editLocation" method="post" id="editForm" class="editFormModal">
                     @csrf
-                    <div class="modal-body mt-3">
+                    <div class="modal-body mt-3" id="modalInput">
                         <label class="mx-1">Location Name</label>
                         <input type="text" id="editLocName" class="form-control" name="location" required>
-                        <span class="msg text-danger mx-1"></span>
+                        <span class="txt_error text-danger mx-1 location_error"></span>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -115,7 +122,7 @@
                     <div class="modal-footer mt-3">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                             aria-label="Close">Close</button>
-                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <button type="submit" class="btn btn-danger">Confirm</button>
                     </div>
                 </form>
 
