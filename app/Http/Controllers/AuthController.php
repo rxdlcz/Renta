@@ -13,30 +13,6 @@ class AuthController extends Controller
     {
         return view("auth.login");
     }
-    /* public function registerUser(Request $request)
-    {
-        $request->validate([
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'email' => 'required|email|unique:users',
-            'username' => 'required|unique:users',
-            'password' => 'required|min:8'
-        ]);
-
-        $user = new User();
-        $user->firstname = $request->firstname;
-        $user->lastname = $request->lastname;
-        $user->email = $request->email;
-        $user->username = $request->username;
-        $user->password = Hash::make($request->password);
-        $res = $user->save();
-
-        if ($res) {
-            return back()->with('success', 'You have registered');
-        } else {
-            return back()->with('fail', 'Error');
-        }
-    } */
     public function loginUser(Request $request)
     {
         $request->validate([
