@@ -195,13 +195,13 @@
     <script type="text/javascript" src="js/bootstrap5.js"></script>
     <script src="js/main.js"></script>
     <script src="js/jquery-3.5.0.min.js"></script>
-
     <script type="text/javascript" src="datatables/datatables.js"></script>
 
     <script>
         var fetchURL = window.location.pathname;
 
         $(document).ready(function() {
+            
             getData(fetchURL);
             actionButton();
             buttonFunction();
@@ -219,7 +219,7 @@
                         "orderable": false,
                     },
                     {
-                        "targets": 2,
+                        "targets": -1,
                         "className": "text-center",
                     }
                 ]
