@@ -1,6 +1,6 @@
 @extends('pages.manage.navigation')
 
-@section('title', 'House Units')
+@section('title', 'Rent Bills')
 @section('content')
 
     {{-- Validation Handling --}}
@@ -14,11 +14,11 @@
     {{-- Validation Handling --}}
 
     <div class="content-header">
-        <h1 class="">House Units</h1>
+        <h1 class="">House Rent</h1>
 
         <!-- Add User button modal -->
-        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#addModal">
-            <span class="button__text">Add Units</span>
+        <button type="button" class="button" data-bs-toggle="modal" data-backdrop="false" data-bs-target="#addModal">
+            <span class="button__text">Add Rent</span>
             <span class="button__icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
                     viewBox="0 0 16 16">
@@ -27,28 +27,28 @@
                 </svg>
             </span>
         </button>
-        
+
     </div>
     <hr>
     <table class="table align-items-center" id="table-content">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Location</th>
-                <th>Price</th>
+                <th>Tenant</th>
+                <th>Balance</th>
+                <th>Due Date</th>
                 <th>Status</th>
                 <th class="no-sort text-center">Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($units as $unit)
+            @foreach ($bills as $bill)
                 <tr>
-                    <td>{{ $unit->id }}</td>
-                    <td>{{ $unit->name }}</td>
-                    <td>{{ $unit->location->location }}</td>
-                    <td>{{ $unit->price }}</td>
-                    <td>{{ $unit->vacant_status }}</td>
+                    <td>{{ $bill->id }}</td>
+                    <td>{{ $bill->tenant->firstname }}</td>
+                    <td>{{ $bill->amount_balance }}</td>
+                    <td>{{ $bill->due_date }}</td>
+                    <td>{{ $bill->status }}</td>
                     <td><button class='btn bg-info edit ml-2' data-bs-toggle='modal'
                             data-bs-target='#editModal'>Edit</button>
                         <button class='btn bg-info del ml-2' data-bs-toggle='modal'
@@ -60,31 +60,32 @@
     </table>
 
     {{-- Add Modal  id="addForm" class="addFormModal" --}}
-    <div class="modal fade" id="addModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addModal" data-bs-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="addModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title ">Add House Unit</h5>
+                    <h5 class="modal-title ">Add New Rent</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/addUnit" method="post" id="addForm" class="addFormModal">
                     @csrf
                     <div class="modal-body mt-3">
-                        <label class="mx-1">Name</label>
-                        <input type="text" name="name" class="form-control" required>
-                        <span class="txt_error text-danger mx-1 name_error"></span>
-
-                        <label class="mx-1">Location</label>
-                        <select class="form-select" name="location_id">
-                            {{-- <option value="">San jose</option> --}}
-                            @foreach ($locations as $location)
-                                <option value={{ $location->id }}>{{ $location->location }}</option>
+                        <label class="mx-1">Tenant</label>
+                        <select class="form-select" name="tenant_id">
+                            @foreach ($tenants as $tenant)
+                                <option value={{ $tenant->id }}>{{ $tenant->firstname }} {{ $tenant->lastname }}
+                                </option>
                             @endforeach
                         </select>
+                        <span class="txt_error text-danger mx-1 name_error"></span>
+
+                        <label class="mx-1">Amount</label>
+                        <input type="number" name="amount_balance" class="form-control" required>
                         <span class="txt_error text-danger mx-1 location_error"></span>
 
-                        <label class="mx-1">Price</label>
-                        <input type="number" name="price" class="form-control" required>
+                        <label class="mx-1">Due Date</label>
+                        <input type="date" name="due_date" class="form-control" id="addDueDate" required>
                         <span class="txt_error text-danger mx-1 price_error"></span>
 
                     </div>
@@ -102,27 +103,29 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Unit</h5>
+                    <h5 class="modal-title">Edit Rent</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/editUnit" method="post" id="editForm" class="editFormModal">
                     @csrf
-                    <div class="modal-body mt-3" id="modalInput">
-                        <label class="mx-1">Name</label>
-                        <input type="text" name="name" class="form-control" required>
-                        <span class="txt_error text-danger mx-1 name_error"></span>
-
-                        <label class="mx-1">Location</label>
-                        <select class="form-select" name="location_id">
-                            @foreach ($locations as $location)
-                                <option value={{ $location->id }}>{{ $location->location }}</option>
+                    <div class="modal-body mt-3">
+                        <label class="mx-1">Tenant</label>
+                        <select class="form-select" name="tenant_id">
+                            @foreach ($tenants as $tenant)
+                                <option value={{ $tenant->id }}>{{ $tenant->firstname }} {{ $tenant->lastname }}
+                                </option>
                             @endforeach
                         </select>
+                        <span class="txt_error text-danger mx-1 name_error"></span>
+
+                        <label class="mx-1">Amount</label>
+                        <input type="number" name="amount_balance" class="form-control" required>
                         <span class="txt_error text-danger mx-1 location_error"></span>
 
-                        <label class="mx-1">Price</label>
-                        <input type="number" name="price" class="form-control" required>
+                        <label class="mx-1">Due Date</label>
+                        <input type="date" name="due_date" class="form-control" required>
                         <span class="txt_error text-danger mx-1 price_error"></span>
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -139,7 +142,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title ">Delete Unit</h5>
+                    <h5 class="modal-title ">Delete Rent</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/deleteUnit" method="post" id="delForm" class="delFormModal">
@@ -158,10 +161,12 @@
         </div>
     </div>
     {{-- End Delete Modal confirmation --}}
+
 @endsection
 
 @section('javascript')
     <script>
-        statusUpdate();
+        //statusUpdate();
+        document.getElementById('addDueDate').value = new Date().toISOString().substring(0, 10);
     </script>
 @endsection

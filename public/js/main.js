@@ -161,11 +161,6 @@ function actionButton() {
     var editURL = $('#editForm').attr('action'); //Get action attribute of edit form
     var delURL = $('#delForm').attr('action'); //Get action attribute of delete form
 
-    $('.modal').on('hidden.bs.modal', function () {
-        $('form').trigger("reset");
-        console.log('Close');
-    })
-
     table.on('click', '.edit', function () {
         $('.msg').text('');
         $tr = $(this).closest('tr');
@@ -179,15 +174,15 @@ function actionButton() {
         $('.txt_error').text('') //clear span error text
 
         $("#modalInput option:selected").each(function () {
-            $(this).removeAttr('selected'); 
-            });
-            
+            $(this).removeAttr('selected');
+        });
+
         $('#modalInput input, #modalInput select').each(
-            
+
             function (index) {
                 var input = $(this);
                 input.val(data[index + 1]);
-                $(this).removeAttr('selected'); 
+                $(this).removeAttr('selected');
                 if ($(input).is("select")) {
                     $('select option:contains(' + data[index + 1] + ')').attr('selected', true);
                 }
@@ -208,4 +203,22 @@ function actionButton() {
     $('.add').click(function () {
         $('.msg').text('');
     });
+}
+
+function statusUpdate() {
+    var column = document.getElementById("table-content").rows;
+
+    for (let i = 1; i < column.length; i++) {
+        var colLen = document.getElementById("table-content").rows[i].cells.length;
+        var colStatus = column[i].cells[colLen - 2];
+
+        switch (colStatus.innerHTML) {
+            case "0":
+                colStatus.innerHTML = "Vacant";
+                break;
+            case "1":
+                colStatus.innerHTML = "Occupied";
+                break;
+        }
+    }
 }

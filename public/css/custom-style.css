@@ -5,7 +5,7 @@
 }
 
 .table thead {
-    background-color: #979797;
+    background-color: #00bb57;
 }
 
 .tbody,
@@ -26,7 +26,7 @@ tr {
 }
 
 .dataTables_scrollHead {
-    background-color: #979797;
+    background-color: #00bb57;
 }
 
 /* Table custom Scrollbar */
@@ -95,7 +95,15 @@ table.dataTable thead td {
     border-bottom: none !important;
 }
 
-.modal-header{
+.modal-header {
     background-color: #00bb57;
-    cursor: move;
+}
+
+.modal-content{
+    box-shadow: 1px 1px 10px #025629;
+}
+
+.modal-backdrop
+{
+    opacity:0 !important;
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManageController;
+use App\Http\Controllers\BillController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,11 +35,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         Route::get('/dashboard', [AuthController::class, 'dashboard']);
 
-
-        Route::get('/tenant', [ManageController::class, 'getTenants']);
-
-        //Route for Manage Location
-
+        /* All Route for Manage Nav */
         //Route for Location Nav
         Route::get('/location', [ManageController::class, 'getLocation']);
         Route::post('/addLocation', [ManageController::class, 'addLocation']);
@@ -58,7 +55,17 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::post('/addUnit', [ManageController::class, 'addUnit']);
         Route::post('/editUnit/{id}', [ManageController::class, 'editUnit']);
         Route::post('/deleteUnit/{id}', [ManageController::class, 'deleteUnit']);
+        //End Route for Unit Nav
 
-        //End Route for Manage Location
+        //Route for Tenant nav
+        Route::get('/tenant', [ManageController::class, 'getTenants']);
+        //End Route for Tenant nav
+        /* End All Route for Manage */
+
+
+        //All Route for Bills
+        //Route for Rent Bills nav
+        Route::get('/rentbills', [BillController::class, 'getRent']);
+        //End All Route for Bills
     });
 });     //end of route prevent back button

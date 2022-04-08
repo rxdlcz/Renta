@@ -196,6 +196,7 @@
     <script src="js/main.js"></script>
     <script src="js/jquery-3.5.0.min.js"></script>
     <script type="text/javascript" src="datatables/datatables.js"></script>
+    <script src="jquery/jquery-ui.js"></script>
 
     <script>
         var fetchURL = window.location.pathname;
@@ -225,22 +226,17 @@
             ]
         });
 
-        $('.modal-header').on('mousedown', function(downEvt){
-            var $draggable = $(this)
-            var x = downEvt.pageX - $draggable.offset().left,
-                y = downEvt.pageY - $draggable.offset().top;
-            $('body').on('mousemove.draggable', function(moveEvt){
-                $draggable.closest('.modal-dialog').offset({
-                    "left": moveEvt.pageX - x,
-                    "top": moveEvt.pageY
-                })
-            })
-            $('body').on('mouseup', function(){
-                $('body').off("mousemove.draggable")
-            })
+        //Modal  Draggable
+        $('.modal>.modal-dialog').draggable({
+            cursor: 'move',
+            handle: '.modal-header'
+        });
+        $('.modal>.modal-dialog>.modal-content>.modal-header').css('cursor', 'move');
+        $(function() {
+            $("#datepicker").datepicker();
+        });
 
-        })
-</script>
+    </script>
 
     @yield('javascript')
 </body>
