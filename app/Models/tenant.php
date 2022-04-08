@@ -13,11 +13,13 @@ class tenant extends Model
         'id',
         'firstname',
         'lastname',
-        'location_id',
+        'email',
+        'contact_number',
+        'occupation_status',
         'unit_id',
-        'rent_id',
-        'electric_id',
-        'water_id',
+        'start_id',
+        'end_date',
+        'status',
     ];
 
     public function location(){
@@ -26,5 +28,9 @@ class tenant extends Model
 
     public function unit(){
         return $this->belongsTo(Unit::class);
+    }
+
+    public function bill(){
+        return $this->hasMany(bill::class, 'tenant_id', 'id');
     }
 }
