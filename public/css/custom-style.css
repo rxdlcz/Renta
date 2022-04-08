@@ -94,3 +94,8 @@ table.dataTable thead th,
 table.dataTable thead td {
     border-bottom: none !important;
 }
+
+.modal-header{
+    background-color: #00bb57;
+    cursor: move;
+}
