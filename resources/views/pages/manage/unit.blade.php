@@ -27,7 +27,7 @@
                 </svg>
             </span>
         </button>
-
+        
     </div>
     <hr>
     <table class="table align-items-center" id="table-content">
@@ -37,6 +37,7 @@
                 <th>Name</th>
                 <th>Location</th>
                 <th>Price</th>
+                <th>Status</th>
                 <th class="no-sort text-center">Action</th>
             </tr>
         </thead>
@@ -47,6 +48,7 @@
                     <td>{{ $unit->name }}</td>
                     <td>{{ $unit->location->location }}</td>
                     <td>{{ $unit->price }}</td>
+                    <td>{{ $unit->vacant_status }}</td>
                     <td><button class='btn bg-info edit ml-2' data-bs-toggle='modal'
                             data-bs-target='#editModal'>Edit</button>
                         <button class='btn bg-info del ml-2' data-bs-toggle='modal'
@@ -156,4 +158,10 @@
         </div>
     </div>
     {{-- End Delete Modal confirmation --}}
-@stop
+@endsection
+
+@section('javascript')
+    <script>
+        statusUpdate();
+    </script>
+@endsection
