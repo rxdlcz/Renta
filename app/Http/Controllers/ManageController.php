@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Hash;
 use Session;
-use DB;
 
 class ManageController extends Controller
 {
@@ -173,7 +172,7 @@ class ManageController extends Controller
     public function getUnits(Request $request)
     {
         $locations = location::with('unit')->get();
-        $units = Unit::with('location')->get();
+        $units = unit::with('location')->get();
         
 
         $data = array();
@@ -184,7 +183,7 @@ class ManageController extends Controller
         if ($request->ajax()) {
             
             $units = Unit::join('locations', 'units.location_id', '=', 'locations.id')
-                    ->select('units.id', 'units.name', 'locations.location', 'units.price')
+                    ->select('units.id', 'units.name', 'locations.location', 'units.price', 'vacant_status')
                     ->get();
 
             return response()->json([
@@ -207,6 +206,7 @@ class ManageController extends Controller
             $unit = new Unit();
             $unit->name = $request->name;
             $unit->location_id = $request->location_id;
+            $unit->vacant_status = 0;
             $unit->price = $request->price;
 
             $res = $unit->save();
@@ -255,15 +255,10 @@ class ManageController extends Controller
     }
     //End of Manage Unit 
 
-
-
-
-
-
-    public function getTenants()
+    public function getTenants(Request $request)
     {
 
-        $tenants = tenant::with('location', 'unit')->get();
+        $tenants = tenant::get();
 
         $data = array();
         if (Session::has('loginId')) {
@@ -271,6 +266,7 @@ class ManageController extends Controller
         }
 
         return view('pages.manage.tenant', compact('data', 'tenants'));
+
     }
 }
 
@@ -311,3 +307,8 @@ class ManageController extends Controller
 
         return view('pages.manage.unit', compact('data', 'locations', 'units'));
         */
+
+        //join parameters join('db where to get', 'currentTable.column to be join', '=', 'db where to get.what column will be get')
+        /* $units = Unit::join('locations', 'units.location_id', '=', 'locations.id')
+                    ->select('units.id', 'units.name', 'locations.location', 'units.price')
+                    ->get(); */
