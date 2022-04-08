@@ -20,10 +20,11 @@ return new class extends Migration
             $table->string('email');
             $table->string('contact_number');
             $table->string('occupation_status');
-            $table->integer('location_id');
             $table->integer('unit_id');
-            $table->integer('bills_id');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('status');
+            $table->integer('identity_id');
             $table->timestamps();
         });
     }

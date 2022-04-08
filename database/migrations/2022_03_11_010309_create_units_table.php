@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('location_id');
             $table->string('price');
+            $table->integer('vacant_status');
             $table->timestamps();
         });
     }

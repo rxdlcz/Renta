@@ -15,12 +15,10 @@ return new class extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
-            $table->string('bill_type');
-            $table->integer('unit_id');
             $table->integer('tenant_id');
+            $table->string('bill_type');
             $table->integer('amount_balance');
             $table->date('due_date');
-            $table->integer('payment_id');
             $table->string('status');
             $table->timestamps();
         });
