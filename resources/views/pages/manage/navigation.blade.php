@@ -201,30 +201,46 @@
         var fetchURL = window.location.pathname;
 
         $(document).ready(function() {
-            
+
             getData(fetchURL);
             actionButton();
             buttonFunction();
-        });   
+        });
 
         //Table properties
         var table = $('#table-content').DataTable({
-                "scrollY": "530px",
-                "scrollCollapse": true,
-                "paging": false,
-                "scrollX": true,
-                "scroller": true,
-                "columnDefs": [{
-                        "targets": 'no-sort',
-                        "orderable": false,
-                    },
-                    {
-                        "targets": -1,
-                        "className": "text-center",
-                    }
-                ]
-            });
-    </script>
+            "scrollY": "530px",
+            "scrollCollapse": true,
+            "paging": false,
+            "scrollX": true,
+            "scroller": true,
+            "columnDefs": [{
+                    "targets": 'no-sort',
+                    "orderable": false,
+                },
+                {
+                    "targets": -1,
+                    "className": "text-center",
+                }
+            ]
+        });
+
+        $('.modal-header').on('mousedown', function(downEvt){
+            var $draggable = $(this)
+            var x = downEvt.pageX - $draggable.offset().left,
+                y = downEvt.pageY - $draggable.offset().top;
+            $('body').on('mousemove.draggable', function(moveEvt){
+                $draggable.closest('.modal-dialog').offset({
+                    "left": moveEvt.pageX - x,
+                    "top": moveEvt.pageY
+                })
+            })
+            $('body').on('mouseup', function(){
+                $('body').off("mousemove.draggable")
+            })
+
+        })
+</script>
 
     @yield('javascript')
 </body>
