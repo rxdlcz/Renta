@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\location;
 use App\Models\User;
 use App\Models\tenant;
 use App\Models\bill;
