@@ -138,8 +138,8 @@
     <div class="modal fade" id="deleteModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="delModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title ">Delete User</h5>
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white">Delete User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/deleteUser" method="post" id="delForm" class="delFormModal">
