@@ -116,8 +116,6 @@ function buttonFunction() {
     });
 }
 
-
-
 //Ajax function
 function ajaxFunction(formData, actionUrl, type, event) {
     event.preventDefault();
