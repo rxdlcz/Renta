@@ -1,6 +1,6 @@
 @extends('pages.manage.navigation')
 
-@section('title', 'Rent Bills')
+@section('title', 'Electric Bills')
 @section('content')
 
     {{-- Validation Handling --}}

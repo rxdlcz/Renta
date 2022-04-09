@@ -136,7 +136,7 @@
                 <!-- Settings section -->
                 <p class="mt-3">settings</p>
                 <hr>
-                <li>
+                {{-- <li>
                     <a href="role" class="nav-link text-white {{ 'role' == request()->path() ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -148,7 +148,7 @@
                         </span>
                         Role
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="user" class="nav-link text-white {{ 'user' == request()->path() ? 'active' : '' }}">
                         <span>
@@ -174,9 +174,9 @@
                     <strong>{{ $data->firstname }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="#">New project...</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#" >New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Change Password</a></li>
+                    <li><a class="dropdown-item" href="#"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Profile</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -185,6 +185,52 @@
             </div>
         </div>
 
+        {{-- Profile Modal --}}
+
+        <!-- Button trigger modal -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title ">Profile</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/" method="post">
+                        @csrf
+                        <div class="container d-flex align-items-center justify-content-center mt-3">
+                            <img src="https://github.com/mdo.png" alt="" height="200" width="200" class="rounded-circle img-fluid">
+                        </div>
+                        <div class="container px-5 mt-2">
+                            <input type="file" class="form-control" id="profileImg">
+                        </div>
+                        
+                        <div class="modal-body mt-3">
+                            <label class="mx-1">Firstname</label>
+                            <input type="text" name="firstname" class="form-control" value="{{ $data->firstname }}" required>
+                            <span class="txt_error text-danger mx-1 tenant_id_error"></span>
+
+                            <label class="mx-1">Lastname</label>
+                            <input type="text" name="lastname" class="form-control" value="{{ $data->lastname }}" required>
+                            <span class="txt_error text-danger mx-1 tenant_id_error"></span>
+
+                            <label class="mx-1">Email</label>
+                            <input type="text" name="email" class="form-control" value="{{ $data->email }}" required>
+                            <span class="txt_error text-danger mx-1 tenant_id_error"></span>
+
+                            <label class="mx-1">Username</label>
+                            <input type="text" name="username" class="form-control" value="{{ $data->username }}" required>
+                            <span class="txt_error text-danger mx-1 tenant_id_error"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <div class="container-fluid my-5 mx-5 p-5 cus-container">
             @yield('content')
@@ -232,8 +278,6 @@
             handle: '.modal-header'
         });
         $('.modal>.modal-dialog>.modal-content>.modal-header').css('cursor', 'move');
-
-        
     </script>
 
     @yield('javascript')
