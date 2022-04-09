@@ -107,3 +107,13 @@ table.dataTable thead td {
 {
     opacity:0 !important;
 }
+
+#profileImg::before {
+    content: "Pick Image";
+    position: absolute;
+    z-index: 2;
+    display: block;
+    background-color: #eee;
+    width: 80.5px;
+    text-align: center;
+  }
