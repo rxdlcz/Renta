@@ -64,8 +64,28 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
 
         //All Route for Bills
+
+        //Route for deleting bills
+        Route::post('/deleteBills/{id}', [BillController::class, 'deleteBills']);
+
         //Route for Rent Bills nav
         Route::get('/rentbills', [BillController::class, 'getRent']);
+        Route::post('/addRent', [BillController::class, 'addRent']);
+        Route::post('/editRent/{id}', [BillController::class, 'editRent']);       
+        //End of Rent Bills nav
+
+        //Route for Electric Bills
+        Route::get('/electricbills', [BillController::class, 'getElectric']);
+        Route::post('/addElectric', [BillController::class, 'addElectric']);
+        Route::post('/editElectric/{id}', [BillController::class, 'editElectric']);
+        //End of Route for Electric bills
+
+        //Route for Water Bills
+        Route::get('/waterbills', [BillController::class, 'getWater']);
+        Route::post('/addWater', [BillController::class, 'addWater']);
+        Route::post('/editWater/{id}', [BillController::class, 'editWater']);
+        //End of Route for Water bills
+
         //End All Route for Bills
     });
 });     //end of route prevent back button

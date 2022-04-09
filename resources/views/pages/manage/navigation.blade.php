@@ -232,10 +232,8 @@
             handle: '.modal-header'
         });
         $('.modal>.modal-dialog>.modal-content>.modal-header').css('cursor', 'move');
-        $(function() {
-            $("#datepicker").datepicker();
-        });
 
+        
     </script>
 
     @yield('javascript')

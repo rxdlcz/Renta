@@ -14,7 +14,7 @@
     {{-- Validation Handling --}}
 
     <div class="content-header">
-        <h1 class="">Electric Bills</h1>
+        <h1 class="">Water Bills</h1>
 
         <!-- Add User button modal -->
         <button type="button" class="button" data-bs-toggle="modal" data-backdrop="false" data-bs-target="#addModal">
@@ -65,10 +65,10 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title ">Add Electric Bill</h5>
+                    <h5 class="modal-title ">Add Water Bill</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/addElectric" method="post" id="addForm" class="addFormModal">
+                <form action="/addWater" method="post" id="addForm" class="addFormModal">
                     @csrf
                     <div class="modal-body mt-3">
                         <label class="mx-1">Tenant</label>
@@ -106,7 +106,7 @@
                     <h5 class="modal-title">Edit Bills</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/editElectric" method="post" id="editForm" class="editFormModal">
+                <form action="/editWater" method="post" id="editForm" class="editFormModal">
                     @csrf
                     <div class="modal-body mt-3" id="modalInput">
                         <label class="mx-1">Tenant</label>

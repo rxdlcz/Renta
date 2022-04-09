@@ -45,7 +45,7 @@
             @foreach ($bills as $bill)
                 <tr>
                     <td>{{ $bill->id }}</td>
-                    <td>{{ $bill->tenant->firstname }}</td>
+                    <td>{{ $bill->tenant->firstname }} {{ $bill->tenant->lastname }}</td>
                     <td>{{ $bill->amount_balance }}</td>
                     <td>{{ $bill->due_date }}</td>
                     <td>{{ $bill->status }}</td>
@@ -59,7 +59,7 @@
         </tbody>
     </table>
 
-    {{-- Add Modal  id="addForm" class="addFormModal" --}}
+    {{-- Add Modal --}}
     <div class="modal fade" id="addModal" data-bs-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="addModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -68,7 +68,7 @@
                     <h5 class="modal-title ">Add New Rent</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/addUnit" method="post" id="addForm" class="addFormModal">
+                <form action="/addRent" method="post" id="addForm" class="addFormModal">
                     @csrf
                     <div class="modal-body mt-3">
                         <label class="mx-1">Tenant</label>
@@ -78,15 +78,15 @@
                                 </option>
                             @endforeach
                         </select>
-                        <span class="txt_error text-danger mx-1 name_error"></span>
+                        <span class="txt_error text-danger mx-1 tenant_id_error"></span>
 
                         <label class="mx-1">Amount</label>
                         <input type="number" name="amount_balance" class="form-control" required>
-                        <span class="txt_error text-danger mx-1 location_error"></span>
+                        <span class="txt_error text-danger mx-1 amount_balance_error"></span>
 
                         <label class="mx-1">Due Date</label>
                         <input type="date" name="due_date" class="form-control" id="addDueDate" required>
-                        <span class="txt_error text-danger mx-1 price_error"></span>
+                        <span class="txt_error text-danger mx-1 due_date_error"></span>
 
                     </div>
                     <div class="modal-footer">
@@ -106,29 +106,28 @@
                     <h5 class="modal-title">Edit Rent</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/editUnit" method="post" id="editForm" class="editFormModal">
+                <form action="/editRent" method="post" id="editForm" class="editFormModal">
                     @csrf
-                    <div class="modal-body mt-3">
+                    <div class="modal-body mt-3" id="modalInput">
                         <label class="mx-1">Tenant</label>
                         <select class="form-select" name="tenant_id">
                             @foreach ($tenants as $tenant)
-                                <option value={{ $tenant->id }}>{{ $tenant->firstname }} {{ $tenant->lastname }}
-                                </option>
+                                <option value={{ $tenant->id }}>{{ $tenant->firstname }} {{ $tenant->lastname }}</option>
                             @endforeach
                         </select>
-                        <span class="txt_error text-danger mx-1 name_error"></span>
+                        <span class="txt_error text-danger mx-1 tenant_id_error"></span>
 
                         <label class="mx-1">Amount</label>
                         <input type="number" name="amount_balance" class="form-control" required>
-                        <span class="txt_error text-danger mx-1 location_error"></span>
+                        <span class="txt_error text-danger mx-1 amount_balance_error"></span>
 
                         <label class="mx-1">Due Date</label>
-                        <input type="date" name="due_date" class="form-control" required>
-                        <span class="txt_error text-danger mx-1 price_error"></span>
+                        <input type="date" name="due_date" class="form-control" id="addDueDate" required>
+                        <span class="txt_error text-danger mx-1 due_date_error"></span>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
 
@@ -145,7 +144,7 @@
                     <h5 class="modal-title ">Delete Rent</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/deleteUnit" method="post" id="delForm" class="delFormModal">
+                <form action="/deleteBills" method="post" id="delForm" class="delFormModal">
                     @csrf
                     <div class="modal-body mt-3">
                         <h4 id="delLocName"></h4>

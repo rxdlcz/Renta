@@ -174,17 +174,18 @@ function actionButton() {
         $('.txt_error').text('') //clear span error text
 
         $("#modalInput option:selected").each(function () {
+            console.log('asdf');
             $(this).removeAttr('selected');
         });
 
         $('#modalInput input, #modalInput select').each(
-
             function (index) {
                 var input = $(this);
                 input.val(data[index + 1]);
-                $(this).removeAttr('selected');
                 if ($(input).is("select")) {
-                    $('select option:contains(' + data[index + 1] + ')').attr('selected', true);
+                    $('option').filter(function() {
+                        return $(this).text() === data[index + 1];
+                    }).attr('selected', true)
                 }
             }
         );
