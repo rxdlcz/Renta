@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,7 +86,10 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::post('/addWater', [BillController::class, 'addWater']);
         Route::post('/editWater/{id}', [BillController::class, 'editWater']);
         //End of Route for Water bills
-
         //End All Route for Bills
+
+        //Route for Profile
+        Route::post('/editProfile/{id}', [ProfileController::class, 'editProfile']);
+        //End of Profile Route
     });
 });     //end of route prevent back button

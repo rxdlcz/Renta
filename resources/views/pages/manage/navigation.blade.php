@@ -198,7 +198,7 @@
                         <h5 class="modal-title ">Profile</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/" method="post">
+                    <form action="/editProfile/{{ $data->id }}" method="post">
                         @csrf
                         <div class="container d-flex align-items-center justify-content-center mt-3">
                             <img src="https://github.com/mdo.png" alt="" height="200" width="200" class="rounded-circle img-fluid">
