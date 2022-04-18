@@ -23,26 +23,26 @@ class AuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $request->session()->put('loginId', $user->id);
-                //return redirect('dashboard');
-                return response()->json(['status'=>true, ]);
+                return response()->json(['status' => true,]);
             } else {
-                return response()->json(['status'=>false, ]);
+                return response()->json(['status' => false,]);
             }
         } else {
-            return response()->json(['status'=>false, ]);
+            return response()->json(['status' => false,]);
         }
     }
     public function dashboard()
     {
         $users = user::all();
         $data = array();
-        if(Session::has('loginId')){
+        if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
         }
         return view('pages.dashboard', compact('data'), ['users' => $users]);
     }
-    public function logout(Request $request){
-        if(Session::has('loginId')){
+    public function logout(Request $request)
+    {
+        if (Session::has('loginId')) {
             $r = $request->session()->flush();
             Session::pull('loginId');
             return redirect('login');
