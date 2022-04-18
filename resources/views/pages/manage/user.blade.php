@@ -3,16 +3,6 @@
 @section('title', 'Users')
 @section('content')
 
-    {{-- Validation Handling --}}
-    <div class="alert">
-        <span class="fas fa-exclamation-circle">!</span>
-        <span class="msg"></span>
-        <div class="close-btn">
-            <span class="fas fa-times">X</span>
-        </div>
-    </div>
-    {{-- Validation Handling --}}
-
     <div class="content-header">
         <h1 class="">Users</h1>
 
