@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Hashids\Hashids;
 use Hash;
 use Session;
 
@@ -21,6 +22,8 @@ class ManageController extends Controller
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
+            $hashids = new Hashids();
+            $maskId = $hashids->encode($data->id);
         }
 
         if ($request->ajax()) {
@@ -28,7 +31,7 @@ class ManageController extends Controller
                 'locations' => $locations,
             ]);
         }
-        return view('pages.manage.location', compact('data', 'locations'));
+        return view('pages.manage.location', compact('data', 'maskId', 'locations'));
     }
     public function addLocation(Request $request)
     {
@@ -92,6 +95,8 @@ class ManageController extends Controller
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
+            $hashids = new Hashids();
+            $maskId = $hashids->encode($data->id);
         }
 
         if ($request->ajax()) {
@@ -99,7 +104,7 @@ class ManageController extends Controller
                 'users' => $users,
             ]);
         }
-        return view('pages.manage.user', compact('data', 'users'));
+        return view('pages.manage.user', compact('data', 'maskId', 'users'));
     }
     public function addUser(Request $request)
     {
@@ -178,6 +183,8 @@ class ManageController extends Controller
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
+            $hashids = new Hashids();
+            $maskId = $hashids->encode($data->id);
         }
 
         if ($request->ajax()) {
@@ -190,7 +197,7 @@ class ManageController extends Controller
                 'units' => $units,
             ]);
         }
-        return view('pages.manage.unit', compact('data', 'units', 'locations'));
+        return view('pages.manage.unit', compact('data', 'maskId', 'units', 'locations'));
     }
     public function addUnit(Request $request)
     {
@@ -263,9 +270,11 @@ class ManageController extends Controller
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
+            $hashids = new Hashids();
+            $maskId = $hashids->encode($data->id);
         }
 
-        return view('pages.manage.tenant', compact('data', 'tenants'));
+        return view('pages.manage.tenant', compact('data', 'maskId', 'tenants'));
 
     }
 }

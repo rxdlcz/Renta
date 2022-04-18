@@ -23,6 +23,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         return view('welcome');
     });
 
+    Route::get('/hashid_demo', [AuthController::class, 'hashid_demo']);
+
     //Route for login authentication
     Route::get('/login', [AuthController::class, 'login'])->middleware('alreadyLoggedIn');
     Route::post('login-user', [AuthController::class, 'loginUser'])->name('login-user');

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\tenant;
 use App\Models\bill;
+use Hashids\Hashids;
 use Session;
 use DB;
 
@@ -37,6 +38,8 @@ class BillController extends Controller
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
+            $hashids = new Hashids();
+            $maskId = $hashids->encode($data->id);
         }
 
         if ($request->ajax()) {
@@ -49,7 +52,7 @@ class BillController extends Controller
                 'bills' => $bills,
             ]);
         }
-        return view('pages.bills.rentbills', compact('data', 'bills', 'tenants'));
+        return view('pages.bills.rentbills', compact('data', 'maskId', 'bills', 'tenants'));
     }
     public function addRent(Request $request)
     {
@@ -116,6 +119,8 @@ class BillController extends Controller
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
+            $hashids = new Hashids();
+            $maskId = $hashids->encode($data->id);
         }
 
         if ($request->ajax()) {
@@ -128,7 +133,7 @@ class BillController extends Controller
                 'bills' => $bills,
             ]);
         }
-        return view('pages.bills.electricbills', compact('data', 'bills', 'tenants'));
+        return view('pages.bills.electricbills', compact('data', 'maskId', 'bills', 'tenants'));
     }
     public function addElectric(Request $request)
     {
@@ -195,6 +200,8 @@ class BillController extends Controller
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
+            $hashids = new Hashids();
+            $maskId = $hashids->encode($data->id);
         }
 
         if ($request->ajax()) {
@@ -207,7 +214,7 @@ class BillController extends Controller
                 'bills' => $bills,
             ]);
         }
-        return view('pages.bills.waterbills', compact('data', 'bills', 'tenants'));
+        return view('pages.bills.waterbills', compact('data', 'maskId', 'bills', 'tenants'));
     }
     public function addWater(Request $request)
     {

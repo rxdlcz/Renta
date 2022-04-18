@@ -194,4 +194,5 @@ return [
         // ...
     ])->toArray(),
 
+    'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
 ];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Hashids\Hashids;
 use Hash;
 use Session;
 
@@ -37,8 +38,10 @@ class AuthController extends Controller
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
+            $hashids = new Hashids();
+            $maskId = $hashids->encode($data->id);
         }
-        return view('pages.dashboard', compact('data'), ['users' => $users]);
+        return view('pages.dashboard', compact('data', 'maskId'), ['users' => $users]);
     }
     public function logout(Request $request)
     {

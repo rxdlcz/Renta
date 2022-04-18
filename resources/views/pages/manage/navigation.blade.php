@@ -209,7 +209,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form action="/editProfile/{{ $data->id }}" method="post" class="editFormModal">
+                    <form action="/editProfile/{{ $maskId }}" method="post" class="editFormModal">
                         @csrf
                         <div class="container d-flex align-items-center justify-content-center mt-3">
                             <img src="https://github.com/mdo.png" alt="" height="200" width="200"
