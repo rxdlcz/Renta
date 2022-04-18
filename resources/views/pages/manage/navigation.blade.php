@@ -21,6 +21,15 @@
 
 <body>
     <main>
+        {{-- Validation Handling --}}
+        <div class="alert">
+            <span class="fas fa-exclamation-circle">!</span>
+            <span class="msg"></span>
+            <div class="close-btn">
+                <span class="fas fa-times">X</span>
+            </div>
+        </div>
+        {{-- Validation Handling --}}
 
         <!-- navigation -->
         <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidenav" style="width: 280px;">
@@ -174,9 +183,10 @@
                     <strong>{{ $data->firstname }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="#" >New project...</a></li>
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
                     <li><a class="dropdown-item" href="#">Change Password</a></li>
-                    <li><a class="dropdown-item" href="#"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Profile</a></li>
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">Profile</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -196,32 +206,38 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title ">Profile</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
-                    <form action="/editProfile/{{ $data->id }}" method="post">
+                    <form action="/editProfile/{{ $data->id }}" method="post" class="editFormModal">
                         @csrf
                         <div class="container d-flex align-items-center justify-content-center mt-3">
-                            <img src="https://github.com/mdo.png" alt="" height="200" width="200" class="rounded-circle img-fluid">
+                            <img src="https://github.com/mdo.png" alt="" height="200" width="200"
+                                class="rounded-circle img-fluid">
                         </div>
                         <div class="container px-5 mt-2">
                             <input type="file" class="form-control" id="profileImg">
                         </div>
-                        
+
                         <div class="modal-body mt-3">
                             <label class="mx-1">Firstname</label>
-                            <input type="text" name="firstname" class="form-control" value="{{ $data->firstname }}" required>
+                            <input type="text" name="firstname" class="form-control" value="{{ $data->firstname }}"
+                                required>
                             <span class="txt_error text-danger mx-1 tenant_id_error"></span>
 
                             <label class="mx-1">Lastname</label>
-                            <input type="text" name="lastname" class="form-control" value="{{ $data->lastname }}" required>
+                            <input type="text" name="lastname" class="form-control" value="{{ $data->lastname }}"
+                                required>
                             <span class="txt_error text-danger mx-1 tenant_id_error"></span>
 
                             <label class="mx-1">Email</label>
-                            <input type="text" name="email" class="form-control" value="{{ $data->email }}" required>
+                            <input type="text" name="email" class="form-control" value="{{ $data->email }}"
+                                required>
                             <span class="txt_error text-danger mx-1 tenant_id_error"></span>
 
                             <label class="mx-1">Username</label>
-                            <input type="text" name="username" class="form-control" value="{{ $data->username }}" required>
+                            <input type="text" name="username" class="form-control" value="{{ $data->username }}"
+                                required>
                             <span class="txt_error text-danger mx-1 tenant_id_error"></span>
                         </div>
                         <div class="modal-footer">
@@ -248,7 +264,6 @@
         var fetchURL = window.location.pathname;
 
         $(document).ready(function() {
-
             getData(fetchURL);
             actionButton();
             buttonFunction();
