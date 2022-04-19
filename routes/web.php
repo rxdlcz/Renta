@@ -91,7 +91,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         //End All Route for Bills
 
         //Route for Profile
-        Route::post('/editProfile/{id}', [ProfileController::class, 'editProfile']);
+        Route::post('/editProfile', [ProfileController::class, 'editProfile']);
+        Route::post('/updatePass', [ProfileController::class, 'updatePass']);
         //End of Profile Route
     });
 });     //end of route prevent back button
