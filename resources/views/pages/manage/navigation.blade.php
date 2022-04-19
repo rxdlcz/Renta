@@ -145,19 +145,6 @@
                 <!-- Settings section -->
                 <p class="mt-3">settings</p>
                 <hr>
-                {{-- <li>
-                    <a href="role" class="nav-link text-white {{ 'role' == request()->path() ? 'active' : '' }}">
-                        <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-key" viewBox="0 0 16 16">
-                                <path
-                                    d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z" />
-                                <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                            </svg>
-                        </span>
-                        Role
-                    </a>
-                </li> --}}
                 <li>
                     <a href="user" class="nav-link text-white {{ 'user' == request()->path() ? 'active' : '' }}">
                         <span>
@@ -183,10 +170,10 @@
                     <strong>{{ $data->firstname }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="#">New project...</a></li>
-                    <li><a class="dropdown-item" href="#">Change Password</a></li>
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#ChangePass">Change
+                            Password</a></li>
                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">Profile</a></li>
+                            data-bs-target="#ProfileModal">Profile</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -199,8 +186,8 @@
 
         <!-- Button trigger modal -->
 
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <!-- Profile Modal -->
+        <div class="modal fade" id="ProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -209,7 +196,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form action="/editProfile/{{ $maskId }}" method="post" class="editFormModal">
+                    <form action="/editProfile" method="post" class="editFormModal">
                         @csrf
                         <div class="container d-flex align-items-center justify-content-center mt-3">
                             <img src="https://github.com/mdo.png" alt="" height="200" width="200"
@@ -223,22 +210,55 @@
                             <label class="mx-1">Firstname</label>
                             <input type="text" name="firstname" class="form-control" value="{{ $data->firstname }}"
                                 required>
-                            <span class="txt_error text-danger mx-1 tenant_id_error"></span>
+                            <span class="txt_error text-danger mx-1 firstname_error"></span>
 
                             <label class="mx-1">Lastname</label>
                             <input type="text" name="lastname" class="form-control" value="{{ $data->lastname }}"
                                 required>
-                            <span class="txt_error text-danger mx-1 tenant_id_error"></span>
+                            <span class="txt_error text-danger mx-1 lastname_error"></span>
 
                             <label class="mx-1">Email</label>
                             <input type="text" name="email" class="form-control" value="{{ $data->email }}"
                                 required>
-                            <span class="txt_error text-danger mx-1 tenant_id_error"></span>
+                            <span class="txt_error text-danger mx-1 email_error"></span>
 
                             <label class="mx-1">Username</label>
                             <input type="text" name="username" class="form-control" value="{{ $data->username }}"
                                 required>
-                            <span class="txt_error text-danger mx-1 tenant_id_error"></span>
+                            <span class="txt_error text-danger mx-1 username_error"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Change Pass Modal -->
+        <div class="modal fade" id="ChangePass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title ">Change Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="/updatePass" method="post" class="editFormModal">
+                        @csrf
+                        <div class="modal-body mt-3">
+                            <label class="mx-1">Old Password</label>
+                            <input type="password" name="old_password" class="form-control">
+                            <span class="txt_error text-danger mx-1 old_password_error"></span>
+
+                            <label class="mx-1">New Password</label>
+                            <input type="password" name="new_password" class="form-control">
+                            <span class="txt_error text-danger mx-1 new_password_error"></span>
+
+                            <label class="mx-1">Confirm Password</label>
+                            <input type="password" name="confirm_password" class="form-control">
+                            <span class="txt_error text-danger mx-1 confirm_password_error"></span>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Save</button>
