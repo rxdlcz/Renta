@@ -77,6 +77,10 @@
                         <input type="password" name="password" class="form-control" minlength="8" required>
                         <span class="txt_error text-danger mx-1 password_error"></span>
 
+                        <label class="mx-1">Confirm Password</label>
+                        <input type="password" name="confirm_password" class="form-control" minlength="8" required>
+                        <span class="txt_error text-danger mx-1 confirm_password_error"></span>
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save</button>
