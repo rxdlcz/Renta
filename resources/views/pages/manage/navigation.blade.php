@@ -167,7 +167,8 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                     id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="img/defaultimage.png" alt="" width="32" height="32" class="rounded-circle me-2 ">
+                    <img src="img/adminImg/{{ $data->profImg }}" alt="" width="32" height="32"
+                        class="rounded-circle me-2 ">
                     <strong>{{ $data->firstname }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
@@ -190,25 +191,22 @@
         <!-- Profile Modal -->
         <div class="modal fade" id="ProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog ">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title ">Profile</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form action="/editProfile" method="post" enctype="multipart/form-data">
+                    <form action="/editProfile" method="post" enctype="multipart/form-data" class="editProfModal">
                         @csrf
-                        {{-- <div class="wrap container d-flex align-items-center justify-content-center mt-3">
-                            <img src="img/defaultimage.png" alt="" height="200" width="200"
-                                class="rounded-circle img-fluid border shadow profile-img">
-                        </div> --}}
                         <div class="dp-container mt-3">
                             <div class="outer">
-                                <img src="img/defaultimage.png" alt="" class="rounded-circle img-fluid" id="img-temp">
+                                <img src="img/adminImg/{{ $data->profImg }}" alt=""
+                                    class="rounded-circle img-fluid shadow-lg border" id="img-temp">
                                 <div class="inner">
-                                    <input class="inputfile" type="file" name="profileImg" accept=".png, .jpg, .gif"
-                                        onchange="document.getElementById('img-temp').src = window.URL.createObjectURL(this.files[0])">
+                                    <input class="inputfile" type="file" name="profileImg"
+                                        accept=".jpg, .png, .jpeg" id="input-img">
                                     <label><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                             viewBox="0 0 20 17">
                                             <path
@@ -218,8 +216,10 @@
                                 </div>
                             </div>
                         </div>
+                        <span class="txt_error text-danger text-center mt-5 mx-1 profileImg_error"></span>
 
                         <div class="modal-body">
+
                             <label class="mx-1">Firstname</label>
                             <input type="text" name="firstname" class="form-control" value="{{ $data->firstname }}"
                                 required>
@@ -251,7 +251,7 @@
         <!-- Change Pass Modal -->
         <div class="modal fade" id="ChangePass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title ">Change Password</h5>
@@ -277,6 +277,35 @@
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="uploadimageModal" class="modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Upload & Crop Image</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-8 text-center">
+                                <div id="image_demo" style="width:350px; margin-top:30px"></div>
+                            </div>
+                            <div class="col-md-4" style="padding-top:30px;">
+                                <br />
+                                <br />
+                                <br />
+                                <button class="btn btn-success crop_image">Crop & Upload Image</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -326,6 +355,105 @@
             handle: '.modal-header'
         });
         $('.modal>.modal-dialog>.modal-content>.modal-header').css('cursor', 'move');
+
+
+        $("#input-img").change(function() {
+            var fileExtension = ['jpeg', 'jpg', 'png'];
+            if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+                $(".profileImg_error").text("Only formats are allowed : " + fileExtension.join(', '));
+            } else {
+                document.getElementById('img-temp').src = window.URL.createObjectURL(this.files[0]);
+            }
+        });
+
+
+
+        //profile Update include image
+        $('.editProfModal').on('submit', function(e) {
+
+            e.preventDefault();
+
+            var formData = new FormData(this);
+            var actionUrl = $(this).attr('action');
+            var type = $(this).attr('method');
+
+            try {
+                $.ajax({
+                    type: type,
+                    url: actionUrl,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    data: formData,
+                    beforeSend: function() {
+                        $('.msg').text('');
+                    },
+                    success: function(data) {
+                        if (data.status == 1) {
+                            showValidation(0, "Successfully Updated");
+                        } else {
+                            $.each(data.error, function(key, val) {
+                                $('span.' + key + '_error').text(val[0]);
+                                console.log(key + ':' + val);
+                            })
+                        }
+                    },
+                })
+            } catch (error) {
+                console.log('Error:', error);
+            }
+        });
+
+
+
+        $(document).ready(function() {
+
+            $image_crop = $('#image_demo').croppie({
+                enableExif: true,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'square' //circle
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                }
+            });
+
+            $('#upload_image').on('change', function() {
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    $image_crop.croppie('bind', {
+                        url: event.target.result
+                    }).then(function() {
+                        console.log('jQuery bind complete');
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+                $('#uploadimageModal').modal('show');
+            });
+
+            $('.crop_image').click(function(event) {
+                $image_crop.croppie('result', {
+                    type: 'canvas',
+                    size: 'viewport'
+                }).then(function(response) {
+                    $.ajax({
+                        url: "upload.php",
+                        type: "POST",
+                        data: {
+                            "image": response
+                        },
+                        success: function(data) {
+                            $('#uploadimageModal').modal('hide');
+                            $('#uploaded_image').html(data);
+                        }
+                    });
+                })
+            });
+
+        });
     </script>
 
     @yield('javascript')

@@ -172,7 +172,6 @@ function actionButton() {
         $('.txt_error').text('') //clear span error text
 
         $("#modalInput option:selected").each(function () {
-            console.log('asdf');
             $(this).removeAttr('selected');
         });
 

@@ -145,6 +145,12 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'location_id' => [
+            'required' => 'The location field is required.'
+        ],
+        'profileImg' => [
+            'mimes' => 'The profile picture must be an image.'
+        ],
     ],
 
     /*

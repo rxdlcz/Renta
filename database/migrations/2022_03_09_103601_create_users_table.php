@@ -31,7 +31,7 @@ return new class extends Migration
                 'username' => 'admin',
                 'password' => Hash::make('password'),
                 'email' => 'name@domain.com',
-                'profImg' => null,
+                'profImg' => 'defaultimage.png',
             )
         );
     }

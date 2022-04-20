@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use File;
 use Hashids\Hashids;
 use Session;
 use Hash;
@@ -16,12 +17,14 @@ class ProfileController extends Controller
     {
         $sessionUser = User::where('id', '=', Session::get('loginId'))->first();
         $id = $sessionUser['id'];
+        $oldFile = $sessionUser['profImg'];
 
         $validator = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname' => 'required',
             'email' => "required|email|unique:users,email,$id",
             'username' => "required|unique:users,username,$id",
+            'profileImg' => 'image|mimes:jpeg,png,jpg',
         ]);
 
         if (!$validator->passes()) {
@@ -33,11 +36,25 @@ class ProfileController extends Controller
             $user->email = $request->email;
             $user->username = $request->username;
 
+            if (!empty($request->file('profileImg'))) {
+
+                $fileSize = $request->file('profileImg')->getSize();
+                $fileExt = $request->file('profileImg')->getClientOriginalExtension();
+                $fileName = time() . '.' . $fileExt;
+
+                $oldPath = 'img/adminImg/' . $oldFile;
+                if (File::exists($oldPath)) {
+                    File::delete($oldPath);
+                }
+
+                $request->file('profileImg')->move('img/adminImg/', $fileName);
+                $user->profImg = $fileName;
+            }
+
             $res = $user->save();
 
             if ($res) {
-                //return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
-                dd($request->file('profileImg')->getSize());
+                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
             } else {
                 return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
             }
