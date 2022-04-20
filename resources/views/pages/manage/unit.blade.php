@@ -65,13 +65,13 @@
                         <span class="txt_error text-danger mx-1 name_error"></span>
 
                         <label class="mx-1">Location</label>
-                        <select class="form-select" name="location_id">
+                        <select class="form-select" name="location_id" required>
                             {{-- <option value="">San jose</option> --}}
                             @foreach ($locations as $location)
                                 <option value={{ $location->id }}>{{ $location->location }}</option>
                             @endforeach
                         </select>
-                        <span class="txt_error text-danger mx-1 location_error"></span>
+                        <span class="txt_error text-danger mx-1 location_id_error"></span>
 
                         <label class="mx-1">Price</label>
                         <input type="number" name="price" class="form-control" required>
