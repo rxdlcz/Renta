@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/custom-nav.css">
     <link rel="stylesheet" href="css/customAlert.css">
     <link rel="stylesheet" href="css/custom-style.css">
+    <link rel="stylesheet" href="css/profile-img.css">
 
     <link rel="stylesheet" href="datatables/datatables.css">
 
@@ -166,7 +167,7 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                     id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <img src="img/defaultimage.png" alt="" width="32" height="32" class="rounded-circle me-2 ">
                     <strong>{{ $data->firstname }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
@@ -196,17 +197,29 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <form action="/editProfile" method="post" class="editFormModal">
+                    <form action="/editProfile" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="container d-flex align-items-center justify-content-center mt-3">
-                            <img src="https://github.com/mdo.png" alt="" height="200" width="200"
-                                class="rounded-circle img-fluid">
-                        </div>
-                        <div class="container px-5 mt-2">
-                            <input type="file" class="form-control" id="profileImg">
+                        {{-- <div class="wrap container d-flex align-items-center justify-content-center mt-3">
+                            <img src="img/defaultimage.png" alt="" height="200" width="200"
+                                class="rounded-circle img-fluid border shadow profile-img">
+                        </div> --}}
+                        <div class="dp-container mt-3">
+                            <div class="outer">
+                                <img src="img/defaultimage.png" alt="" class="rounded-circle img-fluid" id="img-temp">
+                                <div class="inner">
+                                    <input class="inputfile" type="file" name="profileImg" accept=".png, .jpg, .gif"
+                                        onchange="document.getElementById('img-temp').src = window.URL.createObjectURL(this.files[0])">
+                                    <label><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 20 17">
+                                            <path
+                                                d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                                            </path>
+                                        </svg></label>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="modal-body mt-3">
+                        <div class="modal-body">
                             <label class="mx-1">Firstname</label>
                             <input type="text" name="firstname" class="form-control" value="{{ $data->firstname }}"
                                 required>
@@ -319,20 +332,3 @@
 </body>
 
 </html>
-
-
-{{-- <script>
-    $('button').click(function(){
-      $('.alert').addClass("show");
-      $('.alert').removeClass("hide");
-      $('.alert').addClass("showAlert");
-      setTimeout(function(){
-        $('.alert').removeClass("show");
-        $('.alert').addClass("hide");
-      },5000);
-    });
-    $('.close-btn').click(function(){
-      $('.alert').removeClass("show");
-      $('.alert').addClass("hide");
-    });
- </script> --}}

@@ -99,21 +99,10 @@ table.dataTable thead td {
     background-color: #00bb57;
 }
 
-.modal-content{
+.modal-content {
     box-shadow: 1px 1px 10px #025629;
 }
 
-.modal-backdrop
-{
-    opacity:0 !important;
+.modal-backdrop {
+    opacity: 0 !important;
 }
-
-#profileImg::before {
-    content: "Pick Image";
-    position: absolute;
-    z-index: 2;
-    display: block;
-    background-color: #eee;
-    width: 80.5px;
-    text-align: center;
-  }

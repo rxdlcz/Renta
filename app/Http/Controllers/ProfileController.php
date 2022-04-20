@@ -36,7 +36,8 @@ class ProfileController extends Controller
             $res = $user->save();
 
             if ($res) {
-                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
+                //return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
+                dd($request->file('profileImg')->getSize());
             } else {
                 return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
             }
@@ -81,4 +82,5 @@ class ProfileController extends Controller
         }
     }
     //End Change password function
+
 }

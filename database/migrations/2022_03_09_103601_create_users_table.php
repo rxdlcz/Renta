@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('email')->unique();
+            $table->string('profImg')->nullable();
             $table->timestamps();
         });
         
@@ -29,7 +30,8 @@ return new class extends Migration
                 'lastname' => 'Admin',
                 'username' => 'admin',
                 'password' => Hash::make('password'),
-                'email' => 'name@domain.com'
+                'email' => 'name@domain.com',
+                'profImg' => null,
             )
         );
     }
