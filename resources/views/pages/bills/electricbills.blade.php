@@ -112,7 +112,7 @@
                         <span class="txt_error text-danger mx-1 amount_balance_error"></span>
 
                         <label class="mx-1">Due Date</label>
-                        <input type="date" name="due_date" class="form-control" id="addDueDate" required>
+                        <input type="date" name="due_date" class="form-control" required>
                         <span class="txt_error text-danger mx-1 due_date_error"></span>
 
                     </div>
