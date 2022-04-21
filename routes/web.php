@@ -93,6 +93,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         //Route for Profile
         Route::post('/editProfile', [ProfileController::class, 'editProfile']);
         Route::post('/updatePass', [ProfileController::class, 'updatePass']);
+        Route::post('/upload', [ProfileController::class, 'upload']);
         //End of Profile Route
     });
 });     //end of route prevent back button

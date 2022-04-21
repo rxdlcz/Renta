@@ -36,7 +36,7 @@ class ProfileController extends Controller
             $user->email = $request->email;
             $user->username = $request->username;
 
-            if (!empty($request->file('profileImg'))) {
+            /* if (!empty($request->file('profileImg'))) {
 
                 $fileSize = $request->file('profileImg')->getSize();
                 $fileExt = $request->file('profileImg')->getClientOriginalExtension();
@@ -49,7 +49,7 @@ class ProfileController extends Controller
 
                 $request->file('profileImg')->move('img/adminImg/', $fileName);
                 $user->profImg = $fileName;
-            }
+            } */
 
             $res = $user->save();
 
@@ -58,6 +58,33 @@ class ProfileController extends Controller
             } else {
                 return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
             }
+        }
+    }
+
+    public function upload(Request $request)
+    {
+        $sessionUser = User::where('id', '=', Session::get('loginId'))->first();
+        $id = $sessionUser['id'];
+        $oldFile = $sessionUser['profImg'];
+
+        if ($request->ajax()) {
+            $user = user::find($id);
+
+            $image_data = $request->image;
+            $image_array_1 = explode(";", $image_data);
+            $image_array_2 = explode(",", $image_array_1[1]);
+            $data = base64_decode($image_array_2[1]);
+            $fileName = time() . '.png';
+            $filePath = public_path('img/adminImg/' . $fileName);
+
+            $oldPath = 'img/adminImg/' . $oldFile;
+            if (File::exists($oldPath)) {
+                File::delete($oldPath);
+            }
+
+            file_put_contents($filePath, $data);
+            $user->profImg = $fileName;
+            $user->save();
         }
     }
     //End of Edit profile function

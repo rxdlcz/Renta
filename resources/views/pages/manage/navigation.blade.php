@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/customAlert.css">
     <link rel="stylesheet" href="css/custom-style.css">
     <link rel="stylesheet" href="css/profile-img.css">
+    <link rel="stylesheet" href="css/croppie.min.css">
 
     <link rel="stylesheet" href="datatables/datatables.css">
 
@@ -282,30 +283,23 @@
         </div>
 
 
-
-        <div id="uploadimageModal" class="modal" role="dialog">
-            <div class="modal-dialog">
+        <div class="modal fade" id="cropModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Upload & Crop Image</h4>
+                        <h5 class="modal-title ">Crop Image</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-8 text-center">
-                                <div id="image_demo" style="width:350px; margin-top:30px"></div>
-                            </div>
-                            <div class="col-md-4" style="padding-top:30px;">
-                                <br />
-                                <br />
-                                <br />
-                                <button class="btn btn-success crop_image">Crop & Upload Image</button>
-                            </div>
-                        </div>
+                    <div class="modal-body mt-3">
+                        <div class="crop-image" id="image-preview"></div>
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="cropImage">Crop and Save</button>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -321,6 +315,7 @@
     <script src="js/jquery-3.5.0.min.js"></script>
     <script type="text/javascript" src="datatables/datatables.js"></script>
     <script src="jquery/jquery-ui.js"></script>
+    <script src="js/croppie.min.js"></script>
 
     <script>
         var fetchURL = window.location.pathname;
@@ -329,6 +324,19 @@
             getData(fetchURL);
             actionButton();
             buttonFunction();
+
+            $image_crop = $('#image-preview').croppie({
+                enableExif: true,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'circle'
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                },
+            });
         });
 
         //Table properties
@@ -362,10 +370,39 @@
             if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
                 $(".profileImg_error").text("Only formats are allowed : " + fileExtension.join(', '));
             } else {
-                document.getElementById('img-temp').src = window.URL.createObjectURL(this.files[0]);
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    $image_crop.croppie('bind', {
+                        url: event.target.result
+                    }).then(function() {
+                        //console.log('jQuery bind complete');
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+                $('#cropModal').modal('toggle');
             }
         });
 
+        $('#cropImage').click(function(event) {
+            $image_crop.croppie('result', {
+                type: 'canvas',
+                size: 'viewport'
+            }).then(function(response) {
+                $.ajax({
+                    url: "/upload",
+                    type: "POST",
+                    data: {
+                        "image": response,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        document.getElementById('img-temp').src = response;
+                        showValidation(0, "Profile Image Updated");
+                    }
+                });
+            })
+            $('#cropModal').modal('hide');
+        });
 
 
         //profile Update include image
@@ -402,57 +439,6 @@
             } catch (error) {
                 console.log('Error:', error);
             }
-        });
-
-
-
-        $(document).ready(function() {
-
-            $image_crop = $('#image_demo').croppie({
-                enableExif: true,
-                viewport: {
-                    width: 200,
-                    height: 200,
-                    type: 'square' //circle
-                },
-                boundary: {
-                    width: 300,
-                    height: 300
-                }
-            });
-
-            $('#upload_image').on('change', function() {
-                var reader = new FileReader();
-                reader.onload = function(event) {
-                    $image_crop.croppie('bind', {
-                        url: event.target.result
-                    }).then(function() {
-                        console.log('jQuery bind complete');
-                    });
-                }
-                reader.readAsDataURL(this.files[0]);
-                $('#uploadimageModal').modal('show');
-            });
-
-            $('.crop_image').click(function(event) {
-                $image_crop.croppie('result', {
-                    type: 'canvas',
-                    size: 'viewport'
-                }).then(function(response) {
-                    $.ajax({
-                        url: "upload.php",
-                        type: "POST",
-                        data: {
-                            "image": response
-                        },
-                        success: function(data) {
-                            $('#uploadimageModal').modal('hide');
-                            $('#uploaded_image').html(data);
-                        }
-                    });
-                })
-            });
-
         });
     </script>
 
