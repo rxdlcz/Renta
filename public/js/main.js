@@ -9,7 +9,7 @@ function getData(fetchURL) {
 
     if (fetchURL == "/tenant") {
         button =
-            "<button class='btn bg-info detail ml-2' data-bs-toggle='modal' data-bs-target='#tenantDetailModal'>View Details</button>\
+            "<button class='btn bg-info detail ml-2' data-bs-toggle='modal' data-bs-target='#tenantDetailModal'>View Tenant</button>\
             <button class='btn bg-info del ml-2' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>";
     } else {
         button =
@@ -224,10 +224,11 @@ function actionButton() {
             url: fetchURL,
             dataType: "json",
             success: function (response) {
+                console.log(response.bills);
                 var tenant = response.tenants;
                 for (key in tenant) {
-                    $('#detailForm input[name='+ key +']').val(tenant[key]);
-                    $('#detailForm select[name='+ key +']').val(tenant[key]);
+                    $('.detailForm input[name='+ key +']').val(tenant[key]);
+                    $('.detailForm select[name='+ key +']').val(tenant[key]);
                 }
             }
         });
