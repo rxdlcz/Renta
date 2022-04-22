@@ -97,6 +97,7 @@ table.dataTable thead td {
 
 .modal-header {
     background-color: #00bb57;
+    border-radius: 17px 17px 0px 0px;
 }
 
 .modal-content {
@@ -105,4 +106,8 @@ table.dataTable thead td {
 
 .modal-backdrop {
     opacity: 0 !important;
+}
+
+.modal-content{
+    border-radius: 20px;
 }
