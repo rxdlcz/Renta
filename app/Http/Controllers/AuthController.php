@@ -34,14 +34,11 @@ class AuthController extends Controller
     }
     public function dashboard()
     {
-        $users = user::all();
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
-            $hashids = new Hashids();
-            $maskId = $hashids->encode($data->id);
         }
-        return view('pages.dashboard', compact('data', 'maskId'), ['users' => $users]);
+        return view('pages.dashboard', compact('data'));
     }
     public function logout(Request $request)
     {

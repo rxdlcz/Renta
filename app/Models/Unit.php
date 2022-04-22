@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\location;
+use App\Models\tenant;
 
 class Unit extends Model
 {
@@ -20,6 +21,6 @@ class Unit extends Model
     }
     
     public function tenant(){
-        return $this->hasMany(tenant::class, 'location_id', 'id');
+        return $this->hasMany(tenant::class, 'unit_id', 'id');
     }
 }

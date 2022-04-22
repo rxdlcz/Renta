@@ -288,7 +288,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title ">Crop Image</h5>
+                        <h5 class="modal-title ">Upload Image</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
@@ -319,12 +319,13 @@
 
     <script>
         var fetchURL = window.location.pathname;
-
+        
         $(document).ready(function() {
             getData(fetchURL);
             actionButton();
             buttonFunction();
 
+            //croppie attributes
             $image_crop = $('#image-preview').croppie({
                 enableExif: true,
                 viewport: {
@@ -364,7 +365,7 @@
         });
         $('.modal>.modal-dialog>.modal-content>.modal-header').css('cursor', 'move');
 
-
+        //Pass selected file to Crop modal
         $("#input-img").change(function() {
             var fileExtension = ['jpeg', 'jpg', 'png'];
             if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
@@ -383,33 +384,22 @@
             }
         });
 
+        //cropped image
         $('#cropImage').click(function(event) {
             $image_crop.croppie('result', {
                 type: 'canvas',
                 size: 'viewport'
             }).then(function(response) {
-                $.ajax({
-                    url: "/upload",
-                    type: "POST",
-                    data: {
-                        "image": response,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(data) {
-                        document.getElementById('img-temp').src = response;
-                        showValidation(0, "Profile Image Updated");
-                    }
-                });
+                document.getElementById('img-temp').src = response;
             })
             $('#cropModal').modal('hide');
         });
 
-
-        //profile Update include image
+        //profile Update 
         $('.editProfModal').on('submit', function(e) {
 
             e.preventDefault();
-
+            var response = $('#img-temp').attr('src');
             var formData = new FormData(this);
             var actionUrl = $(this).attr('action');
             var type = $(this).attr('method');
@@ -435,6 +425,18 @@
                             })
                         }
                     },
+                }),
+                $.ajax({
+                    url: "/upload",
+                    type: "POST",
+                    data: {
+                        "image": response,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        //document.getElementById('img-temp').src = response;
+                        //showValidation(0, "Profile Image Updated");
+                    }
                 })
             } catch (error) {
                 console.log('Error:', error);

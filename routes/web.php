@@ -62,6 +62,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         //Route for Tenant nav
         Route::get('/tenant', [ManageController::class, 'getTenants']);
+        Route::post('/addTenant', [ManageController::class, 'addTenant']);
+        Route::get('/getTenantDetails/{id}', [ManageController::class, 'getTenantDetails']);
         //End Route for Tenant nav
         /* End All Route for Manage */
 

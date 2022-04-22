@@ -56,8 +56,8 @@ class BillController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tenant_id' => 'required',
-            'amount_balance' => 'required',
-            'due_date' => 'required',
+            'amount_balance' => 'required|numeric',
+            'due_date' => 'required|date_format:Y-m-d',
         ]);
 
         if (!$validator->passes()) {
@@ -82,8 +82,8 @@ class BillController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tenant_id' => 'required',
-            'amount_balance' => 'required',
-            'due_date' => 'required',
+            'amount_balance' => 'required|numeric',
+            'due_date' => 'required|date_format:Y-m-d',
         ]);
 
         if (!$validator->passes()) {
@@ -135,8 +135,8 @@ class BillController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tenant_id' => 'required',
-            'amount_balance' => 'required',
-            'due_date' => 'required',
+            'amount_balance' => 'required|numeric',
+            'due_date' => 'required|date_format:Y-m-d',
         ]);
 
         if (!$validator->passes()) {
@@ -161,8 +161,8 @@ class BillController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tenant_id' => 'required',
-            'amount_balance' => 'required',
-            'due_date' => 'required',
+            'amount_balance' => 'required|numeric',
+            'due_date' => 'required|date_format:Y-m-d',
         ]);
 
         if (!$validator->passes()) {
@@ -214,8 +214,8 @@ class BillController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tenant_id' => 'required',
-            'amount_balance' => 'required',
-            'due_date' => 'required',
+            'amount_balance' => 'required|numeric',
+            'due_date' => 'required|date_format:Y-m-d',
         ]);
 
         if (!$validator->passes()) {
@@ -240,8 +240,8 @@ class BillController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tenant_id' => 'required',
-            'amount_balance' => 'required',
-            'due_date' => 'required',
+            'amount_balance' => 'required|numeric',
+            'due_date' => 'required|date_format:Y-m-d',
         ]);
 
         if (!$validator->passes()) {

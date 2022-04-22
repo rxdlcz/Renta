@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Hashids\Hashids;
 use Hash;
 use Session;
+use DB;
 
 class ManageController extends Controller
 {
@@ -176,7 +177,7 @@ class ManageController extends Controller
     {
         $locations = location::with('unit')->get();
         $units = unit::with('location')->get();
-        
+
 
         $data = array();
         if (Session::has('loginId')) {
@@ -184,10 +185,10 @@ class ManageController extends Controller
         }
 
         if ($request->ajax()) {
-            
+
             $units = Unit::join('locations', 'units.location_id', '=', 'locations.id')
-                    ->select('units.id', 'units.name', 'locations.location', 'units.price', 'vacant_status')
-                    ->get();
+                ->select('units.id', 'units.name', 'locations.location', 'units.price', 'vacant_status')
+                ->get();
 
             return response()->json([
                 'units' => $units,
@@ -198,7 +199,7 @@ class ManageController extends Controller
     public function addUnit(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => 'required|unique:units',
             'location_id' => 'required',
             'price' => 'required|numeric',
         ]);
@@ -258,18 +259,78 @@ class ManageController extends Controller
     }
     //End of Manage Unit 
 
+    //Manage tenants
     public function getTenants(Request $request)
     {
 
-        $tenants = tenant::get();
+        $tenants = tenant::with('unit')->get();
+        $units = unit::get();
 
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
         }
 
-        return view('pages.manage.tenant', compact('data', 'tenants'));
+        if ($request->ajax()) {
 
+            $tenants = tenant::join('units', 'tenants.unit_id', '=', 'units.id')
+                ->select('tenants.id', DB::raw("CONCAT(tenants.firstname,' ', tenants.lastname) AS fullname"), 'units.name', 'tenants.contact_number', 'tenants.status')
+                ->get();
+
+            return response()->json([
+                'tenants' => $tenants,
+            ]);
+        }
+
+        return view('pages.manage.tenant', compact('data', 'tenants', 'units'));
+    }
+
+    public function getTenantDetails($id)
+    {
+        $tenants = tenant::find($id);
+
+        return response()->json([
+            'tenants' => $tenants,
+        ]);
+    }
+
+    public function addTenant(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required|email|unique:tenants',
+            'contact_number' => 'required',
+            'occupation_status' => 'required',
+            'unit_id' => 'required',
+            'start_date' => 'required|date_format:Y-m-d',
+            'end_date' => 'required|date_format:Y-m-d',
+            'status' => 'required|numeric',
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            $tenant = new tenant();
+            $tenant->firstname = $request->firstname;
+            $tenant->lastname = $request->lastname;
+            $tenant->email = $request->email;
+            $tenant->contact_number = $request->contact_number;
+            $tenant->occupation_status = $request->occupation_status;
+            $tenant->unit_id = $request->unit_id;
+            $tenant->start_date = $request->start_date;
+            $tenant->end_date = $request->end_date;
+            $tenant->status = $request->status;
+            $tenant->identity_id = 1;
+
+            $res = $tenant->save();
+
+            if ($res) {
+                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
+            } else {
+                return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+            }
+        }
     }
 }
 

@@ -5,9 +5,17 @@ var fetchURL = window.location.pathname;
 function getData(fetchURL) {
     let itemData = [];
     let itemKeys = [];
-    let button =
-        "<button class='btn bg-info edit ml-2' data-bs-toggle='modal' data-bs-target='#editModal'>Edit</button>\
-         <button class='btn bg-info del ml-2' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>";
+    let button;
+
+    if (fetchURL == "/tenant") {
+        button =
+            "<button class='btn bg-info detail ml-2' data-bs-toggle='modal' data-bs-target='#tenantDetailModal'>View Details</button>\
+            <button class='btn bg-info del ml-2' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>";
+    } else {
+        button =
+            "<button class='btn bg-info edit ml-2' data-bs-toggle='modal' data-bs-target='#editModal'>Edit</button>\
+            <button class='btn bg-info del ml-2' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>";
+    }
 
     $.ajax({
         type: "GET",
@@ -127,6 +135,7 @@ function ajaxFunction(formData, actionUrl, type, event) {
         data: $(formData).serialize(),
         beforeSend: function () {
             $('.msg').text('');
+            $('.txt_error').text('');
         },
         success: function (data) {},
     }));
@@ -160,7 +169,6 @@ function actionButton() {
     var delURL = $('#delForm').attr('action'); //Get action attribute of delete form
 
     table.on('click', '.edit', function () {
-        $('.msg').text('');
         $tr = $(this).closest('tr');
         if ($($tr).hasClass('child')) {
             $tr = $tr.prev('.parent');
@@ -180,7 +188,7 @@ function actionButton() {
                 var input = $(this);
                 input.val(data[index + 1]);
                 if ($(input).is("select")) {
-                    $('option').filter(function() {
+                    $('option').filter(function () {
                         return $(this).text() === data[index + 1];
                     }).attr('selected', true)
                 }
@@ -201,14 +209,37 @@ function actionButton() {
     $('.add').click(function () {
         $('.msg').text('');
     });
+
+    table.on('click', '.detail', function () {
+        $tr = $(this).closest('tr');
+        if ($($tr).hasClass('child')) {
+            $tr = $tr.prev('.parent');
+        }
+        var data = table.row($tr).data();
+
+        var fetchURL = '/getTenantDetails/' + data[0];
+
+        $.ajax({
+            type: "GET",
+            url: fetchURL,
+            dataType: "json",
+            success: function (response) {
+                var tenant = response.tenants;
+                for (key in tenant) {
+                    $('#detailForm input[name='+ key +']').val(tenant[key]);
+                    $('#detailForm select[name='+ key +']').val(tenant[key]);
+                }
+            }
+        });
+    })
 }
 
 function statusUpdate() {
     var column = document.getElementById("table-content").rows;
 
     for (let i = 1; i < column.length; i++) {
-        var colLen = document.getElementById("table-content").rows[i].cells.length;
-        var colStatus = column[i].cells[colLen - 2];
+        var colSize = document.getElementById("table-content").rows[i].cells.length;
+        var colStatus = column[i].cells[colSize - 2];
 
         switch (colStatus.innerHTML) {
             case "0":
