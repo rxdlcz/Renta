@@ -6,6 +6,7 @@ use App\Models\location;
 use App\Models\tenant;
 use App\Models\User;
 use App\Models\Unit;
+use App\Models\bill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Hashids\Hashids;
@@ -288,9 +289,12 @@ class ManageController extends Controller
     public function getTenantDetails($id)
     {
         $tenants = tenant::find($id);
+        $bills = bill::where('tenant_id', $id)
+            ->get();
 
         return response()->json([
             'tenants' => $tenants,
+            'bills' => $bills,
         ]);
     }
 
