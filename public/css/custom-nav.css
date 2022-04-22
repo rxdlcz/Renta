@@ -35,15 +35,15 @@ hr {
     margin-top: 0.4rem;
 }
 
-.active {
+.sidenav .active {
     background-color: #008f42 !important;
 }
 
-.active:hover {
+.sidenav .active:hover {
     background-color: #047036 !important;
 }
 
-.nav-link:hover {
+.sidenav .nav-link:hover {
     background-color: #484848db;
 }
 
