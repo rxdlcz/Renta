@@ -41,7 +41,7 @@ function getData(fetchURL) {
                 itemArray.push(button);
 
                 $('#table-content').dataTable().fnAddData(itemArray);
-
+                statusUpdate();
             });
         }
     });
