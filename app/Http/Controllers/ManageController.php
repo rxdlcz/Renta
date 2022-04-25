@@ -265,7 +265,8 @@ class ManageController extends Controller
     {
 
         $tenants = tenant::with('unit')->get();
-        $units = unit::get();
+        $units = unit::where('vacant_status', 0)
+            ->get();
 
         $data = array();
         if (Session::has('loginId')) {
@@ -330,7 +331,7 @@ class ManageController extends Controller
             $unit = Unit::find($request->unit_id);
             $unit->vacant_status = '1';
             $unit->save();
-            
+
             $res = $tenant->save();
 
             if ($res) {
@@ -338,6 +339,53 @@ class ManageController extends Controller
             } else {
                 return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
             }
+        }
+    }
+    public function editTenant(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => "required|email|unique:tenants,email, $id",
+            'contact_number' => 'required',
+            'occupation_status' => 'required',
+            'unit_id' => 'required',
+            'start_date' => 'required|date_format:Y-m-d',
+            'end_date' => 'required|date_format:Y-m-d',
+            'status' => 'required|numeric',
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            $tenant = tenant::find($id);
+            $tenant->firstname = $request->firstname;
+            $tenant->lastname = $request->lastname;
+            $tenant->email = $request->email;
+            $tenant->contact_number = $request->contact_number;
+            $tenant->occupation_status = $request->occupation_status;
+            $tenant->unit_id = $request->unit_id;
+            $tenant->start_date = $request->start_date;
+            $tenant->end_date = $request->end_date;
+            $tenant->status = $request->status;
+
+            $res = $tenant->save();
+
+            if ($res) {
+                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
+            } else {
+                return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+            }
+        }
+    }
+    public function deleteTenant(Request $request, $id)
+    {
+        $tenant = tenant::destroy($id);
+
+        if ($tenant) {
+            return response()->json(['status' => 1,]);
+        } else {
+            return response()->json(['status' => 0,]);
         }
     }
 }

@@ -253,7 +253,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-update" role="tabpanel" aria-labelledby="nav-update-tab">
-                            <form action="/editTenant" method="post" id="detailForm" class="detailFormModal">
+                            <form action="/editTenant" method="post" id="detailForm" class="editFormModal">
                                 @csrf
                                 <div class="modal-body">
             
@@ -334,18 +334,28 @@
     </div>
     {{-- End View Details modal --}}
 
-    {{-- Edit Details modal --}}
-    <div class="modal fade" id="editDetailModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    {{-- Delete modal confirmation --}}
+    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="delModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title ">Tenant Details</h5>
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white">Delete User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                
+                <form action="/deleteTenant" method="post" id="delForm" class="delFormModal">
+                    @csrf
+                    <div class="modal-body mt-3">
+                        <h4 id="delLocName"></h4>
+                    </div>
+                    <div class="modal-footer mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            aria-label="Close">Close</button>
+                        <button type="submit" class="btn btn-danger">Confirm</button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
-    {{-- End View Details modal --}}
+    {{-- End Delete Modal confirmation --}}
 @stop

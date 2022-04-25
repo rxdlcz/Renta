@@ -231,6 +231,8 @@ function actionButton() {
 
         var fetchURL = '/getTenantDetails/' + data[0];
 
+        $('#detailForm').attr('action','/editTenant/' + data[0]);
+
         $.ajax({
             type: "GET",
             url: fetchURL,
