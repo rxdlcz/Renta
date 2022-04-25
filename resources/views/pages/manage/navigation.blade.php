@@ -324,7 +324,8 @@
             getData(fetchURL);
             actionButton();
             buttonFunction();
-
+            statusUpdate();
+            
             //croppie attributes
             $image_crop = $('#image-preview').croppie({
                 enableExif: true,
@@ -341,6 +342,7 @@
         });
 
         //Table properties
+
         var table = $('#table-content').DataTable({
             "scrollY": "530px",
             "scrollCollapse": true,

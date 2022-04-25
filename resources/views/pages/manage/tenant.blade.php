@@ -229,15 +229,104 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav-bill" role="tabpanel" aria-labelledby="nav-bill-tab">...
-                        </div>
-                        <div class="tab-pane fade" id="nav-update" role="tabpanel" aria-labelledby="nav-update-tab">...
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
+                            <div class="modal-footer">
                         
+                            </div>
+                        </div>
+                        <div class="tab-pane fade px-3 mt-3" id="nav-bill" role="tabpanel" aria-labelledby="nav-bill-tab">
+                            <table class="table align-items-center" id="bills-content">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                            <div class="modal-footer">
+                        
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-update" role="tabpanel" aria-labelledby="nav-update-tab">
+                            <form action="/editTenant" method="post" id="detailForm" class="detailFormModal">
+                                @csrf
+                                <div class="modal-body">
+            
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label class="mx-1">Firstname</label>
+                                            <input type="text" name="firstname" class="form-control" required>
+                                            <span class="txt_error text-danger mx-1 firstname_error"></span>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="mx-1">Lastname</label>
+                                            <input type="text" name="lastname" class="form-control" required>
+                                            <span class="txt_error text-danger mx-1 lastname_error"></span>
+                                        </div>
+                                    </div>
+            
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label class="mx-1">Email</label>
+                                            <input type="email" name="email" class="form-control" required>
+                                            <span class="txt_error text-danger mx-1 email_error"></span>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="mx-1">Contact Number</label>
+                                            <input type="text" name="contact_number" class="form-control" required>
+                                            <span class="txt_error text-danger mx-1 contact_number_error"></span>
+                                        </div>
+                                    </div>
+            
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label class="mx-1">Occupation</label>
+                                            <input type="text" name="occupation_status" class="form-control" required>
+                                            <span class="txt_error text-danger mx-1 occupation_status_error"></span>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="mx-1">Unit</label>
+                                            <select class="form-select" name="unit_id" required>
+                                                @foreach ($units as $unit)
+                                                    <option value={{ $unit->id }}>{{ $unit->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="txt_error text-danger mx-1 unit_id_error"></span>
+                                        </div>
+                                    </div>
+            
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label class="mx-1">Start Date</label>
+                                            <input type="date" name="start_date" class="form-control" required>
+                                            <span class="txt_error text-danger mx-1 start_date_error"></span>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label class="mx-1">End Date</label>
+                                            <input type="date" name="end_date" class="form-control" required>
+                                            <span class="txt_error text-danger mx-1 end_date_error"></span>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label class="mx-1">Status</label>
+                                            <select class="form-select" name="status" required>
+                                                <option value="3">Paid</option>
+                                                <option value="4">Pending Balance</option>
+                                                <option value="5">Unpaid Bills</option>
+                                            </select>
+                                            <span class="txt_error text-danger mx-1 status_error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -254,79 +343,7 @@
                     <h5 class="modal-title ">Tenant Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/editTenant" method="post" id="detailForm" class="detailFormModal">
-                    @csrf
-                    <div class="modal-body mt-3">
-
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label class="mx-1">Firstname</label>
-                                <input type="text" name="firstname" class="form-control" required>
-                                <span class="txt_error text-danger mx-1 firstname_error"></span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="mx-1">Lastname</label>
-                                <input type="text" name="lastname" class="form-control" required>
-                                <span class="txt_error text-danger mx-1 lastname_error"></span>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label class="mx-1">Email</label>
-                                <input type="email" name="email" class="form-control" required>
-                                <span class="txt_error text-danger mx-1 email_error"></span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="mx-1">Contact Number</label>
-                                <input type="text" name="contact_number" class="form-control" required>
-                                <span class="txt_error text-danger mx-1 contact_number_error"></span>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label class="mx-1">Occupation</label>
-                                <input type="text" name="occupation_status" class="form-control" required>
-                                <span class="txt_error text-danger mx-1 occupation_status_error"></span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="mx-1">Unit</label>
-                                <select class="form-select" name="unit_id" required>
-                                    @foreach ($units as $unit)
-                                        <option value={{ $unit->id }}>{{ $unit->name }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="txt_error text-danger mx-1 unit_id_error"></span>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <label class="mx-1">Start Date</label>
-                                <input type="date" name="start_date" class="form-control" required>
-                                <span class="txt_error text-danger mx-1 start_date_error"></span>
-                            </div>
-                            <div class="col-sm-4">
-                                <label class="mx-1">End Date</label>
-                                <input type="date" name="end_date" class="form-control" required>
-                                <span class="txt_error text-danger mx-1 end_date_error"></span>
-                            </div>
-                            <div class="col-sm-4">
-                                <label class="mx-1">Status</label>
-                                <select class="form-select" name="status" required>
-                                    <option value="3">Paid</option>
-                                    <option value="4">Pending Balance</option>
-                                    <option value="5">Unpaid Bills</option>
-                                </select>
-                                <span class="txt_error text-danger mx-1 status_error"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
+                
             </div>
         </div>
     </div>

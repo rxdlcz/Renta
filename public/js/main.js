@@ -167,7 +167,10 @@ function showValidation(error, status) {
 function actionButton() {
     var editURL = $('#editForm').attr('action'); //Get action attribute of edit form
     var delURL = $('#delForm').attr('action'); //Get action attribute of delete form
+    
+    var bTable = $('#bills-content').dataTable();
 
+    //Edit action
     table.on('click', '.edit', function () {
         $tr = $(this).closest('tr');
         if ($($tr).hasClass('child')) {
@@ -195,6 +198,8 @@ function actionButton() {
             }
         );
     })
+
+    //Delete action
     table.on('click', '.del', function () {
         $tr = $(this).closest('tr');
         if ($($tr).hasClass('child')) {
@@ -210,6 +215,13 @@ function actionButton() {
         $('.msg').text('');
     });
 
+    //Adjust datatable header on tab
+    $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(e){
+        $($.fn.dataTable.tables(true)).DataTable()
+           .columns.adjust();
+     });
+
+    //Show Details action
     table.on('click', '.detail', function () {
         $tr = $(this).closest('tr');
         if ($($tr).hasClass('child')) {
@@ -223,13 +235,37 @@ function actionButton() {
             type: "GET",
             url: fetchURL,
             dataType: "json",
+            beforeSend: function () {
+                bTable.dataTable().fnClearTable();
+                bTable.dataTable().fnDraw();
+                bTable.dataTable().fnDestroy();
+            },
             success: function (response) {
                 console.log(response.bills);
                 var tenant = response.tenants;
+                var bill = response.bills;
+
                 for (key in tenant) {
-                    $('.detailForm input[name='+ key +']').val(tenant[key]);
-                    $('.detailForm select[name='+ key +']').val(tenant[key]);
+                    $('.detailForm input[name=' + key + ']').val(tenant[key]);
+                    $('.detailForm select[name=' + key + ']').val(tenant[key]);
                 }
+
+                bTable.DataTable({
+                    "scrollY": "250px",
+                    "scrollCollapse": true,
+                    "paging": false,
+                    "scrollX": true,
+                    "scroller": true,
+                });
+                $.each(bill, function (key, item) {
+                    bTable.dataTable().fnAddData([
+                        item.id,
+                        item.bill_type,
+                        item.amount_balance,
+                        item.due_date,
+                        item.status
+                    ]);
+                });
             }
         });
     })

@@ -327,6 +327,10 @@ class ManageController extends Controller
             $tenant->status = $request->status;
             $tenant->identity_id = 1;
 
+            $unit = Unit::find($request->unit_id);
+            $unit->vacant_status = '1';
+            $unit->save();
+            
             $res = $tenant->save();
 
             if ($res) {
