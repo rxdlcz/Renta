@@ -98,7 +98,9 @@
                                 <label class="mx-1">Unit</label>
                                 <select class="form-select" name="unit_id" required>
                                     @foreach ($units as $unit)
-                                        <option value={{ $unit->id }}>{{ $unit->name }}</option>
+                                        @if ($unit->vacant_status == '0')
+                                            <option value={{ $unit->id }}>{{ $unit->name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 <span class="txt_error text-danger mx-1 unit_id_error"></span>
@@ -152,9 +154,8 @@
                             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-detail" type="button" role="tab" aria-controls="nav-detail"
                                 aria-selected="true">Details</button>
-                            <button class="nav-link" id="nav-bill-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-bill" type="button" role="tab" aria-controls="nav-bill"
-                                aria-selected="false">Bills</button>
+                            <button class="nav-link" id="nav-bill-tab" data-bs-toggle="tab" data-bs-target="#nav-bill"
+                                type="button" role="tab" aria-controls="nav-bill" aria-selected="false">Bills</button>
                             <button class="nav-link" id="nav-update-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-update" type="button" role="tab" aria-controls="nav-update"
                                 aria-selected="false">Update</button>
@@ -230,7 +231,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                        
+
                             </div>
                         </div>
                         <div class="tab-pane fade px-3 mt-3" id="nav-bill" role="tabpanel" aria-labelledby="nav-bill-tab">
@@ -249,14 +250,14 @@
                             </table>
 
                             <div class="modal-footer">
-                        
+
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-update" role="tabpanel" aria-labelledby="nav-update-tab">
                             <form action="/editTenant" method="post" id="detailForm" class="editFormModal">
                                 @csrf
                                 <div class="modal-body">
-            
+
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <label class="mx-1">Firstname</label>
@@ -269,7 +270,7 @@
                                             <span class="txt_error text-danger mx-1 lastname_error"></span>
                                         </div>
                                     </div>
-            
+
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <label class="mx-1">Email</label>
@@ -282,7 +283,7 @@
                                             <span class="txt_error text-danger mx-1 contact_number_error"></span>
                                         </div>
                                     </div>
-            
+
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <label class="mx-1">Occupation</label>
@@ -293,13 +294,15 @@
                                             <label class="mx-1">Unit</label>
                                             <select class="form-select" name="unit_id" required>
                                                 @foreach ($units as $unit)
-                                                    <option value={{ $unit->id }}>{{ $unit->name }}</option>
+                                                    @if ($unit->vacant_status == '0')
+                                                        <option value={{ $unit->id }}>{{ $unit->name }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                             <span class="txt_error text-danger mx-1 unit_id_error"></span>
                                         </div>
                                     </div>
-            
+
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <label class="mx-1">Start Date</label>
@@ -335,7 +338,8 @@
     {{-- End View Details modal --}}
 
     {{-- Delete modal confirmation --}}
-    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="delModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="delModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger">

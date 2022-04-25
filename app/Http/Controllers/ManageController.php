@@ -16,6 +16,20 @@ use DB;
 
 class ManageController extends Controller
 {
+    //Dashboard
+    public function dashboard()
+    {
+        $locations = location::get();
+        $units = unit::get();
+        $tenants = tenant::get();
+        $bills = bill::get();
+
+        $data = array();
+        if (Session::has('loginId')) {
+            $data = User::where('id', '=', Session::get('loginId'))->first();
+        }
+        return view('pages.dashboard', compact('data', 'locations', 'units', 'tenants', 'bills'));
+    }
     //Manage Location
     public function getLocation(Request $request)
     {
@@ -265,8 +279,7 @@ class ManageController extends Controller
     {
 
         $tenants = tenant::with('unit')->get();
-        $units = unit::where('vacant_status', 0)
-            ->get();
+        $units = unit::get();
 
         $data = array();
         if (Session::has('loginId')) {
@@ -349,7 +362,6 @@ class ManageController extends Controller
             'email' => "required|email|unique:tenants,email, $id",
             'contact_number' => 'required',
             'occupation_status' => 'required',
-            'unit_id' => 'required',
             'start_date' => 'required|date_format:Y-m-d',
             'end_date' => 'required|date_format:Y-m-d',
             'status' => 'required|numeric',
@@ -364,7 +376,6 @@ class ManageController extends Controller
             $tenant->email = $request->email;
             $tenant->contact_number = $request->contact_number;
             $tenant->occupation_status = $request->occupation_status;
-            $tenant->unit_id = $request->unit_id;
             $tenant->start_date = $request->start_date;
             $tenant->end_date = $request->end_date;
             $tenant->status = $request->status;
@@ -380,6 +391,14 @@ class ManageController extends Controller
     }
     public function deleteTenant(Request $request, $id)
     {
+        $tenant_unit = tenant::select('unit_id')
+            ->where('id', $id)
+            ->get();
+
+        $unit = Unit::find($tenant_unit)->first();
+        $unit->vacant_status = '0';
+        $unit->save();
+
         $tenant = tenant::destroy($id);
 
         if ($tenant) {

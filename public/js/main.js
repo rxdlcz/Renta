@@ -167,7 +167,7 @@ function showValidation(error, status) {
 function actionButton() {
     var editURL = $('#editForm').attr('action'); //Get action attribute of edit form
     var delURL = $('#delForm').attr('action'); //Get action attribute of delete form
-    
+
     var bTable = $('#bills-content').dataTable();
 
     //Edit action
@@ -216,10 +216,10 @@ function actionButton() {
     });
 
     //Adjust datatable header on tab
-    $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(e){
+    $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
         $($.fn.dataTable.tables(true)).DataTable()
-           .columns.adjust();
-     });
+            .columns.adjust();
+    });
 
     //Show Details action
     table.on('click', '.detail', function () {
@@ -231,7 +231,7 @@ function actionButton() {
 
         var fetchURL = '/getTenantDetails/' + data[0];
 
-        $('#detailForm').attr('action','/editTenant/' + data[0]);
+        $('#detailForm').attr('action', '/editTenant/' + data[0]);
 
         $.ajax({
             type: "GET",
@@ -285,6 +285,21 @@ function statusUpdate() {
                 colStatus.innerHTML = "Vacant";
                 break;
             case "1":
+                colStatus.innerHTML = "Occupied";
+                break;
+            case "3":
+                colStatus.innerHTML = "Paid";
+                break;
+            case "4":
+                colStatus.innerHTML = "Pending Balance";
+                break;
+            case "5":
+                colStatus.innerHTML = "Unpaid Bills";
+                break;
+            case "6":
+                colStatus.innerHTML = "Occupied";
+                break;
+            case "7":
                 colStatus.innerHTML = "Occupied";
                 break;
         }

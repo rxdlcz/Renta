@@ -36,7 +36,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         //Route for navigation section
 
-        Route::get('/dashboard', [AuthController::class, 'dashboard']);
+        Route::get('/dashboard', [ManageController::class, 'dashboard']);
 
         /* All Route for Manage Nav */
         //Route for Location Nav

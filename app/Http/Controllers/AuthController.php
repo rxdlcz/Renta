@@ -32,14 +32,7 @@ class AuthController extends Controller
             return response()->json(['status' => false,]);
         }
     }
-    public function dashboard()
-    {
-        $data = array();
-        if (Session::has('loginId')) {
-            $data = User::where('id', '=', Session::get('loginId'))->first();
-        }
-        return view('pages.dashboard', compact('data'));
-    }
+    
     public function logout(Request $request)
     {
         if (Session::has('loginId')) {

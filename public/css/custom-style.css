@@ -111,3 +111,13 @@ table.dataTable thead td {
 .modal-content{
     border-radius: 20px;
 }
+
+.more-details{
+    cursor: pointer;
+}
+.detail-link{
+    text-decoration: none;
+}
+.card-text{
+    font-size: 5rem;
+}

@@ -324,7 +324,6 @@
             getData(fetchURL);
             actionButton();
             buttonFunction();
-            statusUpdate();
             
             //croppie attributes
             $image_crop = $('#image-preview').croppie({
