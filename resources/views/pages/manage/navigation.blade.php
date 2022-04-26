@@ -326,7 +326,7 @@
             buttonFunction();
             if(fetchURL != '/dashboard'){
                 statusUpdate();
-            }     
+            }
             //croppie attributes
             $image_crop = $('#image-preview').croppie({
                 enableExif: true,

@@ -5,7 +5,12 @@
 @section('content')
 
     <div class="content-header">
-        <h1 class="">Location</h1>
+        <div class="d-flex">
+            <span>
+                <img src="img/icon/location.png" alt="">
+            </span>
+            <h1 class="mx-3">Location</h1>
+        </div>
 
         {{-- Add Location button modal --}}
         <button type="button" class="button add" data-bs-toggle="modal" data-bs-target="#addModal">

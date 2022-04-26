@@ -86,7 +86,12 @@
                 <div class="col-12 col-xl-8 mt-3">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Latest Payment</h4>
+                            <div class="d-flex">
+                                <span>
+                                    <img src="img/icon/payment.png" alt="" width="38" height="38">
+                                </span>
+                                <h4 class="mx-3">Latest Payment</h4>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -132,7 +137,12 @@
 
             <div class="card mt-3">
                 <div class="card-header">
-                    <h4>Users</h4>
+                    <div class="d-flex">
+                        <span>
+                            <img src="img/icon/userKey.png" alt="" width="32" height="32">
+                        </span>
+                        <h4 class="mx-3">User</h4>
+                    </div>
                 </div>
                 <div class="card-content pb-4">
                     @foreach ($users as $user)
@@ -148,15 +158,17 @@
                             </div>
                         @endif
                     @endforeach
-                    <div class="px-4 align-items-center d-flex justify-content-center">
-                        <button type="btn" class="btn btn-info form-control">
-                            View More...
-                        </button>
-                    </div>
+                    <a href="/user" class="text-decoration-none">
+                        <div class="px-4 align-items-center d-flex justify-content-center">
+                            <button type="btn" class="btn btn-info form-control">
+                                View More...
+                            </button>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
-    
+
 
 @stop

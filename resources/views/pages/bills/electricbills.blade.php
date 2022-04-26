@@ -4,7 +4,12 @@
 @section('content')
 
     <div class="content-header">
-        <h1 class="">Electric Bills</h1>
+        <div class="d-flex">
+            <span>
+                <img src="img/icon/electricBill.png" alt="">
+            </span>
+            <h1 class="mx-3">Electric Bill</h1>
+        </div>
 
         <!-- Add User button modal -->
         <button type="button" class="button" data-bs-toggle="modal" data-backdrop="false" data-bs-target="#addModal">

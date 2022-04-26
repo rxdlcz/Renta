@@ -4,7 +4,12 @@
 @section('content')
 
     <div class="content-header">
-        <h1 class="">House Units</h1>
+        <div class="d-flex">
+            <span>
+                <img src="img/icon/unit.png" alt="">
+            </span>
+            <h1 class="mx-3">House Units</h1>
+        </div>
 
         <!-- Add User button modal -->
         <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#addModal">
