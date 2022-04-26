@@ -25,7 +25,7 @@ class ManageController extends Controller
         $tenants = tenant::get();
         $bills = bill::where('status', '!=', '3')->count();
         $payments = payment::get();
-        
+
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
@@ -306,12 +306,16 @@ class ManageController extends Controller
     public function getTenantDetails($id)
     {
         $tenants = tenant::find($id);
-        $bills = bill::where('tenant_id', $id)
+        $units = Unit::where('vacant_status', 0)
+            ->orWhere('id', $tenants->unit_id)
+            ->get();
+        $bills = bill::where('tenant_id', $id)  
             ->get();
 
         return response()->json([
             'tenants' => $tenants,
             'bills' => $bills,
+            'units' => $units
         ]);
     }
 
@@ -323,7 +327,7 @@ class ManageController extends Controller
             'email' => 'required|email|unique:tenants',
             'contact_number' => 'required',
             'occupation_status' => 'required',
-            'unit_id' => 'required',
+            'unit_id' => 'required|unique:tenants',
             'start_date' => 'required|date_format:Y-m-d',
             'end_date' => 'required|date_format:Y-m-d',
             'status' => 'required|numeric',
@@ -365,6 +369,7 @@ class ManageController extends Controller
             'email' => "required|email|unique:tenants,email, $id",
             'contact_number' => 'required',
             'occupation_status' => 'required',
+            'unit_id' => "required|unique:tenants,unit_id, $id",
             'start_date' => 'required|date_format:Y-m-d',
             'end_date' => 'required|date_format:Y-m-d',
             'status' => 'required|numeric',
@@ -379,9 +384,21 @@ class ManageController extends Controller
             $tenant->email = $request->email;
             $tenant->contact_number = $request->contact_number;
             $tenant->occupation_status = $request->occupation_status;
+
+            $oldUnit = Unit::find($tenant->unit_id);
+            $oldUnit->vacant_status = "0";
+            $oldUnit->save();
+
+            $tenant->unit_id = $request->unit_id;
             $tenant->start_date = $request->start_date;
             $tenant->end_date = $request->end_date;
             $tenant->status = $request->status;
+
+
+
+            $unit = Unit::find($request->unit_id);
+            $unit->vacant_status = '1';
+            $unit->save();
 
             $res = $tenant->save();
 

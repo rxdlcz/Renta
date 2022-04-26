@@ -243,10 +243,11 @@ function actionButton() {
                 bTable.dataTable().fnDestroy();
             },
             success: function (response) {
-                console.log(response.bills);
+                //console.log(response.bills);
                 var tenant = response.tenants;
                 var bill = response.bills;
 
+                //add value to View and update Tab
                 for (key in tenant) {
                     $('.detailForm input[name=' + key + ']').val(tenant[key]);
                     $('.detailForm select[name=' + key + ']').val(tenant[key]);
@@ -259,6 +260,8 @@ function actionButton() {
                     "scrollX": true,
                     "scroller": true,
                 });
+
+                //add value to bills tab
                 $.each(bill, function (key, item) {
                     bTable.dataTable().fnAddData([
                         item.id,
@@ -267,6 +270,12 @@ function actionButton() {
                         item.due_date,
                         item.status
                     ]);
+                });
+
+                //add value to select
+                $('.detailForm select[name=unit_id]').empty();
+                $.each(response.units, function (key, value) {
+                    $('.detailForm select[name=unit_id]').append('<option value=' + value['id'] + '>' + value['name'] + '</option>');
                 });
             }
         });

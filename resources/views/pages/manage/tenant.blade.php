@@ -293,9 +293,20 @@
                                         <div class="col-sm-6">
                                             <label class="mx-1">Unit</label>
                                             <select class="form-select" name="unit_id" required>
-                                                @foreach ($units as $unit)
-                                                    <option value={{ $unit->id }}>{{ $unit->name }}</option>
-                                                @endforeach
+                                                {{-- <optgroup label="Vacant">
+                                                    @foreach ($units as $unit)
+                                                        @if ($unit->vacant_status == '0')
+                                                            <option value={{ $unit->id }}>{{ $unit->name }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </optgroup>
+                                                <optgroup label="Occupied">
+                                                    @foreach ($units as $unit)
+                                                        @if ($unit->vacant_status == '1')
+                                                            <option value={{ $unit->id }}>{{ $unit->name }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </optgroup> --}}
                                             </select>
                                             <span class="txt_error text-danger mx-1 unit_id_error"></span>
                                         </div>
