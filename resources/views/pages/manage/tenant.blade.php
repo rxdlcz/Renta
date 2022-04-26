@@ -294,9 +294,7 @@
                                             <label class="mx-1">Unit</label>
                                             <select class="form-select" name="unit_id" required>
                                                 @foreach ($units as $unit)
-                                                    @if ($unit->vacant_status == '0')
-                                                        <option value={{ $unit->id }}>{{ $unit->name }}</option>
-                                                    @endif
+                                                    <option value={{ $unit->id }}>{{ $unit->name }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="txt_error text-danger mx-1 unit_id_error"></span>
