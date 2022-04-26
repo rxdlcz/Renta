@@ -7,6 +7,7 @@ use App\Models\tenant;
 use App\Models\User;
 use App\Models\Unit;
 use App\Models\bill;
+use App\Models\payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Hashids\Hashids;
@@ -22,13 +23,15 @@ class ManageController extends Controller
         $locations = location::get();
         $units = unit::get();
         $tenants = tenant::get();
-        $bills = bill::get();
-
+        $bills = bill::where('status', '!=', '3')->count();
+        $payments = payment::get();
+        
         $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
+            $users = User::all()->except(Session::get('loginId'));
         }
-        return view('pages.dashboard', compact('data', 'locations', 'units', 'tenants', 'bills'));
+        return view('pages.dashboard', compact('data', 'locations', 'units', 'tenants', 'bills', 'users', 'payments'));
     }
     //Manage Location
     public function getLocation(Request $request)
