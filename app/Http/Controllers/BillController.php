@@ -68,7 +68,7 @@ class BillController extends Controller
             $bills->bill_type = "rent";
             $bills->amount_balance = $request->amount_balance;
             $bills->due_date = $request->due_date;
-            $bills->status = "0";
+            $bills->status = "2";
 
             $res = $bills->save();
             if ($res) {
@@ -94,7 +94,7 @@ class BillController extends Controller
             $bills->bill_type = "rent";
             $bills->amount_balance = $request->amount_balance;
             $bills->due_date = $request->due_date;
-            $bills->status = "0";
+            $bills->status = "2";
 
             $res = $bills->save();
             if ($res) {
@@ -147,7 +147,7 @@ class BillController extends Controller
             $bills->bill_type = "electric";
             $bills->amount_balance = $request->amount_balance;
             $bills->due_date = $request->due_date;
-            $bills->status = "0";
+            $bills->status = "2";
 
             $res = $bills->save();
             if ($res) {
@@ -173,7 +173,7 @@ class BillController extends Controller
             $bills->bill_type = "electric";
             $bills->amount_balance = $request->amount_balance;
             $bills->due_date = $request->due_date;
-            $bills->status = "0";
+            $bills->status = "2";
 
             $res = $bills->save();
             if ($res) {
@@ -226,7 +226,7 @@ class BillController extends Controller
             $bills->bill_type = "water";
             $bills->amount_balance = $request->amount_balance;
             $bills->due_date = $request->due_date;
-            $bills->status = "0";
+            $bills->status = "2";
 
             $res = $bills->save();
             if ($res) {
@@ -252,7 +252,7 @@ class BillController extends Controller
             $bills->bill_type = "water";
             $bills->amount_balance = $request->amount_balance;
             $bills->due_date = $request->due_date;
-            $bills->status = "0";
+            $bills->status = "2";
 
             $res = $bills->save();
             if ($res) {
