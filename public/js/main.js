@@ -287,6 +287,9 @@ function statusUpdate() {
             case "1":
                 colStatus.innerHTML = "Occupied";
                 break;
+            case "2":
+                colStatus.innerHTML = "Unpaid";
+                break;
             case "3":
                 colStatus.innerHTML = "Paid";
                 break;
