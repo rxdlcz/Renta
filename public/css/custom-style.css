@@ -112,12 +112,26 @@ table.dataTable thead td {
     border-radius: 20px;
 }
 
-.more-details{
-    cursor: pointer;
+.del{
+    background-color: #dc3545 !important;
+    color: white;
 }
-.detail-link{
-    text-decoration: none;
+
+.avatar img{
+    width: 70px;
 }
-.card-text{
-    font-size: 5rem;
+
+.card-header{
+    background-color: transparent;
+    border: none;
+    margin-top: 0.25rem;
+}
+
+.card{
+    border-radius: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+}
+
+.btn-block{
+    background-color: #d9dfea;
 }
