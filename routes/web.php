@@ -30,6 +30,12 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::post('login-user', [AuthController::class, 'loginUser'])->name('login-user');
     Route::get('/logout', [AuthController::class, 'logout']);
 
+    Route::get('/forgotPassword', [AuthController::class, 'forgotPassword']);
+    Route::post('/sendforgotPassword', [AuthController::class, 'sendforgotPassword']);
+
+    Route::get('/resetPassword/{token}', [AuthController::class, 'resetPassword'])->name('reset.password.form');
+    Route::post('/resetPass', [AuthController::class, 'resetPass']);
+
     //Route for checking Session
     Route::group(['middleware' => 'isLoggedIn'], function () {
 

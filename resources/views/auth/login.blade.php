@@ -25,6 +25,10 @@
                 <img src="../img/logo.png" id="icon" alt="User Icon" />
             </div>
 
+            @if (Session::has('success'))
+                <div class="alert alert-success">{{ Session::get('success') }}</div>
+            @endif
+
             <!-- Login Form -->
             <form id="login-form">
                 @csrf
@@ -39,7 +43,7 @@
 
             <!-- Remind Passowrd -->
             <div id="formFooter">
-                <a class="underlineHover" href="#">Forgot Password?</a>
+                <a class="underlineHover" href="/forgotPassword">Forgot Password?</a>
             </div>
 
         </div>

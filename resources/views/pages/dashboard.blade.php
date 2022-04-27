@@ -120,7 +120,7 @@
             </div>
         </div>
         <div class="col-12 col-lg-3">
-            <div class="card" data-bs-toggle="modal" data-bs-target="#ProfileModal">
+            <div class="card" data-bs-toggle="modal" data-bs-target="#ProfileModal" style="cursor: pointer;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="avatar avatar-xl">
