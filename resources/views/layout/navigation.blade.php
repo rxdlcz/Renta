@@ -34,6 +34,7 @@
         {{-- Validation Handling --}}
 
         <!-- navigation -->
+        <nav>
         <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidenav" style="width: 280px;">
             <a href="#" class="logo">
                 <img src="../img/logo.png" id="icon" alt="User Icon" class="img-fluid" />
@@ -184,6 +185,7 @@
                 </ul>
             </div>
         </div>
+    </nav>
 
         {{-- Profile Modal --}}
 

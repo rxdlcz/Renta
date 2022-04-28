@@ -1,4 +1,4 @@
-@extends('pages.manage.navigation')
+@extends('layout.navigation')
 
 @section('title', 'Dashboard')
 @section('content')
@@ -74,7 +74,12 @@
                 <div class="col-12 col-xl-4 mt-3">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Add Payment</h4>
+                            <div class="d-flex">
+                                <span>
+                                    <img src="img/icon/addPayment.png" alt="" width="32" height="32">
+                                </span>
+                                <h4 class="mx-2">Add Payment</h4>
+                            </div>              
                         </div>
                         <div class="card-body align-items-center d-flex justify-content-center">
                             <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#addModal">

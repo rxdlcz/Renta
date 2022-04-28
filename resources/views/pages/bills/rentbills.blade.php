@@ -1,4 +1,4 @@
-@extends('pages.manage.navigation')
+@extends('layout.navigation')
 
 @section('title', 'Rent Bills')
 @section('content')
