@@ -10,7 +10,6 @@ body {
 }
 
 .sidenav {
-    background-color: #212529e0;
     height: 100%;
 }
 
@@ -53,6 +52,19 @@ main {
     height: 100vh;
     height: -webkit-fill-available;
     max-height: 100vh;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: auto;
+}
+
+header {
+    display: none;
+}
+@media only screen and (max-width: 1000px) {
+    header {
+        display: block;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    nav {
+        display: none;
+    }
 }

@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-xl-8 mt-3">
-                    <div class="card">
+                    <div class="card mb-3">
                         <div class="card-header">
                             <div class="d-flex">
                                 <span>

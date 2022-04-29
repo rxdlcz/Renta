@@ -2,6 +2,8 @@
     background-color: white;
     border-radius: 2rem;
     box-shadow: 1px 1px 10px lightgrey;
+    height: fit-content;
+    margin-bottom: 100px !important;
 }
 
 .table thead {
