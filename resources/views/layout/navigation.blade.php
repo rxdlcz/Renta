@@ -18,14 +18,36 @@
 
 </head>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
             <a href="#" class="logo" style="">
                 <img src="../img/logo.png" id="icon" alt="Brand Icon" height="42" />
             </a>
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <div class="d-flex">
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none"
+                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong style="margin-right:10px;">{{ $data->firstname }}</strong> 
+                        <img src="img/adminImg/{{ $data->profImg }}" alt="" width="36" height="36"
+                            class="rounded-circle me-3">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#ChangePass">Change
+                                Password</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#ProfileModal">Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="logout">Sign out</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav">
                     <a href="dashboard"
@@ -58,6 +80,7 @@
                     <a href="user" class="nav-item nav-link {{ 'user' == request()->path() ? 'active' : '' }}">
                         Users
                     </a>
+                    
                 </div>
             </div>
         </div>
@@ -77,7 +100,7 @@
         {{-- Validation Handling --}}
 
         <!-- navigation -->
-        <nav>
+        <nav class="side-nav">
             <div class="d-flex flex-column flex-shrink-0 p-2 text-white bg-dark sidenav" style="width: 240px;">
                 <a href="#" class="logo">
                     <img src="../img/logo.png" id="icon" alt="Brand Icon" class="img-fluid" />
