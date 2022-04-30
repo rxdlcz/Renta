@@ -266,7 +266,7 @@
 
     <footer>
         <!-- Profile Modal -->
-        <div class="modal fade" id="ProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade" id="ProfileModal" data-bs-backdrop="static" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog ">
                 <div class="modal-content">
@@ -326,7 +326,7 @@
         </div>
 
         <!-- Change Pass Modal -->
-        <div class="modal fade" id="ChangePass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade" id="ChangePass" data-bs-backdrop="static" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -359,7 +359,7 @@
         </div>
 
 
-        <div class="modal fade" id="cropModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade" id="cropModal" data-bs-backdrop="static" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">

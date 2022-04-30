@@ -54,7 +54,7 @@
         </tbody>
     </table>
 
-    {{-- Add Modal  id="addForm" class="addFormModal" --}}
+    {{-- Add Modal --}}
     <div class="modal fade" id="addModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

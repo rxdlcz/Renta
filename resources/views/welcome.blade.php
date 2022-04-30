@@ -129,8 +129,4 @@
             </div>
         </div>
     </body>
-
-    <script>
-        window.location.href = "/login";
-    </script>
 </html>
