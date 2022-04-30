@@ -20,4 +20,8 @@ class bill extends Model
     public function tenant(){
         return $this->belongsTo(tenant::class);
     }
+
+    public function payment(){
+        return $this->hasMany(payment::class, 'bill_id', 'id');
+    }
 }

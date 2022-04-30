@@ -79,7 +79,7 @@
                                     <img src="img/icon/addPayment.png" alt="" width="32" height="32">
                                 </span>
                                 <h4 class="mx-2">Add Payment</h4>
-                            </div>              
+                            </div>
                         </div>
                         <div class="card-body align-items-center d-flex justify-content-center">
                             <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -105,14 +105,16 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Unit</th>
+                                            <th>Type</th>
                                             <th>Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($payments as $payment)
                                             <tr>
+                                                <td>{{ $payment->tenant->firstname }}</td>
                                                 <td>{{ $payment->tenant_id }}</td>
-                                                <td>{{ $payment->tenant_id }}</td>
+                                                <td>{{ $payment->bill->bill_type }}</td>
                                                 <td>{{ $payment->amount }}</td>
                                             </tr>
                                         @endforeach
@@ -175,5 +177,145 @@
         </div>
     </section>
 
+    {{-- Add Modal --}}
+    <div class="modal fade" id="addModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="addModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ">Add Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/addUnit" method="post" id="addForm" class="addFormModal">
+                    @csrf
+                    <div class="modal-body mt-3">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="mx-1">Tenant</label>
+                                <select class="form-select" name="tenant_id" id="paymentName_select" required>
+                                    {{-- <option value="">San jose</option> --}}
+                                    @foreach ($tenants as $tenant)
+                                        <option value={{ $tenant->id }}>{{ $tenant->firstname }}
+                                            {{ $tenant->lastname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span class="txt_error text-danger mx-1 name_error"></span>
+
+                                <label class="mx-1">House Unit</label>
+                                <select class="form-select" name="unit_id" disabled>
+                                    @foreach ($units as $unit)
+                                        <option value={{ $unit->id }}>{{ $unit->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="txt_error text-danger mx-1 location_id_error"></span>
+
+                                <label class="mx-1">Type</label>
+                                <input type="text" name="bill_type" class="form-control" readonly>
+                                <span class="txt_error text-danger mx-1 price_error"></span>
+
+                                <label class="mx-1">Amount</label>
+                                <input type="number" name="amount" class="form-control" readonly>
+                                <span class="txt_error text-danger mx-1 price_error"></span>
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="mx-1">Choose Bill</label>
+                                <table class="table table-hover" id="select_bill">
+                                    <thead>
+                                        <tr>
+                                            <th>Unit</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Pay</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- End Add Modal --}}
 
 @stop
+
+@section('javascript')
+    <script>
+        $('select').val('');
+        var sbill;
+        $(document).ready(function() {
+            sbill = $('#select_bill').dataTable({
+                "scrollY": "150px",
+                "scrollCollapse": true,
+                "paging": false,
+                "scrollX": true,
+                "scroller": true,
+                "searching": false
+            });
+            $('#select_bill tbody').on('click', 'tr', function() {
+                $('#select_bill > tbody  > tr').each(function(index) {
+                    $(this).removeClass('table-active');
+                });
+                $(this).addClass('table-active');
+
+                var unit = $(this).find('td:eq(0)').text();
+                var type = $(this).find('td:eq(1)').text();
+                var amount = $(this).find('td:eq(2)').text();
+                //console.log(parent_id);
+
+                $('.addFormModal input[name=unit_id]').val(unit);
+                $('.addFormModal input[name=bill_type]').val(type);
+                $('.addFormModal input[name=amount]').val(amount);
+            })
+
+        });
+
+
+
+        $("#paymentName_select").change(function() {
+            console.log($('#paymentName_select :selected').val());
+
+            var fetchURL = '/getBillDetails/' + $('#paymentName_select :selected').val();
+
+            $.ajax({
+                type: "GET",
+                url: fetchURL,
+                dataType: "json",
+                beforeSend: function() {
+                    sbill.dataTable().fnClearTable();
+                    sbill.dataTable().fnDraw();
+                    sbill.dataTable().fnDestroy();
+                },
+                success: function(response) {
+                    console.log(response);
+
+                    sbill = $('#select_bill').dataTable({
+                        "scrollY": "150px",
+                        "scrollCollapse": true,
+                        "paging": false,
+                        "scrollX": true,
+                        "scroller": true,
+                        "searching": false
+                    });
+                    //add value to bills tab
+                    $.each(response.bill, function(key, item) {
+                        sbill.dataTable().fnAddData([
+                            item.id,
+                            item.bill_type,
+                            item.amount_balance,
+                        ]);
+                    });
+
+
+                }
+            });
+        });
+    </script>
+@endsection

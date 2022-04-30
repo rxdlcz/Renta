@@ -24,7 +24,7 @@ class ManageController extends Controller
         $units = unit::get();
         $tenants = tenant::get();
         $bills = bill::where('status', '!=', '3')->count();
-        $payments = payment::get();
+        $payments = payment::with('tenant', 'bill')->get();
 
         $data = array();
         if (Session::has('loginId')) {
@@ -32,6 +32,17 @@ class ManageController extends Controller
             $users = User::all()->except(Session::get('loginId'));
         }
         return view('pages.dashboard', compact('data', 'locations', 'units', 'tenants', 'bills', 'users', 'payments'));
+    }
+    public function getBillDetails($id){
+        $tenants = tenant::find($id);
+        $tenant_unit = unit::find($tenants->unit_id);
+        $bill = bill::where('tenant_id', $id)->get();
+
+        return response()->json([
+            'tenants' => $tenants,
+            'tenant_unit' => $tenant_unit,
+            'bill' => $bill,
+        ]);
     }
     //Manage Location
     public function getLocation(Request $request)

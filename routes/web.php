@@ -17,11 +17,14 @@ use App\Http\Controllers\ProfileController;
 |
 */
 //Route to prevent back button
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::group(['middleware' => 'prevent-back-history'], function () {
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
+
 
     Route::get('/hashid_demo', [AuthController::class, 'hashid_demo']);
 
@@ -43,6 +46,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         //Route for navigation section
 
         Route::get('/dashboard', [ManageController::class, 'dashboard']);
+        Route::get('/getBillDetails/{id}', [ManageController::class, 'getBillDetails']);
 
         /* All Route for Manage Nav */
         //Route for Location Nav
@@ -84,7 +88,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         //Route for Rent Bills nav
         Route::get('/rentbills', [BillController::class, 'getRent']);
         Route::post('/addRent', [BillController::class, 'addRent']);
-        Route::post('/editRent/{id}', [BillController::class, 'editRent']);       
+        Route::post('/editRent/{id}', [BillController::class, 'editRent']);
         //End of Rent Bills nav
 
         //Route for Electric Bills

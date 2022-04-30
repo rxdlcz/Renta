@@ -246,6 +246,12 @@ function actionButton() {
                 //console.log(response.bills);
                 var tenant = response.tenants;
                 var bill = response.bills;
+                
+                //add value to select
+                $('.detailForm select[name=unit_id]').empty();
+                $.each(response.units, function (key, value) {
+                    $('.detailForm select[name=unit_id]').append('<option value=' + value['id'] + '>' + value['name'] + '</option>');
+                });
 
                 //add value to View and update Tab
                 for (key in tenant) {
@@ -270,12 +276,6 @@ function actionButton() {
                         item.due_date,
                         item.status
                     ]);
-                });
-
-                //add value to select
-                $('.detailForm select[name=unit_id]').empty();
-                $.each(response.units, function (key, value) {
-                    $('.detailForm select[name=unit_id]').append('<option value=' + value['id'] + '>' + value['name'] + '</option>');
                 });
             }
         });
