@@ -47,6 +47,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         Route::get('/dashboard', [ManageController::class, 'dashboard']);
         Route::get('/getBillDetails/{id}', [ManageController::class, 'getBillDetails']);
+        Route::post('/addPayment', [ManageController::class, 'addPayment']);
 
         /* All Route for Manage Nav */
         //Route for Location Nav

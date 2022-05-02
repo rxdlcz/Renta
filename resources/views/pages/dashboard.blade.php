@@ -100,24 +100,16 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover table-lg">
+                                <table class="table table-hover table-lg" id="table-content">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Unit</th>
                                             <th>Type</th>
                                             <th>Amount</th>
+                                            <th>Date of Payment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($payments as $payment)
-                                            <tr>
-                                                <td>{{ $payment->tenant->firstname }}</td>
-                                                <td>{{ $payment->tenant_id }}</td>
-                                                <td>{{ $payment->bill->bill_type }}</td>
-                                                <td>{{ $payment->amount }}</td>
-                                            </tr>
-                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -186,7 +178,7 @@
                     <h5 class="modal-title ">Add Payment</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/addUnit" method="post" id="addForm" class="addFormModal">
+                <form action="/addPayment" method="post" id="addForm" class="addFormModal">
                     @csrf
                     <div class="modal-body mt-3">
                         <div class="row">
@@ -200,7 +192,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <span class="txt_error text-danger mx-1 name_error"></span>
+                                <span class="txt_error text-danger mx-1 tenant_id_error"></span>
 
                                 <label class="mx-1">House Unit</label>
                                 <select class="form-select" name="unit_id" disabled>
@@ -208,22 +200,23 @@
                                         <option value={{ $unit->id }}>{{ $unit->name }}</option>
                                     @endforeach
                                 </select>
-                                <span class="txt_error text-danger mx-1 location_id_error"></span>
+                                <span class="txt_error text-danger mx-1 unit_id_error"></span>
 
+                                <input type="hidden" name="bill_id" value="">
                                 <label class="mx-1">Type</label>
                                 <input type="text" name="bill_type" class="form-control" readonly>
-                                <span class="txt_error text-danger mx-1 price_error"></span>
+                                <span class="txt_error text-danger mx-1 bill_id_error"></span>
 
                                 <label class="mx-1">Amount</label>
                                 <input type="number" name="amount" class="form-control" readonly>
-                                <span class="txt_error text-danger mx-1 price_error"></span>
+                                <span class="txt_error text-danger mx-1 amount_error"></span>
                             </div>
                             <div class="col-sm-8">
                                 <label class="mx-1">Choose Bill</label>
                                 <table class="table table-hover" id="select_bill">
                                     <thead>
                                         <tr>
-                                            <th>Unit</th>
+                                            <th>ID</th>
                                             <th>Type</th>
                                             <th>Amount</th>
                                         </tr>
@@ -257,7 +250,7 @@
                 "paging": false,
                 "scrollX": true,
                 "scroller": true,
-                "searching": false
+                "searching": false,
             });
             $('#select_bill tbody').on('click', 'tr', function() {
                 $('#select_bill > tbody  > tr').each(function(index) {
@@ -265,12 +258,12 @@
                 });
                 $(this).addClass('table-active');
 
-                var unit = $(this).find('td:eq(0)').text();
+                var bill_id = $(this).find('td:eq(0)').text();
                 var type = $(this).find('td:eq(1)').text();
                 var amount = $(this).find('td:eq(2)').text();
                 //console.log(parent_id);
 
-                $('.addFormModal input[name=unit_id]').val(unit);
+                $('.addFormModal input[name=bill_id]').val(bill_id);
                 $('.addFormModal input[name=bill_type]').val(type);
                 $('.addFormModal input[name=amount]').val(amount);
             })
@@ -281,6 +274,8 @@
 
         $("#paymentName_select").change(function() {
             console.log($('#paymentName_select :selected').val());
+
+            $('.addFormModal input[name=bill_type], input[name=amount], select[name=unit_id]').val('');
 
             var fetchURL = '/getBillDetails/' + $('#paymentName_select :selected').val();
 
@@ -302,17 +297,19 @@
                         "paging": false,
                         "scrollX": true,
                         "scroller": true,
-                        "searching": false
+                        "searching": false,
                     });
                     //add value to bills tab
-                    $.each(response.bill, function(key, item) {
-                        sbill.dataTable().fnAddData([
-                            item.id,
-                            item.bill_type,
-                            item.amount_balance,
-                        ]);
+                    $.each(response.bills, function(key, item) {
+                        if (item.status != 3) {
+                            sbill.dataTable().fnAddData([
+                                item.id,
+                                item.bill_type,
+                                item.amount_balance,
+                            ]);
+                        }
                     });
-
+                    $('.addFormModal select[name=unit_id]').val(response.tenants.unit_id);
 
                 }
             });

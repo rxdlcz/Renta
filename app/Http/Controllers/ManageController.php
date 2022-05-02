@@ -18,7 +18,7 @@ use DB;
 class ManageController extends Controller
 {
     //Dashboard
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $locations = location::get();
         $units = unit::get();
@@ -26,24 +26,74 @@ class ManageController extends Controller
         $bills = bill::where('status', '!=', '3')->count();
         $payments = payment::with('tenant', 'bill')->get();
 
-        $data = array();
+        $data = array();    
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
             $users = User::all()->except(Session::get('loginId'));
         }
-        return view('pages.dashboard', compact('data', 'locations', 'units', 'tenants', 'bills', 'users', 'payments'));
+
+        if ($request->ajax()) {
+            $payments = payment::join('tenants', 'payments.tenant_id', '=', 'tenants.id')
+                ->join('bills', 'payments.bill_id', '=', 'bills.id')
+                ->select(DB::raw("CONCAT(tenants.firstname,' ', tenants.lastname) AS fullname"),'bills.bill_type', 'payments.amount', 'payments.created_at')
+                ->get();
+
+            return response()->json([
+                'payments' => $payments,
+            ]);
+        }
+
+        return view('pages.dashboard', compact('data', 'locations', 'units', 'tenants', 'bills', 'users'));
     }
-    public function getBillDetails($id){
+    public function getBillDetails($id)
+    {
         $tenants = tenant::find($id);
         $tenant_unit = unit::find($tenants->unit_id);
-        $bill = bill::where('tenant_id', $id)->get();
+
+        $bills = bill::join('tenants', 'bills.tenant_id', '=', 'tenants.id')
+            //->join('units', 'tenants.unit_id', '=', 'units.id')
+            ->select('bills.id', 'tenants.unit_id', 'bills.bill_type', 'bills.amount_balance', 'bills.status')
+            ->where('tenant_id', $id)
+            ->get();
 
         return response()->json([
             'tenants' => $tenants,
             'tenant_unit' => $tenant_unit,
-            'bill' => $bill,
+            'bills' => $bills,
         ]);
     }
+    public function addPayment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'tenant_id' => 'required',
+            'bill_id' => 'required',
+            'amount' => 'required',
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            $payment = new payment();
+            $payment->tenant_id = $request->tenant_id;
+            $payment->bill_id = $request->bill_id;
+            $payment->reference_id = sprintf('%s%07s%02s',now()->format('ymd'),$request->tenant_id,$request->bill_id);
+            $payment->amount = $request->amount;
+            $payment->receiver_id = "1";
+            $payment->status = "3";
+
+            $bill = bill::find($request->bill_id);
+            $bill->status = 3;
+            $bill->save();
+
+            $res = $payment->save();
+            if ($res) {
+                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
+            } else {
+                return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+            }
+        }
+    }
+
     //Manage Location
     public function getLocation(Request $request)
     {
@@ -320,7 +370,7 @@ class ManageController extends Controller
         $units = Unit::where('vacant_status', 0)
             ->orWhere('id', $tenants->unit_id)
             ->get();
-        $bills = bill::where('tenant_id', $id)  
+        $bills = bill::where('tenant_id', $id)
             ->get();
 
         return response()->json([
