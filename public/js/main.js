@@ -11,6 +11,8 @@ function getData(fetchURL) {
         button =
             "<button class='btn bg-info detail ml-2' data-bs-toggle='modal' data-bs-target='#tenantDetailModal'>View Tenant</button>\
             <button class='btn bg-info del ml-2' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>";
+    } else if (fetchURL == "/payment") {
+        button = "<button class='btn bg-info del ml-2' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</button>";
     } else {
         button =
             "<button class='btn bg-info edit ml-2' data-bs-toggle='modal' data-bs-target='#editModal'>Edit</button>\
@@ -246,7 +248,7 @@ function actionButton() {
                 //console.log(response.bills);
                 var tenant = response.tenants;
                 var bill = response.bills;
-                
+
                 //add value to select
                 $('.detailForm select[name=unit_id]').empty();
                 $.each(response.units, function (key, value) {

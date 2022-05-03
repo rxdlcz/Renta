@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\tenant;
+use App\Models\payment;
+use App\Models\Unit;
 use App\Models\bill;
 use Hashids\Hashids;
 use Session;
@@ -263,4 +265,56 @@ class BillController extends Controller
         }
     }
     //End of electric bill nav
+
+    //Payment nav
+    public function getPayment(Request $request)
+    {
+        $tenants = tenant::get();
+        $units = unit::get();
+        $bills = bill::where('status', '!=', '3')->count();
+        $payments = payment::with('tenant', 'bill')->get();
+
+        $data = array();    
+        if (Session::has('loginId')) {
+            $data = User::where('id', '=', Session::get('loginId'))->first();
+            $users = User::all()->except(Session::get('loginId'));
+        }
+
+        $data = array();
+        if (Session::has('loginId')) {
+            $data = User::where('id', '=', Session::get('loginId'))->first();
+        }
+
+        if ($request->ajax()) {
+            $payments = payment::join('tenants', 'payments.tenant_id', '=', 'tenants.id')
+                ->join('bills', 'payments.bill_id', '=', 'bills.id')
+                ->select('payments.id', DB::raw("CONCAT(tenants.firstname,' ', tenants.lastname) AS fullname"),'bills.bill_type', 'payments.amount', 'payments.created_at')
+                ->get();
+
+            return response()->json([
+                'payments' => $payments,
+            ]);
+        }
+
+        return view('pages.bills.payment', compact('data', 'units', 'tenants', 'bills', 'users'));
+    }
+    public function deletePayment(Request $request, $id)
+    {
+        $bill_id = payment::select('bill_id')
+            ->where('id', $id)
+            ->get();
+
+        $bill = bill::find($bill_id)->first();
+        $bill->status = '2';
+        $bill->save();
+
+        $payments = payment::destroy($id);
+
+        if ($payments) {
+            return response()->json(['status' => 1,]);
+        } else {
+            return response()->json(['status' => 0,]);
+        }
+    }
+    //End bills funtion
 }

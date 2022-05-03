@@ -18,18 +18,13 @@ use App\Http\Controllers\ProfileController;
 */
 //Route to prevent back button
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::group(['middleware' => 'prevent-back-history'], function () {
 
-
-
-    Route::get('/hashid_demo', [AuthController::class, 'hashid_demo']);
-
     //Route for login authentication
-    Route::get('/login', [AuthController::class, 'login'])->middleware('alreadyLoggedIn');
+
+    Route::get('/', [AuthController::class, 'login'])->middleware('alreadyLoggedIn');
     Route::post('login-user', [AuthController::class, 'loginUser'])->name('login-user');
     Route::get('/logout', [AuthController::class, 'logout']);
 
@@ -48,6 +43,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::get('/dashboard', [ManageController::class, 'dashboard']);
         Route::get('/getBillDetails/{id}', [ManageController::class, 'getBillDetails']);
         Route::post('/addPayment', [ManageController::class, 'addPayment']);
+        Route::post('/deletePayment/{id}', [BillController::class, 'deletePayment']);
 
         /* All Route for Manage Nav */
         //Route for Location Nav
@@ -82,6 +78,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
 
         //All Route for Bills
+        //Route for Payment
+        Route::get('/payment', [BillController::class, 'getPayment']);
 
         //Route for deleting bills
         Route::post('/deleteBills/{id}', [BillController::class, 'deleteBills']);
