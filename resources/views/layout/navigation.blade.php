@@ -28,7 +28,7 @@
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none" id="dropdownUser1"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <strong style="margin-right:10px;">{{ $data->firstname }}</strong>
-                        <img src="img/adminImg/{{ $data->profImg }}" alt="" width="36" height="36"
+                        <img src="img/adminImg/{{ $data->profImg }}" onerror="this.onerror=null;this.src='img/defaultimage.png';" alt="" width="36" height="36"
                             class="rounded-circle me-3">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
@@ -265,7 +265,7 @@
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                         id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="img/adminImg/{{ $data->profImg }}" alt="" width="32" height="32"
+                        <img src="img/adminImg/{{ $data->profImg }}" onerror="this.onerror=null;this.src='img/defaultimage.png';" alt="" width="32" height="32"
                             class="rounded-circle me-2 ">
                         <strong>{{ $data->firstname }}</strong>
                     </a>
@@ -308,7 +308,7 @@
                         @csrf
                         <div class="dp-container mt-3">
                             <div class="outer">
-                                <img src="img/adminImg/{{ $data->profImg }}" alt=""
+                                <img src="img/adminImg/{{ $data->profImg }}" onerror="this.onerror=null;this.src='img/defaultimage.png';" alt=""
                                     class="rounded-circle img-fluid shadow-lg border" id="img-temp">
                                 <div class="inner">
                                     <input class="inputfile" type="file" name="profileImg"

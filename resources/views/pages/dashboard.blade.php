@@ -123,7 +123,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="avatar avatar-xl">
-                            <img src="img/adminImg/{{ $data->profImg }}" alt="">
+                            <img src="img/adminImg/{{ $data->profImg }}" onerror="this.onerror=null;this.src='img/defaultimage.png';" alt="">
                         </div>
                         <div class="ms-3 name">
                             <h5 class="font-bold">{{ $data->firstname }} {{ $data->lastname }}</h5>
@@ -148,7 +148,7 @@
                         @if ($loop->iteration <= 3)
                             <div class="recent-message d-flex px-4 py-3">
                                 <div class="avatar avatar-lg">
-                                    <img src="img/adminImg/{{ $user->profImg }}">
+                                    <img src="img/adminImg/{{ $user->profImg }}" onerror="this.onerror=null;this.src='img/defaultimage.png';">
                                 </div>
                                 <div class="name ms-4">
                                     <h5 class="mb-1">{{ $user->firstname }} {{ $user->lastname }}</h5>
