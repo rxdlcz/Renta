@@ -25,15 +25,14 @@
             </a>
             <div class="d-flex">
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center text-white text-decoration-none"
-                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong style="margin-right:10px;">{{ $data->firstname }}</strong> 
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none" id="dropdownUser1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong style="margin-right:10px;">{{ $data->firstname }}</strong>
                         <img src="img/adminImg/{{ $data->profImg }}" alt="" width="36" height="36"
                             class="rounded-circle me-3">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                data-bs-target="#ChangePass">Change
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#ChangePass">Change
                                 Password</a></li>
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
                                 data-bs-target="#ProfileModal">Profile</a></li>
@@ -47,14 +46,15 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
-            
+
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav">
                     <a href="dashboard"
                         class="nav-item nav-link {{ 'dashboard' == request()->path() ? 'active' : '' }}">
                         Dashboard
                     </a>
-                    <a href="location" class="nav-item nav-link {{ 'location' == request()->path() ? 'active' : '' }}">
+                    <a href="location"
+                        class="nav-item nav-link {{ 'location' == request()->path() ? 'active' : '' }}">
                         Location
                     </a>
                     <a href="unit" class="nav-item nav-link {{ 'unit' == request()->path() ? 'active' : '' }}">
@@ -80,7 +80,6 @@
                     <a href="user" class="nav-item nav-link {{ 'user' == request()->path() ? 'active' : '' }}">
                         Users
                     </a>
-                    
                 </div>
             </div>
         </div>
@@ -100,8 +99,8 @@
         {{-- Validation Handling --}}
 
         <!-- navigation -->
-        <nav class="side-nav">
-            <div class="d-flex flex-column flex-shrink-0 p-2 text-white bg-dark sidenav" style="width: 240px;">
+        <nav class="side-nav sticky-top h-100">
+            <div class="d-flex flex-column flex-shrink-0 p-2 text-white bg-dark sidenav">
                 <a href="#" class="logo">
                     <img src="../img/logo.png" id="icon" alt="Brand Icon" class="img-fluid" />
                 </a>
@@ -171,8 +170,20 @@
                     <p class="mt-3">bills</p>
                     <hr>
                     <li>
-                        <a href="rentbills"
-                            class="nav-link text-white {{ 'rentbills' == request()->path() ? 'active' : '' }}">
+                        <a href="payment" class="nav-link text-white {{ 'payment' == request()->path() ? 'active' : '' }}">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-credit-card" viewBox="0 0 16 16">
+                                    <path
+                                        d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
+                                    <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
+                                </svg>
+                            </span>
+                            Payment
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-bs-toggle="collapse" data-bs-target="#bill-drop"  class="collapsed nav-link text-white dropdown-toggle">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-archive" viewBox="0 0 16 16">
@@ -180,38 +191,56 @@
                                         d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
                                 </svg>
                             </span>
-                            Rent Bills
+                            Bills
                         </a>
                     </li>
-                    <li>
-                        <a href="electricbills"
-                            class="nav-link text-white {{ 'electricbills' == request()->path() ? 'active' : '' }}">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-lightning" viewBox="0 0 16 16">
-                                    <path
-                                        d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641l2.5-8.5zM6.374 1 4.168 8.5H7.5a.5.5 0 0 1 .478.647L6.78 13.04 11.478 7H8a.5.5 0 0 1-.474-.658L9.306 1H6.374z" />
-                                </svg>
-                            </span>
-                            Electric Bills
-                        </a>
-                    </li>
-                    <li>
-                        <a href="waterbills"
-                            class="nav-link text-white {{ 'waterbills' == request()->path() ? 'active' : '' }}">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-droplet" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M7.21.8C7.69.295 8 0 8 0c.109.363.234.708.371 1.038.812 1.946 2.073 3.35 3.197 4.6C12.878 7.096 14 8.345 14 10a6 6 0 0 1-12 0C2 6.668 5.58 2.517 7.21.8zm.413 1.021A31.25 31.25 0 0 0 5.794 3.99c-.726.95-1.436 2.008-1.96 3.07C3.304 8.133 3 9.138 3 10a5 5 0 0 0 10 0c0-1.201-.796-2.157-2.181-3.7l-.03-.032C9.75 5.11 8.5 3.72 7.623 1.82z" />
-                                    <path fill-rule="evenodd"
-                                        d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448z" />
-                                </svg>
-                            </span>
-                            Water Bills
-                        </a>
-                    </li>
-
+                    <div class="collapse bill-drop {{ 'rentbills' == request()->path() ? 'show' : '' }} {{ 'waterbills' == request()->path() ? 'show' : '' }} {{ 'electricbills' == request()->path() ? 'show' : '' }}"
+                        id="bill-drop">
+                        <li>
+                            <a href="rentbills"
+                                class="nav-link text-white {{ 'rentbills' == request()->path() ? 'active' : '' }}">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-calendar2-minus" viewBox="0 0 16 16">
+                                        <path d="M5.5 10.5A.5.5 0 0 1 6 10h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z" />
+                                        <path
+                                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z" />
+                                        <path
+                                            d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z" />
+                                    </svg>
+                                </span>
+                                Rent
+                            </a>
+                        </li>
+                        <li>
+                            <a href="electricbills"
+                                class="nav-link text-white {{ 'electricbills' == request()->path() ? 'active' : '' }}">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-lightning" viewBox="0 0 16 16">
+                                        <path
+                                            d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641l2.5-8.5zM6.374 1 4.168 8.5H7.5a.5.5 0 0 1 .478.647L6.78 13.04 11.478 7H8a.5.5 0 0 1-.474-.658L9.306 1H6.374z" />
+                                    </svg>
+                                </span>
+                                Electric
+                            </a>
+                        </li>
+                        <li>
+                            <a href="waterbills"
+                                class="nav-link text-white {{ 'waterbills' == request()->path() ? 'active' : '' }}">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-droplet" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M7.21.8C7.69.295 8 0 8 0c.109.363.234.708.371 1.038.812 1.946 2.073 3.35 3.197 4.6C12.878 7.096 14 8.345 14 10a6 6 0 0 1-12 0C2 6.668 5.58 2.517 7.21.8zm.413 1.021A31.25 31.25 0 0 0 5.794 3.99c-.726.95-1.436 2.008-1.96 3.07C3.304 8.133 3 9.138 3 10a5 5 0 0 0 10 0c0-1.201-.796-2.157-2.181-3.7l-.03-.032C9.75 5.11 8.5 3.72 7.623 1.82z" />
+                                        <path fill-rule="evenodd"
+                                            d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448z" />
+                                    </svg>
+                                </span>
+                                Water
+                            </a>
+                        </li>
+                    </div>
                     <!-- Settings section -->
                     <p class="mt-3">settings</p>
                     <hr>
@@ -395,7 +424,9 @@
             actionButton();
             buttonFunction();
             if (fetchURL != '/dashboard') {
-                statusUpdate();
+                if(fetchURL != '/payment'){
+                    statusUpdate();
+                }
             }
             //croppie attributes
             $image_crop = $('#image-preview').croppie({

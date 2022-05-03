@@ -10,6 +10,7 @@ body {
 }
 
 .sidenav {
+    width: 240px;
     height: 100%;
 }
 
@@ -58,11 +59,26 @@ main {
 header {
     display: none;
 }
+
+.bill-drop {
+    background-color: #343b42;
+}
+
+.dropdown-toggle::after{
+    float: right;
+    margin-top: 10px;
+}
+
+.side-nav {
+    width: 240px;
+}
+
 @media only screen and (max-width: 1000px) {
     header {
         display: block;
     }
 }
+
 @media only screen and (max-width: 1000px) {
     .side-nav {
         display: none;
