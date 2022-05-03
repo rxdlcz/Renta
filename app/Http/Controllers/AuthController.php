@@ -41,7 +41,7 @@ class AuthController extends Controller
         if (Session::has('loginId')) {
             $r = $request->session()->flush();
             Session::pull('loginId');
-            return redirect('login');
+            return redirect('/');
         }
     }
 

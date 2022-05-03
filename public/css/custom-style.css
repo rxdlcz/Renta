@@ -137,3 +137,7 @@ table.dataTable thead td {
 .btn-block{
     background-color: #d9dfea;
 }
+
+.edit:hover{
+    color: white;
+}

@@ -24,7 +24,7 @@
         </button>
     </div>
     <hr>
-    <table class="table align-items-center" id="table-content">
+    <table class="table align-items-center table-hover" id="table-content">
         <thead>
             <tr>
                 <th>ID</th>
