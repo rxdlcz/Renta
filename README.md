@@ -29,7 +29,9 @@ Alternative installation is possible without local dependencies relying on [Dock
 Clone the repository
 
     git clone git@github.com:rxdlcz/Renta.git
-
+    
+    alternative link :https://github.com/rxdlcz/Renta.git
+    
 Switch to the repo folder
 
     cd laravel-renta
@@ -46,10 +48,6 @@ Generate a new application key
 
     php artisan key:generate
 
-Generate a new JWT authentication secret key
-
-    php artisan jwt:generate
-
 Run the database migrations (**Set the database connection in .env before migrating**)
 
     php artisan migrate
@@ -63,6 +61,7 @@ You can now access the server at http://localhost:8000
 **TL;DR command list**
 
     git clone git@github.com:rxdlcz/Renta.git
+              https://github.com/rxdlcz/Renta.git
     cd laravel-renta
     composer install
     cp .env.example .env
