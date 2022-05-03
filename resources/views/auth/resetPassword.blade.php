@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap5.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/login.css')}}">
 
-    <title>Renta CMS</title>
+    <title>Renta CRM</title>
 </head>
 <header>
 
