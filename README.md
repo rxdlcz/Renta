@@ -28,9 +28,9 @@ Alternative installation is possible without local dependencies relying on [Dock
 
 Clone the repository
 
-    git clone git@github.com:rxdlcz/Renta.git
+    git clone git@github.com:rxdlcz/Renta-CMS.git
     
-    alternative link :https://github.com/rxdlcz/Renta.git
+    alternative link :https://github.com/rxdlcz/Renta-CMS.git
     
 Switch to the repo folder
 
@@ -60,8 +60,8 @@ You can now access the server at http://localhost:8000
 
 **TL;DR command list**
 
-    git clone git@github.com:rxdlcz/Renta.git
-              https://github.com/rxdlcz/Renta.git
+    git clone git@github.com:rxdlcz/Renta-CMS.git
+              https://github.com/rxdlcz/Renta-CMS.git
     cd laravel-renta
     composer install
     cp .env.example .env
