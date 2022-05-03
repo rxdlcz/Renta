@@ -169,7 +169,7 @@
         </div>
     </section>
 
-    {{-- Add Modal --}}
+    {{-- Add payment Modal --}}
     <div class="modal fade" id="addModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="addModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
