@@ -36,22 +36,6 @@
                 <th class="no-sort text-center">Action</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach ($bills as $bill)
-                <tr>
-                    <td>{{ $bill->id }}</td>
-                    <td>{{ $bill->tenant->firstname }} {{ $bill->tenant->lastname }}</td>
-                    <td>{{ $bill->amount_balance }}</td>
-                    <td>{{ $bill->due_date }}</td>
-                    <td>{{ $bill->status }}</td>
-                    <td><button class='btn bg-info edit ml-2' data-bs-toggle='modal'
-                            data-bs-target='#editModal'>Edit</button>
-                        <button class='btn bg-info del ml-2' data-bs-toggle='modal'
-                            data-bs-target='#deleteModal'>Delete</button>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
     </table>
 
     {{-- Add Modal --}}

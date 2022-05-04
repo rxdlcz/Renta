@@ -10,7 +10,8 @@ use App\Models\bill;
 use App\Models\payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Hashids\Hashids;
+use Illuminate\Support\Str;
+use Mail;
 use Hash;
 use Session;
 use DB;
@@ -26,7 +27,7 @@ class ManageController extends Controller
         $bills = bill::where('status', '!=', '3')->count();
         $payments = payment::with('tenant', 'bill')->get();
 
-        $data = array();    
+        $data = array();
         if (Session::has('loginId')) {
             $data = User::where('id', '=', Session::get('loginId'))->first();
             $users = User::all()->except(Session::get('loginId'));
@@ -35,7 +36,7 @@ class ManageController extends Controller
         if ($request->ajax()) {
             $payments = payment::join('tenants', 'payments.tenant_id', '=', 'tenants.id')
                 ->join('bills', 'payments.bill_id', '=', 'bills.id')
-                ->select(DB::raw("CONCAT(tenants.firstname,' ', tenants.lastname) AS fullname"),'bills.bill_type', 'payments.amount', 'payments.created_at')
+                ->select(DB::raw("CONCAT(tenants.firstname,' ', tenants.lastname) AS fullname"), 'bills.bill_type', 'payments.amount', 'payments.created_at')
                 ->get();
 
             return response()->json([
@@ -76,7 +77,7 @@ class ManageController extends Controller
             $payment = new payment();
             $payment->tenant_id = $request->tenant_id;
             $payment->bill_id = $request->bill_id;
-            $payment->reference_id = sprintf('%s%07s%02s',now()->format('ymd'),$request->tenant_id,$request->bill_id);
+            $payment->reference_id = sprintf('%s%07s%02s', now()->format('ymd'), $request->tenant_id, $request->bill_id);
             $payment->amount = $request->amount;
             $payment->receiver_id = "1";
             $payment->status = "3";
@@ -401,6 +402,26 @@ class ManageController extends Controller
             $tenant->firstname = $request->firstname;
             $tenant->lastname = $request->lastname;
             $tenant->email = $request->email;
+
+            $randomPass = Str::random(8);
+            $tenant->password = Hash::make($randomPass);
+
+            $body = "Welcome to Renta Website, In this email we send you your Account credentials as for this is a temporary password so please change your password upon your login";
+
+            Mail::send(
+                'email.email-newTenant',
+                [
+                    'body' => $body,
+                    'email' => $request->email,
+                    'tempPass' => $randomPass,
+                ],
+                function ($message) use ($request) {
+                    $message->from('cms.renta@gmail.com', 'RENTA CMS');
+                    $message->to($request->email)
+                        ->subject('CMS Renta Reset Password');
+                }
+            );
+
             $tenant->contact_number = $request->contact_number;
             $tenant->occupation_status = $request->occupation_status;
             $tenant->unit_id = $request->unit_id;

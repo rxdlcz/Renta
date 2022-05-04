@@ -423,11 +423,7 @@
             getData(fetchURL);
             actionButton();
             buttonFunction();
-            if (fetchURL != '/dashboard') {
-                if(fetchURL != '/payment'){
-                    statusUpdate();
-                }
-            }
+
             //croppie attributes
             $image_crop = $('#image-preview').croppie({
                 enableExif: true,
