@@ -4,7 +4,7 @@
 <a href="#"><img src="https://img.shields.io/badge/Under-Development-red" alt="Build Status"></a>
 </p>
 
-# Renta CMS Website
+# Renta CRM Website
  This website is for managing Tenants and Bills.
  
 # Language
@@ -28,9 +28,7 @@ Alternative installation is possible without local dependencies relying on [Dock
 
 Clone the repository
 
-    git clone git@github.com:rxdlcz/Renta-CMS.git
-    
-    alternative link :https://github.com/rxdlcz/Renta-CMS.git
+    git clone https://github.com/rxdlcz/Renta-CRM.git
     
 Switch to the repo folder
 
@@ -60,8 +58,7 @@ You can now access the server at http://localhost:8000
 
 **TL;DR command list**
 
-    git clone git@github.com:rxdlcz/Renta-CMS.git
-              https://github.com/rxdlcz/Renta-CMS.git
+    git clone https://github.com/rxdlcz/Renta-CRM.git
     cd laravel-renta
     composer install
     cp .env.example .env
@@ -82,4 +79,4 @@ You can now access the server at http://localhost:8000
 # Creator
  Created by: Rex Delacruz
  
- Date: March 24, 2022
+ Date: March 24, 2022 - Ongoing project
