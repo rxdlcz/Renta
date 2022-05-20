@@ -11,6 +11,7 @@ use App\Models\payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use File;
 use Mail;
 use Hash;
 use Session;
@@ -95,80 +96,12 @@ class ManageController extends Controller
         }
     }
 
-    //Manage Location
-    public function getLocation(Request $request)
-    {
-        $locations = location::select('id', 'location')->get();
-
-        $data = array();
-        if (Session::has('loginId')) {
-            $data = User::where('id', '=', Session::get('loginId'))->first();
-        }
-
-        if ($request->ajax()) {
-            return response()->json([
-                'locations' => $locations,
-            ]);
-        }
-        return view('pages.manage.location', compact('data', 'locations'));
-    }
-    public function addLocation(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'location' => 'required|unique:locations',
-        ]);
-
-        if (!$validator->passes()) {
-            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-        } else {
-            $location = new location();
-            $location->location = $request->location;
-
-            $res = $location->save();
-            if ($res) {
-                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
-            } else {
-                return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-            }
-        }
-    }
-    public function editLocation(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'location' => "required|unique:locations,location,$id",
-        ]);
-
-        if (!$validator->passes()) {
-            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-        } else {
-            $location = location::find($id);
-            $location->location = $request->location;
-
-            $res = $location->save();
-            if ($res) {
-                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
-            } else {
-                return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-            }
-        }
-    }
-    public function deleteLocation(Request $request, $id)
-    {
-
-        $location = location::destroy($id);
-
-        if ($location) {
-            return response()->json(['status' => 1,]);
-        } else {
-            return response()->json(['status' => 0,]);
-        }
-    }
-    //End of Manage Location
+    
 
     //Manage Users
     public function getUsers(Request $request)
     {
-
+        
         $users = user::select('id', 'firstname', 'lastname', 'email', 'username')->get();
 
         $data = array();
@@ -242,6 +175,9 @@ class ManageController extends Controller
     }
     public function deleteUser(Request $request, $id)
     {
+        $user = user::find($id);
+        File::delete('img/adminImg/' . $user->img);
+
         $users = user::destroy($id);
 
         if ($users) {
@@ -252,92 +188,6 @@ class ManageController extends Controller
     }
     //End Of Manage User
 
-    //Manage Units
-    public function getUnits(Request $request)
-    {
-        $locations = location::with('unit')->get();
-        $units = unit::with('location')->get();
-
-
-        $data = array();
-        if (Session::has('loginId')) {
-            $data = User::where('id', '=', Session::get('loginId'))->first();
-        }
-
-        if ($request->ajax()) {
-
-            $units = Unit::join('locations', 'units.location_id', '=', 'locations.id')
-                ->select('units.id', 'units.name', 'locations.location', 'units.price', 'vacant_status')
-                ->get();
-
-            return response()->json([
-                'units' => $units,
-            ]);
-        }
-        return view('pages.manage.unit', compact('data', 'units', 'locations'));
-    }
-    public function addUnit(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:units',
-            'location_id' => 'required',
-            'price' => 'required|numeric',
-        ]);
-
-        if (!$validator->passes()) {
-            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-        } else {
-            $unit = new Unit();
-            $unit->name = $request->name;
-            $unit->location_id = $request->location_id;
-            $unit->vacant_status = 0;
-            $unit->price = $request->price;
-
-            $res = $unit->save();
-
-            if ($res) {
-                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
-            } else {
-                return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-            }
-        }
-    }
-    public function editUnit(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'location_id' => 'required',
-            'price' => 'required|numeric',
-        ]);
-
-        if (!$validator->passes()) {
-            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-        } else {
-            $unit = unit::find($id);
-            $unit->name = $request->name;
-            $unit->location_id = $request->location_id;
-            $unit->price = $request->price;
-
-            $res = $unit->save();
-
-            if ($res) {
-                return response()->json(['status' => 1, 'error' => $validator->errors()->toArray()]);
-            } else {
-                return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-            }
-        }
-    }
-    public function deleteUnit(Request $request, $id)
-    {
-        $unit = unit::destroy($id);
-
-        if ($unit) {
-            return response()->json(['status' => 1,]);
-        } else {
-            return response()->json(['status' => 0,]);
-        }
-    }
-    //End of Manage Unit 
 
     //Manage tenants
     public function getTenants(Request $request)
