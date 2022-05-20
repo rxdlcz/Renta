@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\MgmtLocationController;
+use App\Http\Controllers\MgmtUnitController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -47,10 +49,11 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         /* All Route for Manage Nav */
         //Route for Location Nav
-        Route::get('/location', [ManageController::class, 'getLocation']);
-        Route::post('/addLocation', [ManageController::class, 'addLocation']);
-        Route::post('/editLocation/{id}', [ManageController::class, 'editLocation']);
-        Route::post('/deleteLocation/{id}', [ManageController::class, 'deleteLocation']);
+        Route::get('/location', [MgmtLocationController::class, 'getLocation']);
+        Route::post('/addLocation', [MgmtLocationController::class, 'addLocation']);
+        Route::post('/uploadLocation/{id}', [MgmtLocationController::class, 'uploadLocation']);
+        Route::post('/editLocation/{id}', [MgmtLocationController::class, 'editLocation']);
+        Route::post('/deleteLocation/{id}', [MgmtLocationController::class, 'deleteLocation']);
         //End Route for location nav
 
         //Route for User Nav
@@ -61,10 +64,11 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         //End Route for User Nav
 
         //Route for Unit Nav
-        Route::get('/unit', [ManageController::class, 'getUnits']);
-        Route::post('/addUnit', [ManageController::class, 'addUnit']);
-        Route::post('/editUnit/{id}', [ManageController::class, 'editUnit']);
-        Route::post('/deleteUnit/{id}', [ManageController::class, 'deleteUnit']);
+        Route::get('/unit', [MgmtUnitController::class, 'getUnits']);
+        Route::post('/addUnit', [MgmtUnitController::class, 'addUnit']);
+        Route::post('/uploadUnit/{id}', [MgmtUnitController::class, 'uploadUnit']);
+        Route::post('/editUnit/{id}', [MgmtUnitController::class, 'editUnit']);
+        Route::post('/deleteUnit/{id}', [MgmtUnitController::class, 'deleteUnit']);
         //End Route for Unit Nav
 
         //Route for Tenant nav
