@@ -17,7 +17,6 @@ class ProfileController extends Controller
     {
         $sessionUser = User::where('id', '=', Session::get('loginId'))->first();
         $id = $sessionUser['id'];
-        $oldFile = $sessionUser['profImg'];
 
         $validator = Validator::make($request->all(), [
             'firstname' => 'required',
@@ -35,21 +34,6 @@ class ProfileController extends Controller
             $user->lastname = $request->lastname;
             $user->email = $request->email;
             $user->username = $request->username;
-
-            /* if (!empty($request->file('profileImg'))) {
-
-                $fileSize = $request->file('profileImg')->getSize();
-                $fileExt = $request->file('profileImg')->getClientOriginalExtension();
-                $fileName = time() . '.' . $fileExt;
-
-                $oldPath = 'img/adminImg/' . $oldFile;
-                if (File::exists($oldPath)) {
-                    File::delete($oldPath);
-                }
-
-                $request->file('profileImg')->move('img/adminImg/', $fileName);
-                $user->profImg = $fileName;
-            } */
 
             $res = $user->save();
 
