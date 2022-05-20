@@ -17,7 +17,11 @@ return new class extends Migration
             $table->id();
             $table->integer('tenant_id');
             $table->string('bill_type');
+            $table->integer('prev_reading')->nullable();
+            $table->integer('curr_reading')->nullable();
             $table->integer('amount_balance');
+            $table->date('billing_date_prev')->nullable();
+            $table->date('billing_date_curr')->nullable();
             $table->date('due_date');
             $table->string('status');
             $table->timestamps();

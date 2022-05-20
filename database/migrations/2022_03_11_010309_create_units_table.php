@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->integer('location_id');
             $table->string('price');
+            $table->string('description');
+            $table->string('img')->nullable();
             $table->integer('vacant_status');
             $table->timestamps();
         });

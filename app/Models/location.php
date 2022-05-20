@@ -11,6 +11,7 @@ class location extends Model
     protected $fillable = [
         'id',
         'location',
+        'description',
     ];
 
     public function unit(){
