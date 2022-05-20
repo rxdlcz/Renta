@@ -110,34 +110,42 @@ table.dataTable thead td {
     opacity: 0 !important;
 }
 
-.modal-content{
+.modal-content {
     border-radius: 20px;
 }
 
-.del{
+.del {
     background-color: #dc3545 !important;
     color: white;
 }
 
-.avatar img{
+.avatar img {
     width: 70px;
 }
 
-.card-header{
+.card-header {
     background-color: transparent;
     border: none;
     margin-top: 0.25rem;
 }
 
-.card{
+.card {
     border-radius: 1rem;
     box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
 }
 
-.btn-block{
+.btn-block {
     background-color: #d9dfea;
 }
 
-.edit:hover{
+.edit:hover {
     color: white;
+}
+
+.table .ellipsis-col {
+    max-width: 400px;
+    min-width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
