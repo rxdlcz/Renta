@@ -425,7 +425,7 @@
             buttonFunction();
 
             //croppie attributes
-            $image_crop = $('#image-preview').croppie({
+            $imageProfile_crop = $('#image-preview').croppie({
                 enableExif: true,
                 viewport: {
                     width: 200,
@@ -473,7 +473,7 @@
             } else {
                 var reader = new FileReader();
                 reader.onload = function(event) {
-                    $image_crop.croppie('bind', {
+                    $imageProfile_crop.croppie('bind', {
                         url: event.target.result
                     }).then(function() {
                         //console.log('jQuery bind complete');
@@ -486,7 +486,7 @@
 
         //cropped image
         $('#cropImage').click(function(event) {
-            $image_crop.croppie('result', {
+            $imageProfile_crop.croppie('result', {
                 type: 'canvas',
                 size: 'viewport'
             }).then(function(response) {
